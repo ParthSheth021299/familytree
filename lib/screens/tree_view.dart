@@ -1,6 +1,3 @@
-
-
-
 // import 'package:family_tree/service/google_sheet_service.dart';
 // import 'package:flutter/material.dart';
 // import 'package:graphview/GraphView.dart';
@@ -130,7 +127,6 @@
 
 //   setState(() => buildFilteredTree(lineage));
 // }
-
 
 //   @override
 //   Widget build(BuildContext context) {
@@ -438,11 +434,34 @@ class _TreeViewScreenState extends State<TreeViewScreen> {
   void searchTree(String name) {
     final member = allMembers.firstWhere(
       (m) => m.name.toLowerCase() == name.toLowerCase(),
-      orElse: () => FamilyMember(id: '', parentId: '', name: '', houseRoot: '', gender: '', bloodGroup: '', whatsapp: '', maritalStatus: '', spouseName: '', hasChildren: '', email: '', location: '', photoUrl: '', isRoot: '', dob: '', spousePhotoUrl: '', spouseWhatsapp: '', spouseBloodGroup: '', spouseEmail: '', spouseLocation: ''),
+      orElse: () => FamilyMember(
+        id: '',
+        parentId: '',
+        name: '',
+        houseRoot: '',
+        gender: '',
+        bloodGroup: '',
+        whatsapp: '',
+        maritalStatus: '',
+        spouseName: '',
+        hasChildren: '',
+        email: '',
+        location: '',
+        photoUrl: '',
+        isRoot: '',
+        dob: '',
+        spousePhotoUrl: '',
+        spouseWhatsapp: '',
+        spouseBloodGroup: '',
+        spouseEmail: '',
+        spouseLocation: '',
+      ),
     );
 
     if (member.id.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Member not found")));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("Member not found")));
       return;
     }
 
@@ -452,7 +471,28 @@ class _TreeViewScreenState extends State<TreeViewScreen> {
       lineage.insert(0, current);
       current = allMembers.firstWhere(
         (m) => m.id == current!.parentId,
-        orElse: () => FamilyMember(id: '', parentId: '', name: '', houseRoot: '', gender: '', bloodGroup: '', whatsapp: '', maritalStatus: '', spouseName: '', hasChildren: '', email: '', location: '', photoUrl: '', isRoot: '', dob: '', spousePhotoUrl: '', spouseWhatsapp: '', spouseBloodGroup: '', spouseEmail: '', spouseLocation: ''),
+        orElse: () => FamilyMember(
+          id: '',
+          parentId: '',
+          name: '',
+          houseRoot: '',
+          gender: '',
+          bloodGroup: '',
+          whatsapp: '',
+          maritalStatus: '',
+          spouseName: '',
+          hasChildren: '',
+          email: '',
+          location: '',
+          photoUrl: '',
+          isRoot: '',
+          dob: '',
+          spousePhotoUrl: '',
+          spouseWhatsapp: '',
+          spouseBloodGroup: '',
+          spouseEmail: '',
+          spouseLocation: '',
+        ),
       );
     }
 
@@ -490,10 +530,17 @@ class _TreeViewScreenState extends State<TreeViewScreen> {
             final hasChildrenFilter = filters.intersection(hasChildrenOptions);
 
             filteredMembers = allMembers.where((m) {
-              final matchGender = genderFilter.isEmpty || genderFilter.contains(m.gender);
-              final matchBlood = bloodGroupFilter.isEmpty || bloodGroupFilter.contains(m.bloodGroup);
-              final matchRoot = houseRootFilter.isEmpty || houseRootFilter.contains(m.houseRoot);
-              final matchChildren = hasChildrenFilter.isEmpty || hasChildrenFilter.contains(m.hasChildren);
+              final matchGender =
+                  genderFilter.isEmpty || genderFilter.contains(m.gender);
+              final matchBlood =
+                  bloodGroupFilter.isEmpty ||
+                  bloodGroupFilter.contains(m.bloodGroup);
+              final matchRoot =
+                  houseRootFilter.isEmpty ||
+                  houseRootFilter.contains(m.houseRoot);
+              final matchChildren =
+                  hasChildrenFilter.isEmpty ||
+                  hasChildrenFilter.contains(m.hasChildren);
               return matchGender && matchBlood && matchRoot && matchChildren;
             }).toList();
 
@@ -520,45 +567,48 @@ class _TreeViewScreenState extends State<TreeViewScreen> {
           ? const Center(child: CircularProgressIndicator())
           : Column(
               children: [
-               Padding(
-  padding: const EdgeInsets.all(12),
-  child: Card(
-    elevation: 2,
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-    child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      child: Row(
-        children: [
-          Expanded(
-            child: TextField(
-              controller: searchController,
-              decoration: const InputDecoration(
-                hintText: 'Search by name',
-                border: InputBorder.none,
-              ),
-            ),
-          ),
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () => searchTree(searchController.text.trim()),
-          ),
-          IconButton(
-            icon: const Icon(Icons.clear),
-            onPressed: () {
-              searchController.clear();
-              buildTree(allMembers);
-              setState(() {});
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.filter_list),
-            onPressed: openFilterSheet,
-          ),
-        ],
-      ),
-    ),
-  ),
-),
+                Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Card(
+                    elevation: 2,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: TextField(
+                              controller: searchController,
+                              decoration: const InputDecoration(
+                                hintText: 'Search by name',
+                                border: InputBorder.none,
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.search),
+                            onPressed: () =>
+                                searchTree(searchController.text.trim()),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.clear),
+                            onPressed: () {
+                              searchController.clear();
+                              buildTree(allMembers);
+                              setState(() {});
+                            },
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.filter_list),
+                            onPressed: openFilterSheet,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
 
                 Expanded(
                   child: InteractiveViewer(
@@ -568,7 +618,10 @@ class _TreeViewScreenState extends State<TreeViewScreen> {
                     maxScale: 5,
                     child: GraphView(
                       graph: graph,
-                      algorithm: BuchheimWalkerAlgorithm(builder, TreeEdgeRenderer(builder)),
+                      algorithm: BuchheimWalkerAlgorithm(
+                        builder,
+                        TreeEdgeRenderer(builder),
+                      ),
                       builder: (Node node) => node.key?.value as Widget,
                     ),
                   ),
@@ -578,6 +631,199 @@ class _TreeViewScreenState extends State<TreeViewScreen> {
     );
   }
 }
+// import 'package:flutter/material.dart';
+// import 'package:graphview/GraphView.dart';
+// import '../models/family_member.dart';
+// import '../service/google_sheet_service.dart';
+
+// class TreeViewScreen extends StatefulWidget {
+//   const TreeViewScreen({super.key});
+
+//   @override
+//   State<TreeViewScreen> createState() => _TreeViewScreenState();
+// }
+
+// class _TreeViewScreenState extends State<TreeViewScreen> {
+//   final Graph graph = Graph();
+//   final BuchheimWalkerConfiguration builder = BuchheimWalkerConfiguration();
+//   final GoogleSheetsService _service = GoogleSheetsService();
+
+//   bool isLoading = true;
+//   List<FamilyMember> allMembers = [];
+//   String selectedBranch = 'Dahibanagar'; // default
+//   final List<String> roots = ['Dahibanagar', 'Kubernagar'];
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     loadData();
+//   }
+
+//   Future<void> loadData() async {
+//     setState(() => isLoading = true);
+//     allMembers = await _service.fetchFamilyData();
+//     buildTree(selectedBranch);
+//     setState(() => isLoading = false);
+//   }
+
+//   void buildTree(String branchRoot) {
+//     graph.nodes.clear();
+//     graph.edges.clear();
+//     final nodeMap = <String, Node>{};
+
+//     // Main root "Society"
+//     final societyNode = Node.Id("Society");
+//     final society = FamilyMember(
+//       id: "Society",
+//       name: "Society",
+//       houseRoot: '',
+//       parentId: '',
+//       gender: '',
+//       bloodGroup: '',
+//       whatsapp: '',
+//       maritalStatus: '',
+//       spouseName: '',
+//       hasChildren: '',
+//       email: '',
+//       location: '',
+//       photoUrl: '',
+//       isRoot: '',
+//       dob: '',
+//       spousePhotoUrl: '',
+//       spouseWhatsapp: '',
+//       spouseBloodGroup: '',
+//       spouseEmail: '',
+//       spouseLocation: '',
+//     );
+//     societyNode.key = ValueKey(_buildNodeBox(society));
+//     graph.addNode(societyNode);
+//     nodeMap["Society"] = societyNode;
+
+//     for (var root in roots) {
+//       final rootNode = Node.Id(root);
+//       final rootMember = FamilyMember(
+//         id: root,
+//         name: root,
+//         parentId: "Society",
+//         houseRoot: root,
+//         gender: '',
+//         bloodGroup: '',
+//         whatsapp: '',
+//         maritalStatus: '',
+//         spouseName: '',
+//         hasChildren: '',
+//         email: '',
+//         location: '',
+//         photoUrl: '',
+//         isRoot: '',
+//         dob: '',
+//         spousePhotoUrl: '',
+//         spouseWhatsapp: '',
+//         spouseBloodGroup: '',
+//         spouseEmail: '',
+//         spouseLocation: '',
+//       );
+//       rootNode.key = ValueKey(_buildNodeBox(rootMember));
+//       graph.addNode(rootNode);
+//       graph.addEdge(societyNode, rootNode);
+//       nodeMap[root] = rootNode;
+//     }
+
+//     final members = allMembers.where((m) => m.houseRoot == branchRoot).toList();
+
+//     for (var member in members) {
+//       final node = Node.Id(member.id);
+//       node.key = ValueKey(_buildNodeBox(member));
+//       graph.addNode(node);
+//       nodeMap[member.id] = node;
+
+//       if (member.parentId.isNotEmpty && nodeMap.containsKey(member.parentId)) {
+//         graph.addEdge(nodeMap[member.parentId]!, node);
+//       } else {
+//         graph.addEdge(
+//           nodeMap[branchRoot]!,
+//           node,
+//         ); // attach to Dahibanagar/Kubernagar root
+//       }
+//     }
+//   }
+
+//   Widget _buildNodeBox(FamilyMember m) {
+//     return Card(
+//       color: Colors.green.shade50,
+//       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+//       child: Padding(
+//         padding: const EdgeInsets.all(6),
+//         child: Column(
+//           mainAxisSize: MainAxisSize.min,
+//           children: [
+//             CircleAvatar(
+//               backgroundImage: m.photoUrl.isNotEmpty
+//                   ? NetworkImage(m.photoUrl)
+//                   : const AssetImage('assets/images/avatar.jpg')
+//                         as ImageProvider,
+//               radius: 18,
+//             ),
+//             const SizedBox(height: 4),
+//             Text(
+//               m.name,
+//               style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     builder
+//       ..siblingSeparation = 20
+//       ..levelSeparation = 50
+//       ..subtreeSeparation = 30
+//       ..orientation = BuchheimWalkerConfiguration.ORIENTATION_TOP_BOTTOM;
+
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text("Family Tree"),
+//         actions: [
+//           DropdownButtonHideUnderline(
+//             child: DropdownButton<String>(
+//               value: selectedBranch,
+//               onChanged: (value) {
+//                 if (value != null) {
+//                   setState(() {
+//                     selectedBranch = value;
+//                     buildTree(value);
+//                   });
+//                 }
+//               },
+//               items: roots
+//                   .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+//                   .toList(),
+//             ),
+//           ),
+//         ],
+//       ),
+//       body: isLoading
+//           ? const Center(child: CircularProgressIndicator())
+//           : InteractiveViewer(
+//               boundaryMargin: const EdgeInsets.all(200),
+//               constrained: false,
+//               minScale: 0.1,
+//               maxScale: 5,
+//               child: GraphView(
+//                 graph: graph,
+//                 algorithm: BuchheimWalkerAlgorithm(
+//                   builder,
+//                   TreeEdgeRenderer(builder),
+//                 ),
+//                 builder: (Node node) => node.key?.value as Widget,
+//               ),
+//             ),
+//     );
+//   }
+// }
 
 class _MemberBox extends StatefulWidget {
   final FamilyMember member;
@@ -594,74 +840,118 @@ class _MemberBoxState extends State<_MemberBox> {
   @override
   Widget build(BuildContext context) {
     final m = widget.member;
+    final bool hasPhoto = m.photoUrl.isNotEmpty;
+
     return GestureDetector(
       onTap: () => setState(() => expanded = !expanded),
       child: SizedBox(
-        width: 220,
+        width: MediaQuery.of(context).size.width < 500 ? 200 : 240,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 300),
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: expanded ? Colors.blue.shade50 : Colors.green.shade50,
-            border: Border.all(color: Colors.green.shade400),
-            borderRadius: BorderRadius.circular(10),
+            color: expanded ? Colors.blue.shade50 : Colors.white,
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.05),
+                blurRadius: 5,
+                offset: const Offset(2, 2),
+              ),
+            ],
+            border: Border.all(
+              color: expanded ? Colors.blue.shade200 : Colors.grey.shade300,
+              width: 1.2,
+            ),
           ),
           child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Row(
-                children: [
-                  CircleAvatar(
-                    radius: 20,
-                    backgroundImage: m.photoUrl.isNotEmpty ? NetworkImage(m.photoUrl) : null,
-                    child: m.photoUrl.isEmpty ? const Icon(Icons.person) : null,
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Text(
-                      m.name,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ],
+              CircleAvatar(
+                radius: expanded ? 34 : 28,
+                backgroundImage: hasPhoto
+                    ? NetworkImage(m.photoUrl)
+                    : const AssetImage('assets/images/avatar.jpg')
+                          as ImageProvider,
               ),
+              const SizedBox(height: 8),
+              Text(
+                m.name,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                textAlign: TextAlign.center,
+              ),
+
               if (expanded) ...[
-                const Divider(height: 10),
-                if (m.bloodGroup.isNotEmpty) Text("Blood Group: ${m.bloodGroup}"),
-                if (m.email.isNotEmpty) Text("Email: ${m.email}"),
-                if (m.location.isNotEmpty) Text("Location: ${m.location}"),
-                if (m.whatsapp.isNotEmpty) Text("WhatsApp: ${m.whatsapp}"),
-                if (m.hasChildren == 'true') const Text("Children: Yes"),
+                const SizedBox(height: 10),
+                const Divider(),
+                if (m.bloodGroup.isNotEmpty)
+                  _infoRow("🩸 Blood Group", m.bloodGroup),
+                if (m.location.isNotEmpty) _infoRow("📍 Location", m.location),
+                if (m.email.isNotEmpty) _infoRow("📧 Email", m.email),
+                if (m.whatsapp.isNotEmpty) _infoRow("📱 WhatsApp", m.whatsapp),
+                if (m.hasChildren == 'true') _infoRow("👶 Children", "Yes"),
                 if (m.spouseName.isNotEmpty)
-                  TextButton(
+                  TextButton.icon(
                     onPressed: () => setState(() => showSpouse = !showSpouse),
-                    child: Text(showSpouse ? "Hide Spouse Details" : "Show Spouse Details"),
+                    icon: Icon(
+                      showSpouse ? Icons.visibility_off : Icons.visibility,
+                    ),
+                    label: Text(showSpouse ? "Hide Spouse" : "Show Spouse"),
                   ),
                 if (showSpouse)
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Spouse: ${m.spouseName}", style: const TextStyle(fontWeight: FontWeight.bold)),
-                      if (m.spouseEmail.isNotEmpty) Text("Email: ${m.spouseEmail}"),
-                      if (m.spouseWhatsapp.isNotEmpty) Text("WhatsApp: ${m.spouseWhatsapp}"),
-                      if (m.spouseBloodGroup.isNotEmpty) Text("Blood Group: ${m.spouseBloodGroup}"),
-                      if (m.spouseLocation.isNotEmpty) Text("Location: ${m.spouseLocation}"),
+                      const Divider(),
+                      _infoRow("❤️ Spouse", m.spouseName),
+                      if (m.spouseEmail.isNotEmpty)
+                        _infoRow("📧 Email", m.spouseEmail),
+                      if (m.spouseWhatsapp.isNotEmpty)
+                        _infoRow("📱 WhatsApp", m.spouseWhatsapp),
+                      if (m.spouseBloodGroup.isNotEmpty)
+                        _infoRow("🩸 Blood Group", m.spouseBloodGroup),
+                      if (m.spouseLocation.isNotEmpty)
+                        _infoRow("📍 Location", m.spouseLocation),
                       if (m.spousePhotoUrl.isNotEmpty)
                         Padding(
                           padding: const EdgeInsets.only(top: 8),
                           child: CircleAvatar(
-                            radius: 30,
+                            radius: 28,
                             backgroundImage: NetworkImage(m.spousePhotoUrl),
                           ),
                         ),
                     ],
-                  )
-              ]
+                  ),
+              ],
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _infoRow(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "$label: ",
+            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
+          ),
+          Expanded(
+            child: Text(
+              value,
+              style: const TextStyle(fontSize: 13),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
       ),
     );
   }

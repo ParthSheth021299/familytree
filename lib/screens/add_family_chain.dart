@@ -1,4 +1,4 @@
-
+import 'package:family_tree/l10n/app_localizations.dart';
 import 'package:family_tree/screens/home_screen.dart';
 import 'package:family_tree/screens/image_picker.dart';
 import 'package:family_tree/service/google_sheet_service.dart';
@@ -77,10 +77,14 @@ class _AddFamilyChainScreenState extends State<AddFamilyChainScreen> {
       setState(() {
         if (isSpouse) {
           spouseDOB = picked;
-          spouseDOBController.text = DateFormat('dd-MM-yyyy').format(picked.toLocal());
+          spouseDOBController.text = DateFormat(
+            'dd-MM-yyyy',
+          ).format(picked.toLocal());
         } else {
           _selectedDOB = picked;
-          _dobController.text = DateFormat('dd-MM-yyyy').format(picked.toLocal());
+          _dobController.text = DateFormat(
+            'dd-MM-yyyy',
+          ).format(picked.toLocal());
         }
       });
     }
@@ -101,7 +105,9 @@ class _AddFamilyChainScreenState extends State<AddFamilyChainScreen> {
     }
 
     final parentId = selectedParent?.id ?? "";
-    final houseRoot = isRoot == 'true' ? memberName.text.trim() : selectedParent?.houseRoot ?? "";
+    final houseRoot = isRoot == 'true'
+        ? memberName.text.trim()
+        : selectedParent?.houseRoot ?? "";
     final memberId = generateUniqueId("mem");
 
     final newMember = FamilyMember(
@@ -128,17 +134,20 @@ class _AddFamilyChainScreenState extends State<AddFamilyChainScreen> {
     );
 
     await _service.insertMember(newMember);
-    
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text("Family member saved")),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text("Family member saved")));
 
     clearFields();
-Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => HomeScreen(),), (route) => false,);
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (context) => HomeScreen()),
+      (route) => false,
+    );
   }
 
-  String? _required(String? val) => (val == null || val.trim().isEmpty) ? 'Required' : null;
+  String? _required(String? val) =>
+      (val == null || val.trim().isEmpty) ? 'Required' : null;
 
   InputDecoration _inputDecoration(String label) {
     return InputDecoration(
@@ -151,7 +160,9 @@ Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Add Family Member")),
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context)!.addFamilyMember),
+      ),
       body: FutureBuilder<List<FamilyMember>>(
         future: _service.fetchFamilyData(),
         builder: (context, snapshot) {
@@ -170,8 +181,8 @@ Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
                 children: [
                   DropdownButtonFormField<FamilyMember>(
                     value: existing.any((m) => m.id == selectedParent?.id)
-    ? existing.firstWhere((m) => m.id == selectedParent?.id)
-    : null,
+                        ? existing.firstWhere((m) => m.id == selectedParent?.id)
+                        : null,
                     items: existing.map((member) {
                       return DropdownMenuItem(
                         value: member,
@@ -179,8 +190,12 @@ Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
                           children: [
                             CircleAvatar(
                               radius: 16,
-                              backgroundImage: member.photoUrl.isNotEmpty ? NetworkImage(member.photoUrl) : null,
-                              child: member.photoUrl.isEmpty ? const Icon(Icons.person, size: 18) : null,
+                              backgroundImage: member.photoUrl.isNotEmpty
+                                  ? NetworkImage(member.photoUrl)
+                                  : null,
+                              child: member.photoUrl.isEmpty
+                                  ? const Icon(Icons.person, size: 18)
+                                  : null,
                             ),
                             const SizedBox(width: 8),
                             Text(member.name),
@@ -188,86 +203,167 @@ Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
                         ),
                       );
                     }).toList(),
-                    onChanged: (member) => setState(() => selectedParent = member),
-                    decoration: _inputDecoration("Select Parent (Father or Mother)"),
+                    onChanged: (member) =>
+                        setState(() => selectedParent = member),
+                    decoration: _inputDecoration(
+                      AppLocalizations.of(context)!.selectParent,
+                    ),
                   ),
                   const SizedBox(height: 12),
-                  TextFormField(controller: memberName, decoration: _inputDecoration("Your Name"), validator: _required),
+                  TextFormField(
+                    controller: memberName,
+                    decoration: _inputDecoration(
+                      AppLocalizations.of(context)!.yourName,
+                    ),
+                    validator: _required,
+                  ),
                   const SizedBox(height: 12),
                   DropdownButtonFormField<String>(
                     value: gender,
-                    items: const [
-                      DropdownMenuItem(value: 'Male', child: Text('Male')),
-                      DropdownMenuItem(value: 'Female', child: Text('Female')),
-                      DropdownMenuItem(value: 'Other', child: Text('Other')),
+                    items: [
+                      DropdownMenuItem(
+                        value: 'Male',
+                        child: Text(AppLocalizations.of(context)!.genderMale),
+                      ),
+                      DropdownMenuItem(
+                        value: 'Female',
+                        child: Text(AppLocalizations.of(context)!.female),
+                      ),
+                      DropdownMenuItem(
+                        value: 'Other',
+                        child: Text(AppLocalizations.of(context)!.other),
+                      ),
                     ],
                     onChanged: (val) => setState(() => gender = val ?? 'Male'),
-                    decoration: _inputDecoration("Gender"),
+                    decoration: _inputDecoration(
+                      AppLocalizations.of(context)!.gender,
+                    ),
                   ),
                   const SizedBox(height: 12),
-                  ImagePickerWidget(onImageUploaded: (url) => uploadedImageUrl = url),
+                  ImagePickerWidget(
+                    onImageUploaded: (url) => uploadedImageUrl = url,
+                  ),
                   const SizedBox(height: 12),
                   TextFormField(
                     controller: _dobController,
                     readOnly: true,
                     onTap: () => _selectDOB(context, false),
-                    decoration: _inputDecoration('Date of Birth').copyWith(suffixIcon: const Icon(Icons.calendar_today)),
+                    decoration: _inputDecoration(
+                      AppLocalizations.of(context)!.dob,
+                    ).copyWith(suffixIcon: const Icon(Icons.calendar_today)),
                   ),
                   const SizedBox(height: 12),
-                  TextFormField(controller: whatsapp, decoration: _inputDecoration("WhatsApp"), keyboardType: TextInputType.phone),
+                  TextFormField(
+                    controller: whatsapp,
+                    decoration: _inputDecoration(
+                      AppLocalizations.of(context)!.whatsapp,
+                    ),
+                    keyboardType: TextInputType.phone,
+                  ),
                   const SizedBox(height: 12),
-                  TextFormField(controller: bloodGroup, decoration: _inputDecoration("Blood Group"), textCapitalization: TextCapitalization.characters),
+                  TextFormField(
+                    controller: bloodGroup,
+                    decoration: _inputDecoration(
+                      AppLocalizations.of(context)!.bloodGroup,
+                    ),
+                    textCapitalization: TextCapitalization.characters,
+                  ),
                   const SizedBox(height: 12),
-                  TextFormField(controller: email, decoration: _inputDecoration("Email"), keyboardType: TextInputType.emailAddress),
+                  TextFormField(
+                    controller: email,
+                    decoration: _inputDecoration(
+                      AppLocalizations.of(context)!.email,
+                    ),
+                    keyboardType: TextInputType.emailAddress,
+                  ),
                   const SizedBox(height: 12),
-                  TextFormField(controller: location, decoration: _inputDecoration("Location")),
+                  TextFormField(
+                    controller: location,
+                    decoration: _inputDecoration(
+                      AppLocalizations.of(context)!.location,
+                    ),
+                  ),
                   const SizedBox(height: 12),
                   SwitchListTile(
-                    title: const Text("Are you married?"),
+                    title: Text(AppLocalizations.of(context)!.areYouMarried),
                     value: isMarried == 'true',
-                    onChanged: (val) => setState(() => isMarried = val ? 'true' : 'false'),
+                    onChanged: (val) =>
+                        setState(() => isMarried = val ? 'true' : 'false'),
                   ),
                   if (isMarried == 'true') ...[
                     const Divider(),
-                    const Text("Spouse Details", style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(
+                      AppLocalizations.of(context)!.spouseDetails,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                     const SizedBox(height: 8),
-                    TextFormField(controller: spouseName, decoration: _inputDecoration("Spouse Name")),
+                    TextFormField(
+                      controller: spouseName,
+                      decoration: _inputDecoration("Spouse Name"),
+                    ),
                     const SizedBox(height: 8),
-                    ImagePickerWidget(onImageUploaded: (url) => spouseImageUrl = url),
+                    ImagePickerWidget(
+                      onImageUploaded: (url) => spouseImageUrl = url,
+                    ),
                     const SizedBox(height: 8),
                     TextFormField(
                       controller: spouseDOBController,
                       readOnly: true,
                       onTap: () => _selectDOB(context, true),
-                      decoration: _inputDecoration('Spouse DOB').copyWith(suffixIcon: const Icon(Icons.calendar_today)),
+                      decoration: _inputDecoration(
+                        'Spouse DOB',
+                      ).copyWith(suffixIcon: const Icon(Icons.calendar_today)),
                     ),
                     const SizedBox(height: 8),
-                    TextFormField(controller: spouseEmail, decoration: _inputDecoration("Spouse Email"), keyboardType: TextInputType.emailAddress),
+                    TextFormField(
+                      controller: spouseEmail,
+                      decoration: _inputDecoration("Spouse Email"),
+                      keyboardType: TextInputType.emailAddress,
+                    ),
                     const SizedBox(height: 8),
-                    TextFormField(controller: spouseWhatsapp, decoration: _inputDecoration("Spouse WhatsApp"), keyboardType: TextInputType.phone),
+                    TextFormField(
+                      controller: spouseWhatsapp,
+                      decoration: _inputDecoration("Spouse WhatsApp"),
+                      keyboardType: TextInputType.phone,
+                    ),
                     const SizedBox(height: 8),
-                    TextFormField(controller: spouseBloodGroup, decoration: _inputDecoration("Spouse Blood Group"), textCapitalization: TextCapitalization.characters),
+                    TextFormField(
+                      controller: spouseBloodGroup,
+                      decoration: _inputDecoration("Spouse Blood Group"),
+                      textCapitalization: TextCapitalization.characters,
+                    ),
                     const SizedBox(height: 8),
-                    TextFormField(controller: spouseLocation, decoration: _inputDecoration("Spouse Location")),
+                    TextFormField(
+                      controller: spouseLocation,
+                      decoration: _inputDecoration("Spouse Location"),
+                    ),
                   ],
                   const SizedBox(height: 8),
                   SwitchListTile(
                     title: const Text("Does this person have children?"),
                     value: hasChildren == 'true',
-                    onChanged: (val) => setState(() => hasChildren = val ? 'true' : 'false'),
+                    onChanged: (val) =>
+                        setState(() => hasChildren = val ? 'true' : 'false'),
                   ),
                   SwitchListTile(
                     title: const Text("Mark as Root of Family"),
                     value: isRoot == 'true',
-                    onChanged: (val) => setState(() => isRoot = val ? 'true' : 'false'),
+                    onChanged: (val) =>
+                        setState(() => isRoot = val ? 'true' : 'false'),
                   ),
                   const SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: saveFamilyMember,
                     child: const Text("Save Member"),
                     style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-                      textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 14,
+                      ),
+                      textStyle: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ],

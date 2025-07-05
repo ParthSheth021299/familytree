@@ -1,0 +1,47 @@
+{
+  "title": "Family Tree",
+  "searchHint": "Search by name",
+  "filter": "Filter",
+  "clear": "Clear",
+  "children": "Children",
+  "bloodGroup": "Blood Group",
+  "location": "Location",
+  "tip": "Tap on the tree icon to explore family structure.\nFilter by branch or search names easily!",
+  "madeWithLoveForDahibanagar": "Made with ❤️ for Dahibanagar",
+  "addFamily": "Add Family",
+  "birthdaysToday": "Birthdays Today",
+  "familyStats": "Family Stats",
+  "addFamilyMember": "Add Family Member",
+  "selectParent": "Select Parent (Father or Mother)",
+  "yourName": "Your Name",
+  "genderMale": "Male",
+  "totalMembers": "Total Members",
+  "males": "Males",
+  "females": "Females",
+  "married": "Married",
+  "dobAdded": "DOB Added",
+  "female": "Female",
+  "other": "Other",
+  "gender": "Gender",
+  "dob": "Date of Birth",
+  "whatsapp": "WhatsApp",
+  "email": "Email",
+  
+  "areYouMarried": "Are you married?",
+  "spouseDetails": "Spouse Details",
+  "spouseName": "Spouse Name"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
