@@ -1,4 +1,27 @@
 {
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "familytree-d3132",
+          "appId": "1:556254409740:android:b6c5219da88894b6c22a29",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "familytree-d3132",
+          "configurations": {
+            "android": "1:556254409740:android:b6c5219da88894b6c22a29",
+            "ios": "1:556254409740:ios:3ccb6ef5246e61e1c22a29",
+            "macos": "1:556254409740:ios:3ccb6ef5246e61e1c22a29",
+            "web": "1:556254409740:web:b1925758e9c8d8fcc22a29",
+            "windows": "1:556254409740:web:bb297ee178479149c22a29"
+          }
+        }
+      }
+    }
+  },
   "hosting": {
     "public": "build/web",
     "ignore": [

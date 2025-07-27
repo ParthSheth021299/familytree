@@ -1,3 +1,4 @@
+import 'package:family_tree/l10n/app_localizations.dart';
 import 'package:family_tree/models/family_member.dart';
 import 'package:flutter/material.dart';
 
@@ -29,13 +30,25 @@ class _FilterDropdownSheetState extends State<FilterDropdownSheet> {
   @override
   void initState() {
     super.initState();
-    selectedGender = selected.firstWhere((e) => _isIn(widget.members.map((m) => m.gender), e), orElse: () => '');
-    selectedBloodGroup = selected.firstWhere((e) => _isIn(widget.members.map((m) => m.bloodGroup), e), orElse: () => '');
-    selectedHouseRoot = selected.firstWhere((e) => _isIn(widget.members.map((m) => m.houseRoot), e), orElse: () => '');
-    selectedHasChildren = selected.contains('true') ? 'true' : (selected.contains('false') ? 'false' : null);
+    selectedGender = selected.firstWhere(
+      (e) => _isIn(widget.members.map((m) => m.gender), e),
+      orElse: () => '',
+    );
+    selectedBloodGroup = selected.firstWhere(
+      (e) => _isIn(widget.members.map((m) => m.bloodGroup), e),
+      orElse: () => '',
+    );
+    selectedHouseRoot = selected.firstWhere(
+      (e) => _isIn(widget.members.map((m) => m.mainRoot), e),
+      orElse: () => '',
+    );
+    selectedHasChildren = selected.contains('true')
+        ? 'true'
+        : (selected.contains('false') ? 'false' : null);
   }
 
-  bool _isIn(Iterable<String> values, String val) => values.toSet().contains(val);
+  bool _isIn(Iterable<String> values, String val) =>
+      values.toSet().contains(val);
 
   void _updateSelected() {
     selected.clear();
@@ -47,74 +60,133 @@ class _FilterDropdownSheetState extends State<FilterDropdownSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final genders = widget.members.map((e) => e.gender).where((e) => e.isNotEmpty).toSet().toList();
-    final bloodGroups = widget.members.map((e) => e.bloodGroup).where((e) => e.isNotEmpty).toSet().toList();
-    final houseRoots = widget.members.map((e) => e.houseRoot).where((e) => e.isNotEmpty).toSet().toList();
+    final genders = widget.members
+        .map((e) => e.gender)
+        .where((e) => e.isNotEmpty)
+        .toSet()
+        .toList();
+    final bloodGroups = widget.members
+        .map((e) => e.bloodGroup)
+        .where((e) => e.isNotEmpty)
+        .toSet()
+        .toList();
+    final houseRoots = widget.members
+        .map((e) => e.mainRoot)
+        .where((e) => e.isNotEmpty)
+        .toSet()
+        .toList();
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Apply Filters"),
+        title: Text(AppLocalizations.of(context)!.applyFilters),
         automaticallyImplyLeading: false,
         actions: [
-          ElevatedButton(
+          IconButton(
             onPressed: () {
-              setState(() {
-                selectedGender = null;
-                selectedBloodGroup = null;
-                selectedHouseRoot = null;
-                selectedHasChildren = null;
-              });
-              widget.onClear();
               Navigator.pop(context);
             },
-            child: const Text("Clear", style: TextStyle(color: Colors.black)),
-          )
+            icon: Icon(Icons.close),
+          ),
         ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: ListView(
           children: [
-            _buildDropdown("Gender", genders, selectedGender, (val) => setState(() => selectedGender = val)),
+            _buildDropdown(
+              AppLocalizations.of(context)!.gender,
+              genders,
+              selectedGender,
+              (val) => setState(() => selectedGender = val),
+            ),
             const SizedBox(height: 12),
-            _buildDropdown("Blood Group", bloodGroups, selectedBloodGroup, (val) => setState(() => selectedBloodGroup = val)),
+            _buildDropdown(
+              AppLocalizations.of(context)!.bloodGroup,
+              bloodGroups,
+              selectedBloodGroup,
+              (val) => setState(() => selectedBloodGroup = val),
+            ),
             const SizedBox(height: 12),
-            _buildDropdown("House Root", houseRoots, selectedHouseRoot, (val) => setState(() => selectedHouseRoot = val)),
+            _buildDropdown(
+              AppLocalizations.of(context)!.houseRoot,
+              houseRoots,
+              selectedHouseRoot,
+              (val) => setState(() => selectedHouseRoot = val),
+            ),
             const SizedBox(height: 12),
-            _buildDropdown("Has Children", ['true', 'false'], selectedHasChildren, (val) => setState(() => selectedHasChildren = val)),
+            _buildDropdown(
+              AppLocalizations.of(context)!.hasChildren,
+              ['true', 'false'],
+              selectedHasChildren,
+              (val) => setState(() => selectedHasChildren = val),
+            ),
           ],
         ),
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(12),
-        child: ElevatedButton.icon(
-          onPressed: () {
-            _updateSelected();
-            widget.onApply(selected);
-            Navigator.pop(context);
-          },
-          icon: const Icon(Icons.check),
-          label: const Text("Apply Filters"),
-          style: ElevatedButton.styleFrom(minimumSize: const Size.fromHeight(48)),
+        child: Row(
+          children: [
+            Expanded(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size.fromHeight(48),
+                ),
+                onPressed: () {
+                  setState(() {
+                    selectedGender = null;
+                    selectedBloodGroup = null;
+                    selectedHouseRoot = null;
+                    selectedHasChildren = null;
+                  });
+                  widget.onClear();
+                  Navigator.pop(context);
+                },
+                child: Text(AppLocalizations.of(context)!.clear),
+              ),
+            ),
+            SizedBox(width: 5),
+            Expanded(
+              child: ElevatedButton(
+                onPressed: () {
+                  _updateSelected();
+                  widget.onApply(selected);
+                  Navigator.pop(context);
+                },
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size.fromHeight(48),
+                ),
+
+                child: Text(AppLocalizations.of(context)!.applyFilter),
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget _buildDropdown(String label, List<String> items, String? selectedValue, void Function(String?) onChanged) {
+  Widget _buildDropdown(
+    String label,
+    List<String> items,
+    String? selectedValue,
+    void Function(String?) onChanged,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
         DropdownButtonFormField<String>(
-  value: items.contains(selectedValue) ? selectedValue : null,
-  hint: Text("Select $label"),
-  isExpanded: true,
-  items: items.toSet().map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
-  onChanged: onChanged,
-  decoration: const InputDecoration(border: OutlineInputBorder()),
-)
-
+          value: items.contains(selectedValue) ? selectedValue : null,
+          hint: Text("${AppLocalizations.of(context)!.select} $label"),
+          isExpanded: true,
+          items: items
+              .toSet()
+              .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+              .toList(),
+          onChanged: onChanged,
+          decoration: const InputDecoration(border: OutlineInputBorder()),
+        ),
       ],
     );
   }

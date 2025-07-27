@@ -26,6 +26,40 @@
 //     }
 //   }
 // }
+// import 'dart:convert';
+// import 'dart:typed_data';
+// import 'dart:io' as io;
+// import 'package:http/http.dart' as http;
+// import 'package:flutter/foundation.dart';
+
+// class ImageUploader {
+//   static Future<String?> uploadImage(dynamic imageData) async {
+//     const String apiKey = "c99281799b230bff1a49cedec157eecf";
+
+//     try {
+//       final bytes = kIsWeb
+//           ? imageData as Uint8List
+//           : await (imageData as io.File).readAsBytes();
+
+//       final base64Image = base64Encode(bytes);
+
+//       final response = await http.post(
+//         Uri.parse("https://api.imgbb.com/1/upload?key=$apiKey"),
+//         body: {'image': base64Image},
+//       );
+
+//       if (response.statusCode == 200) {
+//         final data = jsonDecode(response.body);
+//         return data['data']['url'];
+//       }
+//     } catch (e) {
+//       print("Upload failed: $e");
+//     }
+
+//     return null;
+//   }
+// }
+// image_upload_service.dart
 import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:io' as io;

@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "556254409740",
+    "firebase_url": "https://familytree-d3132-default-rtdb.firebaseio.com",
+    "project_id": "familytree-d3132",
+    "storage_bucket": "familytree-d3132.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:556254409740:android:b6c5219da88894b6c22a29",
+        "android_client_info": {
+          "package_name": "com.example.family_tree"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-DeVMLg9C7AJAXTn6CtgxwB2W3QoS8EA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

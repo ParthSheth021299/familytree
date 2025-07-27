@@ -2,11 +2,11 @@ class FamilyMember {
   final String id;
   final String parentId;
   final String name;
-  final String houseRoot;
+  final String mainRoot;
   final String gender;
   final String bloodGroup;
-  final String whatsapp;
-  final String maritalStatus;
+  final String phone;
+  final String isMarried;
   final String spouseName;
   final String hasChildren;
   final String email;
@@ -24,11 +24,11 @@ class FamilyMember {
     required this.id,
     required this.parentId,
     required this.name,
-    required this.houseRoot,
+    required this.mainRoot,
     required this.gender,
     required this.bloodGroup,
-    required this.whatsapp,
-    required this.maritalStatus,
+    required this.phone,
+    required this.isMarried,
     required this.spouseName,
     required this.hasChildren,
     required this.email,
@@ -44,23 +44,21 @@ class FamilyMember {
   });
 
   factory FamilyMember.fromJson(Map<String, dynamic> json) {
- 
-
     return FamilyMember(
       id: json['id'].toString(),
       parentId: json['parentId'].toString(),
       name: json['name'] ?? '',
-      houseRoot: json['houseRoot'] ?? '',
+      mainRoot: json['mainRoot'] ?? '',
       gender: json['gender'] ?? '',
       bloodGroup: json['bloodGroup'] ?? '',
-      whatsapp: json['whatsapp'].toString(),
-      maritalStatus: json['maritalStatus'] ?? '',
+      phone: json['phone'].toString(),
+      isMarried: json['isMarried'].toString() ?? '',
       spouseName: json['spouseName'] ?? '',
-      hasChildren: json['hasChildren'].toString(), 
+      hasChildren: json['hasChildren'].toString(),
       email: json['email'] ?? '',
       location: json['location'] ?? '',
       photoUrl: json['photoUrl'] ?? '',
-      isRoot: json['isRoot'].toString(),  
+      isRoot: json['isRoot'].toString(),
       dob: json['dob'].toString(),
       spousePhotoUrl: json['spousePhotoUrl'].toString(),
       spouseWhatsapp: json['spouseWhatsapp'].toString(),
@@ -75,13 +73,14 @@ class FamilyMember {
       'id': id.toString(),
       'parentId': parentId.toString(),
       'name': name,
-      'houseRoot': houseRoot,
+      'houseRoot': mainRoot,
       'gender': gender,
       'bloodGroup': bloodGroup,
-      'whatsapp': whatsapp.toString(),
-      'maritalStatus': maritalStatus,
+      'phone': phone.toString(),
+      'maritalStatus': isMarried,
       'spouseName': spouseName,
-      'hasChildren': hasChildren.toString(), // Convert bool to String for Sheets
+      'hasChildren': hasChildren
+          .toString(), // Convert bool to String for Sheets
       'email': email,
       'location': location,
       'photoUrl': photoUrl,
@@ -94,7 +93,76 @@ class FamilyMember {
       'spouseLocation': spouseLocation.toString(),
     };
   }
+
+  factory FamilyMember.empty() => FamilyMember(
+    id: '',
+    name: '',
+    parentId: '',
+    mainRoot: '',
+    gender: '',
+    bloodGroup: '',
+    phone: '',
+    isMarried: '',
+    spouseName: '',
+    hasChildren: '',
+    email: '',
+    location: '',
+    photoUrl: '',
+    isRoot: '',
+    dob: '',
+    spousePhotoUrl: '',
+    spouseWhatsapp: '',
+    spouseBloodGroup: '',
+    spouseEmail: '',
+    spouseLocation: '',
+  );
 }
+
+extension FamilyMemberCopyWith on FamilyMember {
+  FamilyMember copyWith({
+    String? name,
+    String? phone,
+    String? email,
+    String? location,
+    String? dob,
+    String? bloodGroup,
+    String? gender,
+    String? mainRoot,
+    String? isMarried,
+    String? spouseName,
+    String? spouseWhatsapp,
+    String? spouseEmail,
+    String? spouseLocation,
+    String? spouseBloodGroup,
+    String? isRoot,
+    String? hasChildren,
+    String? parentId,
+  }) {
+    return FamilyMember(
+      id: id,
+      parentId: parentId ?? this.parentId,
+      name: name ?? this.name,
+      mainRoot: mainRoot ?? this.mainRoot,
+      gender: gender ?? this.gender,
+      bloodGroup: bloodGroup ?? this.bloodGroup,
+      phone: phone ?? this.phone,
+      isMarried: isMarried ?? this.isMarried,
+      spouseName: spouseName ?? this.spouseName,
+      hasChildren: hasChildren ?? this.hasChildren,
+      email: email ?? this.email,
+      location: location ?? this.location,
+      photoUrl: photoUrl,
+      isRoot: isRoot ?? this.isRoot,
+      dob: dob ?? this.dob,
+      spousePhotoUrl: spousePhotoUrl,
+      spouseWhatsapp: spouseWhatsapp ?? this.spouseWhatsapp,
+      spouseBloodGroup: spouseBloodGroup ?? this.spouseBloodGroup,
+      spouseEmail: spouseEmail ?? this.spouseEmail,
+      spouseLocation: spouseLocation ?? this.spouseLocation,
+    );
+  }
+}
+
 
 // id,
 // parentId, 

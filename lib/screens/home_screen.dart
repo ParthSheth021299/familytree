@@ -433,8 +433,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../models/family_member.dart';
 import '../screens/about_screen.dart';
-import '../screens/add_family_chain.dart';
-import '../screens/tree_view.dart';
+import '../adminpanel/member/presentation/screens/add_family_chain.dart';
+import '../adminpanel/member/presentation/screens/tree_view.dart';
 import '../service/google_sheet_service.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -455,21 +455,69 @@ class _HomeScreenState extends State<HomeScreen> {
     _fetchFamilyMembers();
   }
 
+  // Future<void> _fetchFamilyMembers() async {
+  //   try {
+  //     final members = await _service.fetchFamilyData();
+  //     final now = DateTime.now();
+
+  //     final birthdays = members.where((m) {
+  //       if (m.dob!.isEmpty) return false;
+  //       try {
+  //         final dob = RegExp(r'^\d{4}-\d{2}-\d{2}').hasMatch(m.dob!)
+  //             ? DateTime.parse(m.dob!).toLocal()
+  //             : DateFormat('dd-MM-yyyy').parse(m.dob!);
+  //         return dob.day == now.day && dob.month == now.month;
+  //       } catch (_) {
+  //         return false;
+  //       }
+  //     }).toList();
+
+  //     setState(() {
+  //       _members = members;
+  //       _todaysBirthdays = birthdays;
+  //       _isLoading = false;
+  //     });
+  //   } catch (_) {
+  //     setState(() => _isLoading = false);
+  //   }
+  // }
+
+  DateTime? parseDobFlexible(String? dobStr) {
+    if (dobStr == null || dobStr.trim().isEmpty) return null;
+
+    try {
+      // 🔒 Force dd-MM-yyyy format (most reliable way)
+      if (RegExp(r'^\d{2}-\d{2}-\d{4}$').hasMatch(dobStr)) {
+        return DateFormat('dd-MM-yyyy', 'en_IN').parseStrict(dobStr);
+      }
+
+      // ISO with T (from Sheets)
+      if (RegExp(r'^\d{4}-\d{2}-\d{2}T').hasMatch(dobStr)) {
+        return DateTime.parse(dobStr).toLocal();
+      }
+
+      // yyyy-MM-dd
+      if (RegExp(r'^\d{4}-\d{2}-\d{2}$').hasMatch(dobStr)) {
+        return DateTime.parse(dobStr).toLocal();
+      }
+
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
+
   Future<void> _fetchFamilyMembers() async {
     try {
       final members = await _service.fetchFamilyData();
       final now = DateTime.now();
 
       final birthdays = members.where((m) {
-        if (m.dob!.isEmpty) return false;
-        try {
-          final dob = RegExp(r'^\d{4}-\d{2}-\d{2}').hasMatch(m.dob!)
-              ? DateTime.parse(m.dob!).toLocal()
-              : DateFormat('dd-MM-yyyy').parse(m.dob!);
+        final dob = parseDobFlexible(m.dob);
+        if (dob != null) {
           return dob.day == now.day && dob.month == now.month;
-        } catch (_) {
-          return false;
         }
+        return false;
       }).toList();
 
       setState(() {
@@ -477,7 +525,7 @@ class _HomeScreenState extends State<HomeScreen> {
         _todaysBirthdays = birthdays;
         _isLoading = false;
       });
-    } catch (_) {
+    } catch (e) {
       setState(() => _isLoading = false);
     }
   }
@@ -515,7 +563,7 @@ class _HomeScreenState extends State<HomeScreen> {
     femaleCount += spouseOnlyFemales.length;
 
     int marriedCount = _members
-        .where((m) => m.maritalStatus.toLowerCase() == 'married')
+        .where((m) => m.isMarried.toLowerCase() == 'married')
         .length;
     int dobCount = _members.where((m) => m.dob.isNotEmpty).length;
 

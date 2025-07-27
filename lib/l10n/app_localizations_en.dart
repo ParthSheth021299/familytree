@@ -57,7 +57,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get genderMale => 'Male';
 
   @override
-  String get totalMembers => 'Total Members';
+  String get totalMembers => 'Total Members:';
 
   @override
   String get males => 'Males';
@@ -97,4 +97,244 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get spouseName => 'Spouse Name';
+
+  @override
+  String get dashboard => 'Dashboard';
+
+  @override
+  String get noMembersFound => 'No members found';
+
+  @override
+  String get memberSummary => 'Member Summary';
+
+  @override
+  String get no_birthdays_today => 'No birthdays today';
+
+  @override
+  String get upcoming_birthdays => 'Upcoming Birthdays';
+
+  @override
+  String get no_upcoming_birthdays => 'No upcoming birthdays';
+
+  @override
+  String get guest_user => 'Guest User';
+
+  @override
+  String get welcome => 'Welcome!';
+
+  @override
+  String get treeView => 'Tree View';
+
+  @override
+  String get memories => 'Memories';
+
+  @override
+  String get settings => 'Settings';
+
+  @override
+  String get chooseLanguage => 'Choose Language';
+
+  @override
+  String get familyMemberAdded => 'Family member added';
+
+  @override
+  String get selectMainRoot => 'Select Main Root:';
+
+  @override
+  String get name => 'Name';
+
+  @override
+  String get phoneNumber => 'Phone Number';
+
+  @override
+  String get markAsInternalRoot => 'Mark as Internal Root';
+
+  @override
+  String get selectFamilyRootPerson => 'Select Family Root Person';
+
+  @override
+  String get saveMember => 'Save Member';
+
+  @override
+  String get memberUpdatedSuccessfully => 'Member updated successfully';
+
+  @override
+  String get spouseWhatsapp => 'Spouse Whatsapp';
+
+  @override
+  String get spouseBloodGroup => 'Spouse Blood Group';
+
+  @override
+  String get spouseEmail => 'Spouse Email';
+
+  @override
+  String get spouseLocation => 'Spouse Location';
+
+  @override
+  String get update => 'Update';
+
+  @override
+  String get hasChildren => 'Has Children';
+
+  @override
+  String get isInternalRoot => 'Is Internal Root';
+
+  @override
+  String get isMarried => 'Is Married';
+
+  @override
+  String get mainRoot => 'Main Root';
+
+  @override
+  String get familyMembers => 'Family Members';
+
+  @override
+  String get noGroupedMemberFound => 'No grouped members found.';
+
+  @override
+  String get editMember => 'Edit Member';
+
+  @override
+  String get confrimDelete => 'Confirm Deletion';
+
+  @override
+  String get confirmText => 'Are you sure you want to delete this member?\n';
+
+  @override
+  String get unDone => 'This action cannot be undone.';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get memberDelete => 'Member deleted successfully';
+
+  @override
+  String get delete => 'Delete';
+
+  @override
+  String get searchByName => 'Search by name';
+
+  @override
+  String get hideSpouse => 'Hide Spouse';
+
+  @override
+  String get showSpouse => 'Show Spouse';
+
+  @override
+  String get spouse => 'Spouse';
+
+  @override
+  String get familyMoments => 'Family Moments';
+
+  @override
+  String get addMoment => 'Add Moment';
+
+  @override
+  String get enterTitle => 'Enter title';
+
+  @override
+  String get enterCaption => 'Enter caption';
+
+  @override
+  String get uploadImages => 'Upload Images';
+
+  @override
+  String get saveMoment => 'Save Moment';
+
+  @override
+  String get titleIsRequired => 'Title is required';
+
+  @override
+  String get momentSaved => 'Moment Saved';
+
+  @override
+  String get preferences => 'Preferences';
+
+  @override
+  String get languages => 'Languages';
+
+  @override
+  String get selectLanguage => 'Choose your preferred language';
+
+  @override
+  String get account => 'Account';
+
+  @override
+  String get login => 'Login';
+
+  @override
+  String get loginText => 'Login as Admin or Temp User';
+
+  @override
+  String get userLogs => 'User Logs';
+
+  @override
+  String get noUserFound => 'No users found.';
+
+  @override
+  String get statusActive => 'Status: Active';
+
+  @override
+  String get statusInActive => 'Status: Inactive';
+
+  @override
+  String get logout => 'Logout';
+
+  @override
+  String get members => 'Members';
+
+  @override
+  String get viewLogs => 'View Logs';
+
+  @override
+  String get createTemporaryID => 'Create Temporary ID';
+
+  @override
+  String get admin => 'Admin';
+
+  @override
+  String get password => 'Password';
+
+  @override
+  String get or => 'OR';
+
+  @override
+  String get continueAsGuest => 'Continue as Guest';
+
+  @override
+  String get temporaryAccess => 'Temporary Access';
+
+  @override
+  String get enterEmailAndPassword => 'Enter email and password to create a temporary user.';
+
+  @override
+  String get enterEmail => 'Enter Email';
+
+  @override
+  String get emailValidation => 'Please enter an email';
+
+  @override
+  String get enterPassword => 'Enter Password';
+
+  @override
+  String get passwordValidation => 'Please enter Password';
+
+  @override
+  String get temporaryUser => 'Create Temporary User';
+
+  @override
+  String get adminPanel => 'Admin Panel';
+
+  @override
+  String get applyFilters => 'Apply Filters';
+
+  @override
+  String get houseRoot => 'House Root';
+
+  @override
+  String get applyFilter => 'Apply Filter';
+
+  @override
+  String get select => 'Select';
 }
