@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingScreen extends StatefulWidget {
   bool isComingFromAdmin;
-  SettingScreen({super.key, required this.isComingFromAdmin});
+  SettingScreen({super.key, this.isComingFromAdmin = false});
 
   @override
   State<SettingScreen> createState() => _SettingScreenState();

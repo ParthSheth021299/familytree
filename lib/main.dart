@@ -2,6 +2,7 @@ import 'package:family_tree/adminpanel/app/app_bloc_provider.dart';
 import 'package:family_tree/adminpanel/dependencies/dependencies.dart';
 import 'package:family_tree/adminpanel/member/presentation/screens/add_family_chain.dart';
 import 'package:family_tree/adminpanel/splash/presentation/screens/splash_screen.dart';
+import 'package:family_tree/adminpanel/utils/routing/app_router.dart';
 import 'package:family_tree/adminpanel/utils/theme.dart';
 import 'package:family_tree/firebase_options.dart';
 import 'package:family_tree/l10n/app_localizations.dart';
@@ -49,7 +50,7 @@ class MyApp extends StatelessWidget {
 
     return AppBlocProvider(
       builder: (BuildContext context) {
-        return MaterialApp(
+        return MaterialApp.router(
           title: "Family Tree",
           locale: localeProvider.locale, // default locale
           supportedLocales: AppLocalizations.supportedLocales,
@@ -62,7 +63,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: AppTheme.orangeTheme,
 
-          home: SplashScreen(),
+          routerConfig: kAppRouter,
         );
       },
     );

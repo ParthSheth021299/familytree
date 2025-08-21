@@ -3,6 +3,7 @@ import 'package:family_tree/adminpanel/dashboard/presentation/screens/admin_home
 import 'package:family_tree/adminpanel/guestuserdashboard/presentation/screens/guest_user_dash_board.dart';
 import 'package:family_tree/service/permission_service.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -35,15 +36,18 @@ class _SplashScreenState extends State<SplashScreen>
     final isAdminLoggedIn = prefs.getBool('isAdminLoggedIn') ?? false;
     await Future.delayed(const Duration(seconds: 3));
     if (!mounted) return;
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(
-        builder: (_) => isAdminLoggedIn
-            ? const AdminHomeScreen()
-            : const GuestUserDashBoard(),
-      ),
-      (route) => false,
-    );
+    // Navigator.pushAndRemoveUntil(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (_) => isAdminLoggedIn
+    //         ? const AdminHomeScreen()
+    //         : const GuestUserDashBoard(),
+    //   ),
+    //   (route) => false,
+    // );
+    isAdminLoggedIn
+        ? context.go('/admin/dashboard')
+        : context.go('/guest/dashboard');
   }
 
   @override

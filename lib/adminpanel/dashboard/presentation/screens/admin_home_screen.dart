@@ -5,6 +5,8 @@ import 'package:family_tree/adminpanel/member/cubit/member_cubit.dart';
 import 'package:family_tree/adminpanel/utils/colors.dart';
 import 'package:family_tree/l10n/app_localizations.dart';
 import 'package:family_tree/service/permission_service.dart';
+import 'package:family_tree/utils/animated_pie_chart.dart';
+import 'package:family_tree/utils/animation.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,18 +21,34 @@ class AdminHomeScreen extends StatefulWidget {
   State<AdminHomeScreen> createState() => _AdminHomeScreenState();
 }
 
-class _AdminHomeScreenState extends State<AdminHomeScreen> {
+class _AdminHomeScreenState extends State<AdminHomeScreen>
+    with SingleTickerProviderStateMixin {
   String selectedHouseRoot = 'dahibanagar'; // default
   List<FamilyMember> members = [];
   bool isLoading = false;
 
   final List<String> houseRoots = ['dahibanagar', 'kubernagar'];
 
+  //Animations
+  late AnimationController _controller;
+  late Animation<Offset> _offsetAnimation;
+
   @override
   void initState() {
     super.initState();
     context.read<MemberCubit>().subscribeToMembers();
     streamUpcomingEvents();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 600),
+      vsync: this,
+    );
+
+    _offsetAnimation = Tween<Offset>(
+      begin: const Offset(1.0, 0.0), // starts offscreen right
+      end: Offset.zero, // final position
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
+
+    _controller.forward(); // start animation
   }
 
   @override
@@ -53,6 +71,12 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
         .collection('events')
         .snapshots()
         .map((snapshot) => snapshot.docs.map((doc) => doc.data()).toList());
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -136,102 +160,112 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _sectionCard(
-                  title: "👥 ${AppLocalizations.of(context)!.memberSummary}",
-                  child: Column(
-                    children: [
-                      Text(
-                        "${AppLocalizations.of(context)!.totalMembers} $totalCount",
-                        style: _subTextStyle(fontWeight: FontWeight.w600),
-                      ),
-                      const SizedBox(height: 12),
-                      SizedBox(
-                        height: 180,
-                        child: PieChart(
-                          PieChartData(
-                            sections: [
-                              PieChartSectionData(
-                                color: Colors.blueAccent,
-                                value: maleCount.toDouble(),
-                                title:
-                                    '${((maleCount / (maleCount + femaleCount)) * 100).toStringAsFixed(1)}%',
-                                titleStyle: const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12,
-                                ),
+                AnimatedSectionList(
+                  children: [
+                    _sectionCard(
+                      title:
+                          "👥 ${AppLocalizations.of(context)!.memberSummary}",
+                      child: Column(
+                        children: [
+                          Text(
+                            "${AppLocalizations.of(context)!.totalMembers} $totalCount",
+                            style: _subTextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          const SizedBox(height: 12),
+                          SizedBox(
+                            height: 180,
+                            child: PieChart(
+                              PieChartData(
+                                sections: [
+                                  PieChartSectionData(
+                                    color: Colors.blueAccent,
+                                    value: maleCount.toDouble(),
+                                    title:
+                                        '${((maleCount / (maleCount + femaleCount)) * 100).toStringAsFixed(1)}%',
+                                    titleStyle: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  PieChartSectionData(
+                                    color: Colors.pinkAccent,
+                                    value: femaleCount.toDouble(),
+                                    title:
+                                        '${((femaleCount / (maleCount + femaleCount)) * 100).toStringAsFixed(1)}%',
+                                    titleStyle: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ],
+                                sectionsSpace: 4,
+                                centerSpaceRadius: 40,
                               ),
-                              PieChartSectionData(
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              _indicator(
+                                color: Colors.blueAccent,
+                                label: AppLocalizations.of(context)!.genderMale,
+                                count: maleCount,
+                              ),
+                              const SizedBox(width: 24),
+                              _indicator(
                                 color: Colors.pinkAccent,
-                                value: femaleCount.toDouble(),
-                                title:
-                                    '${((femaleCount / (maleCount + femaleCount)) * 100).toStringAsFixed(1)}%',
-                                titleStyle: const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12,
-                                ),
+                                label: AppLocalizations.of(context)!.female,
+                                count: femaleCount,
                               ),
                             ],
-                            sectionsSpace: 4,
-                            centerSpaceRadius: 40,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          _indicator(
-                            color: Colors.blueAccent,
-                            label: AppLocalizations.of(context)!.genderMale,
-                            count: maleCount,
-                          ),
-                          const SizedBox(width: 24),
-                          _indicator(
-                            color: Colors.pinkAccent,
-                            label: AppLocalizations.of(context)!.female,
-                            count: femaleCount,
                           ),
                         ],
                       ),
-                    ],
-                  ),
+                    ),
+
+                    const SizedBox(height: 16),
+                    _sectionCard(
+                      title:
+                          "🎂${AppLocalizations.of(context)!.birthdaysToday}",
+                      child: todayBirthdays.isEmpty
+                          ? Text(
+                              AppLocalizations.of(context)!.no_birthdays_today,
+                              style: _subTextStyle(),
+                            )
+                          : Wrap(
+                              spacing: 12,
+                              runSpacing: 12,
+                              children: todayBirthdays.map((e) {
+                                return _birthdayCard(e);
+                              }).toList(),
+                            ),
+                    ),
+                    const SizedBox(height: 16),
+
+                    _sectionCard(
+                      title:
+                          "📅 ${AppLocalizations.of(context)!.upcoming_birthdays}",
+                      child: upcomingBirthdays.isEmpty
+                          ? Text(
+                              AppLocalizations.of(
+                                context,
+                              )!.no_upcoming_birthdays,
+                              style: _subTextStyle(),
+                            )
+                          : Wrap(
+                              spacing: 12,
+                              runSpacing: 12,
+                              children: upcomingBirthdays.map((e) {
+                                return _birthdayCard(e);
+                              }).toList(),
+                            ),
+                    ),
+                    EventsScreen(),
+                  ],
                 ),
-                const SizedBox(height: 16),
-                _sectionCard(
-                  title: "🎂${AppLocalizations.of(context)!.birthdaysToday}",
-                  child: todayBirthdays.isEmpty
-                      ? Text(
-                          AppLocalizations.of(context)!.no_birthdays_today,
-                          style: _subTextStyle(),
-                        )
-                      : Wrap(
-                          spacing: 12,
-                          runSpacing: 12,
-                          children: todayBirthdays.map((e) {
-                            return _birthdayCard(e);
-                          }).toList(),
-                        ),
-                ),
-                const SizedBox(height: 16),
-                _sectionCard(
-                  title:
-                      "📅 ${AppLocalizations.of(context)!.upcoming_birthdays}",
-                  child: upcomingBirthdays.isEmpty
-                      ? Text(
-                          AppLocalizations.of(context)!.no_upcoming_birthdays,
-                          style: _subTextStyle(),
-                        )
-                      : Wrap(
-                          spacing: 12,
-                          runSpacing: 12,
-                          children: upcomingBirthdays.map((e) {
-                            return _birthdayCard(e);
-                          }).toList(),
-                        ),
-                ),
-                EventsScreen(),
               ],
             ),
           );

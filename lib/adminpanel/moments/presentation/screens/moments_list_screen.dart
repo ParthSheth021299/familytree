@@ -535,9 +535,9 @@ import 'package:family_tree/adminpanel/moments/presentation/widgets/image_dailog
 import 'package:image_picker/image_picker.dart';
 
 class MomentsListScreen extends StatefulWidget {
-  final bool isAdmin;
+  bool isAdmin;
 
-  const MomentsListScreen({super.key, required this.isAdmin});
+  MomentsListScreen({super.key, this.isAdmin = false});
 
   @override
   State<MomentsListScreen> createState() => _MomentsListScreenState();
