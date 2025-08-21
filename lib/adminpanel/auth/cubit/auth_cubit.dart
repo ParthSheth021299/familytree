@@ -20,8 +20,11 @@ class AuthCubit extends Cubit<AuthState> {
         showToast("User not found");
         emit(AuthErrorState(errorMessage: error));
       } else {
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setBool('isAdminLoggedIn', true);
+        if (email == "admin@gmail.com") {
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setBool('isAdminLoggedIn', true);
+        }
+
         emit(AuthSucess());
       }
     } on FirebaseException catch (e) {
@@ -36,6 +39,8 @@ class AuthCubit extends Cubit<AuthState> {
       if (error != null) {
         showToast("Cant create user");
         emit(AuthErrorState(errorMessage: error));
+      } else {
+        showToast("User Created Successfully");
       }
     } on FirebaseException catch (e) {
       emit(AuthErrorState(errorMessage: e.toString()));

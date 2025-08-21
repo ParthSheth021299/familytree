@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:family_tree/adminpanel/auth/screens/admin_drawer.dart';
+import 'package:family_tree/adminpanel/create_event/screens/events_screen.dart';
 import 'package:family_tree/adminpanel/member/cubit/member_cubit.dart';
 import 'package:family_tree/adminpanel/utils/colors.dart';
 import 'package:family_tree/l10n/app_localizations.dart';
+import 'package:family_tree/service/permission_service.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,6 +30,29 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
   void initState() {
     super.initState();
     context.read<MemberCubit>().subscribeToMembers();
+    streamUpcomingEvents();
+  }
+
+  @override
+  void didUpdateWidget(covariant AdminHomeScreen oldWidget) {
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
+    streamUpcomingEvents();
+  }
+
+  // Stream<List<Map<String, dynamic>>> streamUpcomingEvents() {
+  //   return FirebaseFirestore.instance
+  //       .collection('events')
+  //       // .where('date', isGreaterThanOrEqualTo: DateTime.now())
+  //       // .orderBy('date')
+  //       .snapshots()
+  //       .map((snapshot) => snapshot.docs.map((doc) => doc.data()).toList());
+  // }
+  Stream<List<Map<String, dynamic>>> streamUpcomingEvents() {
+    return FirebaseFirestore.instance
+        .collection('events')
+        .snapshots()
+        .map((snapshot) => snapshot.docs.map((doc) => doc.data()).toList());
   }
 
   @override
@@ -51,13 +77,38 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
           }
 
           final members = snapshot.data!;
-          final maleCount = members
-              .where((e) => e.gender.toLowerCase() == 'male')
-              .length;
-          final femaleCount = members
-              .where((e) => e.gender.toLowerCase() == 'female')
-              .length;
-          final totalMemberCount = members.length;
+          // final maleCount = members
+          //     .where((e) => e.gender.toLowerCase() == 'male')
+          //     .length;
+          // final femaleCount = members
+          //     .where((e) => e.gender.toLowerCase() == 'female')
+          //     .length;
+          // final totalMemberCount = members.length;
+
+          int maleCount = 0;
+          int femaleCount = 0;
+          int totalCount = 0;
+
+          for (final member in members) {
+            final gender = member.gender.toLowerCase();
+
+            if (gender == 'male') {
+              maleCount++;
+            } else if (gender == 'female') {
+              femaleCount++;
+            }
+
+            totalCount++; // Count each member
+
+            // If spouse data exists, assume spouse is female and count her
+            final hasSpouse =
+                member.spouseName != null &&
+                member.spouseName!.trim().isNotEmpty;
+            if (hasSpouse) {
+              femaleCount++; // Add spouse as female
+              totalCount++; // Count spouse as a separate individual
+            }
+          }
 
           final today = DateTime.now();
           final dateFormat = DateFormat("dd-MM-yyyy");
@@ -90,7 +141,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                   child: Column(
                     children: [
                       Text(
-                        "${AppLocalizations.of(context)!.totalMembers} $totalMemberCount",
+                        "${AppLocalizations.of(context)!.totalMembers} $totalCount",
                         style: _subTextStyle(fontWeight: FontWeight.w600),
                       ),
                       const SizedBox(height: 12),
@@ -107,6 +158,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                                 titleStyle: const TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
+                                  fontSize: 12,
                                 ),
                               ),
                               PieChartSectionData(
@@ -117,6 +169,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                                 titleStyle: const TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
+                                  fontSize: 12,
                                 ),
                               ),
                             ],
@@ -178,6 +231,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                           }).toList(),
                         ),
                 ),
+                EventsScreen(),
               ],
             ),
           );

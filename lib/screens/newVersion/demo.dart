@@ -22,8 +22,7 @@ class RootMember {
       spouseName: 'Kokila Sheth',
       hasChildren: 'true',
       email: 'suresh@example.com',
-      location: 'Ahmedabad',
-      photoUrl: '', // optional
+      // optional
       isRoot: 'true',
       dob: '07-07-1970',
       spousePhotoUrl: '',
@@ -31,6 +30,8 @@ class RootMember {
       spouseBloodGroup: 'B+',
       spouseEmail: 'kokila@example.com',
       spouseLocation: 'Ahmedabad',
+
+      createdBy: '',
     );
     await _firebaseFirestore
         .collection('users')

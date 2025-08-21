@@ -1,3 +1,8 @@
+// ignore_for_file: unnecessary_null_comparison
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:family_tree/adminpanel/create_event/screens/calendar_event_screen.dart';
+import 'package:family_tree/adminpanel/create_event/screens/events_screen.dart';
 import 'package:family_tree/adminpanel/member/cubit/member_cubit.dart';
 import 'package:family_tree/adminpanel/member/presentation/screens/tree_view.dart';
 import 'package:family_tree/adminpanel/moments/presentation/screens/moments_list_screen.dart';
@@ -5,12 +10,13 @@ import 'package:family_tree/adminpanel/setting/presentation/screens/setting_scre
 import 'package:family_tree/adminpanel/utils/colors.dart';
 import 'package:family_tree/l10n/app_localizations.dart';
 import 'package:family_tree/models/family_member.dart';
-import 'package:family_tree/service/guest_token_manager_service.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 class GuestUserDashBoard extends StatefulWidget {
   const GuestUserDashBoard({super.key});
@@ -20,16 +26,40 @@ class GuestUserDashBoard extends StatefulWidget {
 }
 
 class _GuestUserDashBoardState extends State<GuestUserDashBoard> {
-  final GuestTokenManager _guestTokenManager = GuestTokenManager();
   @override
   void initState() {
     super.initState();
     BlocProvider.of<MemberCubit>(context).subscribeToMembers();
-    _registerFCMToken();
+
+    subscribe();
+    streamUpcomingEvents();
   }
 
-  void _registerFCMToken() {
-    _guestTokenManager.registerGuestToken(); // no root needed
+  void subscribe() async {
+    if (!kIsWeb) {
+      OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
+      OneSignal.initialize("62094d7d-71ae-45b3-9bf9-858a815c86b2");
+      OneSignal.Notifications.requestPermission(true);
+    }
+  }
+
+  Stream<List<Map<String, dynamic>>> streamUpcomingEvents() {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final endOfMonth = DateTime(now.year, now.month + 1, 0, 23, 59, 59);
+    final dateFromDatabase = FirebaseFirestore.instance.collection('events');
+
+    return FirebaseFirestore.instance
+        .collection('events')
+        // .where('date', isGreaterThanOrEqualTo: today)
+        // .where('date', isLessThanOrEqualTo: endOfMonth)
+        // .orderBy('date')
+        .snapshots()
+        .map(
+          (snapshot) => snapshot.docs
+              .map((doc) => doc.data() as Map<String, dynamic>)
+              .toList(),
+        );
   }
 
   @override
@@ -59,13 +89,37 @@ class _GuestUserDashBoardState extends State<GuestUserDashBoard> {
           }
 
           final members = snapshot.data!;
-          final maleCount = members
-              .where((e) => e.gender.toLowerCase() == 'male')
-              .length;
-          final femaleCount = members
-              .where((e) => e.gender.toLowerCase() == 'female')
-              .length;
-          final totalMemberCount = members.length;
+          // final maleCount = members
+          //     .where((e) => e.gender.toLowerCase() == 'male')
+          //     .length;
+          // final femaleCount = members
+          //     .where((e) => e.gender.toLowerCase() == 'female')
+          //     .length;
+          // final totalMemberCount = members.length;
+          int maleCount = 0;
+          int femaleCount = 0;
+          int totalCount = 0;
+
+          for (final member in members) {
+            final gender = member.gender.toLowerCase();
+
+            if (gender == 'male') {
+              maleCount++;
+            } else if (gender == 'female') {
+              femaleCount++;
+            }
+
+            totalCount++; // Count each member
+
+            // If spouse data exists, assume spouse is female and count her
+            final hasSpouse =
+                member.spouseName != null &&
+                member.spouseName.trim().isNotEmpty;
+            if (hasSpouse) {
+              femaleCount++; // Add spouse as female
+              totalCount++; // Count spouse as a separate individual
+            }
+          }
 
           final today = DateTime.now();
           final dateFormat = DateFormat("dd-MM-yyyy");
@@ -98,7 +152,7 @@ class _GuestUserDashBoardState extends State<GuestUserDashBoard> {
                   child: Column(
                     children: [
                       Text(
-                        "${AppLocalizations.of(context)!.totalMembers} $totalMemberCount",
+                        "${AppLocalizations.of(context)!.totalMembers} $totalCount",
                         style: _subTextStyle(fontWeight: FontWeight.w600),
                       ),
                       const SizedBox(height: 12),
@@ -115,6 +169,7 @@ class _GuestUserDashBoardState extends State<GuestUserDashBoard> {
                                 titleStyle: const TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
+                                  fontSize: 12,
                                 ),
                               ),
                               PieChartSectionData(
@@ -125,6 +180,7 @@ class _GuestUserDashBoardState extends State<GuestUserDashBoard> {
                                 titleStyle: const TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
+                                  fontSize: 12,
                                 ),
                               ),
                             ],
@@ -186,6 +242,8 @@ class _GuestUserDashBoardState extends State<GuestUserDashBoard> {
                           }).toList(),
                         ),
                 ),
+
+                EventsScreen(),
               ],
             ),
           );
@@ -248,7 +306,7 @@ class _GuestUserDashBoardState extends State<GuestUserDashBoard> {
               // Menu Items
               _buildDrawerItem(
                 context,
-                icon: Icons.account_tree_outlined,
+                icon: 'assets/icons/diagram.png',
                 label: AppLocalizations.of(context)!.treeView,
                 onTap: () => Navigator.push(
                   context,
@@ -257,16 +315,29 @@ class _GuestUserDashBoardState extends State<GuestUserDashBoard> {
               ),
               _buildDrawerItem(
                 context,
-                icon: Icons.photo_library_outlined,
+                icon: 'assets/icons/photos.png',
                 label: AppLocalizations.of(context)!.memories,
                 onTap: () => Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => MomentsListScreen()),
+                  MaterialPageRoute(
+                    builder: (_) => MomentsListScreen(isAdmin: false),
+                  ),
                 ),
               ),
               _buildDrawerItem(
                 context,
-                icon: Icons.settings_outlined,
+                icon: 'assets/icons/event.png',
+                label: AppLocalizations.of(context)!.eventTitle,
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => const EventCalendarScreen(),
+                  ),
+                ),
+              ),
+
+              _buildDrawerItem(
+                context,
+                icon: 'assets/icons/setting.png',
                 label: AppLocalizations.of(context)!.settings,
                 onTap: () => Navigator.push(
                   context,
@@ -300,7 +371,7 @@ class _GuestUserDashBoardState extends State<GuestUserDashBoard> {
 
   Widget _buildDrawerItem(
     BuildContext context, {
-    required IconData icon,
+    required String icon,
     required String label,
     required VoidCallback onTap,
   }) {
@@ -310,7 +381,7 @@ class _GuestUserDashBoardState extends State<GuestUserDashBoard> {
         borderRadius: BorderRadius.circular(10),
         onTap: onTap,
         child: ListTile(
-          leading: Icon(icon, color: AppColors.orangePrimary),
+          leading: Image.asset(icon, color: AppColors.orangePrimary),
           title: Text(
             label,
             style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500),

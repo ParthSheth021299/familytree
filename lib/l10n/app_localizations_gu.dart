@@ -18,37 +18,37 @@ class AppLocalizationsGu extends AppLocalizations {
   String get filter => 'ફિલ્ટર';
 
   @override
-  String get clear => 'ક્લિયર કરો';
+  String get clear => 'ક્લિયર';
 
   @override
   String get children => 'બાળકો';
 
   @override
-  String get bloodGroup => 'બ્લડ ગ્રૂપ';
+  String get bloodGroup => 'બ્લડ ગ્રુપ';
 
   @override
-  String get location => 'સ્થળ';
+  String get location => 'સ્થાન';
 
   @override
-  String get tip => 'કુટુંબની રચના જોવા માટે ટ્રી આઇકન પર ટેપ કરો.\nશાખા દ્વારા ફિલ્ટર કરો અથવા નામ શોધો!';
+  String get tip => 'કુટુંબની રચના જાણવા માટે વૃક્ષ આઈકન પર ટેપ કરો.\nશાખા દ્વારા ફિલ્ટર કરો અથવા નામ શોધો!';
 
   @override
-  String get madeWithLoveForDahibanagar => 'દાહિબાનગર માટે દિલથી બનાવેલું ❤️';
+  String get madeWithLoveForDahibanagar => 'દહીબાનગર માટે ❤️ સાથે બનાવેલ';
 
   @override
   String get addFamily => 'કુટુંબ ઉમેરો';
 
   @override
-  String get birthdaysToday => 'આજના જન્મદિન';
+  String get birthdaysToday => 'આજના જન્મદિવસ';
 
   @override
   String get familyStats => 'કુટુંબ આંકડા';
 
   @override
-  String get addFamilyMember => 'કુટુંબના સભ્ય ઉમેરો';
+  String get addFamilyMember => 'કુટુંબ સભ્ય ઉમેરો';
 
   @override
-  String get selectParent => 'પિતા કે માતા પસંદ કરો';
+  String get selectParent => 'પિતાજી અથવા માતાજી પસંદ કરો';
 
   @override
   String get yourName => 'તમારું નામ';
@@ -72,16 +72,13 @@ class AppLocalizationsGu extends AppLocalizations {
   String get dobAdded => 'જન્મતારીખ ઉમેરાઈ';
 
   @override
-  String get female => 'સ્ત્રી';
-
-  @override
   String get other => 'અન્ય';
 
   @override
   String get gender => 'લિંગ';
 
   @override
-  String get dob => 'જન્મતારીખ';
+  String get dob => 'જન્મ તારીખ';
 
   @override
   String get whatsapp => 'વોટ્સએપ';
@@ -93,28 +90,31 @@ class AppLocalizationsGu extends AppLocalizations {
   String get areYouMarried => 'શું તમે લગ્નિત છો?';
 
   @override
-  String get spouseDetails => 'જીવનસાથી વિગતો';
+  String get spouseDetails => 'પત્ની/પતિની વિગતો';
 
   @override
-  String get spouseName => 'જીવનસાથીનું નામ';
+  String get spouseName => 'પત્ની/પતિનું નામ';
 
   @override
   String get dashboard => 'ડેશબોર્ડ';
 
   @override
-  String get noMembersFound => 'કોઇ સભ્યો મળ્યા નથી';
+  String get noMembersFound => 'કોઈ સભ્ય મળ્યા નથી';
 
   @override
-  String get memberSummary => 'સભ્ય સારાંશ';
+  String get memberSummary => 'સભ્યનો સારાંશ';
 
   @override
-  String get no_birthdays_today => 'આજે કોઇ જન્મદિવસ નથી';
+  String get female => 'સ્ત્રી';
+
+  @override
+  String get no_birthdays_today => 'આજે કોઈ જન્મદિવસ નથી';
 
   @override
   String get upcoming_birthdays => 'આગામી જન્મદિવસ';
 
   @override
-  String get no_upcoming_birthdays => 'કોઇ આગામી જન્મદિવસ નથી';
+  String get no_upcoming_birthdays => 'કોઈ આગામી જન્મદિવસ નથી';
 
   @override
   String get guest_user => 'મહેમાન વપરાશકર્તા';
@@ -123,10 +123,10 @@ class AppLocalizationsGu extends AppLocalizations {
   String get welcome => 'સ્વાગત છે!';
 
   @override
-  String get treeView => 'વૃક્ષ દૃશ્ય';
+  String get treeView => 'વૃક્ષ દર્શન';
 
   @override
-  String get memories => 'યાદગાર ક્ષણો';
+  String get memories => 'સ્મૃતિઓ';
 
   @override
   String get settings => 'સેટિંગ્સ';
@@ -135,10 +135,10 @@ class AppLocalizationsGu extends AppLocalizations {
   String get chooseLanguage => 'ભાષા પસંદ કરો';
 
   @override
-  String get familyMemberAdded => 'સભ્ય ઉમેરાયો';
+  String get familyMemberAdded => 'કુટુંબ સભ્ય ઉમેરાયો';
 
   @override
-  String get selectMainRoot => 'મુખ્ય રૂટ પસંદ કરો:';
+  String get selectMainRoot => 'મુખ્ય મૂળ પસંદ કરો:';
 
   @override
   String get name => 'નામ';
@@ -147,67 +147,67 @@ class AppLocalizationsGu extends AppLocalizations {
   String get phoneNumber => 'ફોન નંબર';
 
   @override
-  String get markAsInternalRoot => 'આંતરિક રૂટ તરીકે નિશાની કરો';
+  String get markAsInternalRoot => 'આંતરિક મૂળ તરીકે ચિહ્નિત કરો';
 
   @override
-  String get selectFamilyRootPerson => 'રૂટ વ્યક્તિ પસંદ કરો';
+  String get selectFamilyRootPerson => 'કુટુંબનું મૂળ વ્યક્તિ પસંદ કરો';
 
   @override
-  String get saveMember => 'સભ્ય સાચવો';
+  String get saveMember => 'સભ્ય સેવ કરો';
 
   @override
   String get memberUpdatedSuccessfully => 'સભ્ય સફળતાપૂર્વક અપડેટ થયો';
 
   @override
-  String get spouseWhatsapp => 'જીવનસાથી વોટ્સએપ';
+  String get spouseWhatsapp => 'પત્ની/પતિ વોટ્સએપ';
 
   @override
-  String get spouseBloodGroup => 'જીવનસાથી બ્લડ ગ્રૂપ';
+  String get spouseBloodGroup => 'પત્ની/પતિ બ્લડ ગ્રુપ';
 
   @override
-  String get spouseEmail => 'જીવનસાથી ઇમેલ';
+  String get spouseEmail => 'પત્ની/પતિ ઇમેલ';
 
   @override
-  String get spouseLocation => 'જીવનસાથી સ્થાન';
+  String get spouseLocation => 'પત્ની/પતિ સ્થાન';
 
   @override
-  String get update => 'અપડેટ કરો';
+  String get update => 'અપડેટ';
 
   @override
   String get hasChildren => 'બાળકો છે';
 
   @override
-  String get isInternalRoot => 'આંતરિક રૂટ છે';
+  String get isInternalRoot => 'આંતરિક મૂળ છે';
 
   @override
   String get isMarried => 'લગ્નિત છે';
 
   @override
-  String get mainRoot => 'મુખ્ય રૂટ';
+  String get mainRoot => 'મુખ્ય મૂળ';
 
   @override
-  String get familyMembers => 'કુટુંબ સભ્યો';
+  String get familyMembers => 'સભ્યો';
 
   @override
-  String get noGroupedMemberFound => 'કોઇ જૂથબદ્ધ સભ્ય મળ્યો નથી.';
+  String get noGroupedMemberFound => 'કોઈ સમૂહિત સભ્યો મળ્યા નથી.';
 
   @override
-  String get editMember => 'સભ્યમાં ફેરફાર કરો';
+  String get editMember => 'સભ્ય સંપાદિત કરો';
 
   @override
-  String get confrimDelete => 'કાઢી નાખવાની પુષ્ટિ કરો';
+  String get confrimDelete => 'કાઢી નાખવાની ખાતરી કરો';
 
   @override
-  String get confirmText => 'શું તમે ખરેખર આ સભ્યને કાઢી નાખવા માંગો છો?\n';
+  String get confirmText => 'શું તમે આ સભ્યને કાઢી નાખવા માંગો છો?\n';
 
   @override
-  String get unDone => 'આ ક્રિયા પાછી ફરવાની નથી.';
+  String get unDone => 'આ ક્રિયા પૂર્વવત્ કરી શકાશે નહીં.';
 
   @override
   String get cancel => 'રદ કરો';
 
   @override
-  String get memberDelete => 'સભ્ય સફળતાપૂર્વક કાઢી નાખ્યો';
+  String get memberDelete => 'સભ્ય કાઢી નાખ્યો';
 
   @override
   String get delete => 'કાઢી નાખો';
@@ -216,13 +216,13 @@ class AppLocalizationsGu extends AppLocalizations {
   String get searchByName => 'નામ દ્વારા શોધો';
 
   @override
-  String get hideSpouse => 'જીવનસાથી છુપાવો';
+  String get hideSpouse => 'પત્ની/પતિ છુપાવો';
 
   @override
-  String get showSpouse => 'જીવનસાથી બતાવો';
+  String get showSpouse => 'પત્ની/પતિ બતાવો';
 
   @override
-  String get spouse => 'જીવનસાથી';
+  String get spouse => 'પત્ની/પતિ';
 
   @override
   String get familyMoments => 'કુટુંબ ક્ષણો';
@@ -240,13 +240,13 @@ class AppLocalizationsGu extends AppLocalizations {
   String get uploadImages => 'છબીઓ અપલોડ કરો';
 
   @override
-  String get saveMoment => 'ક્ષણ સાચવો';
+  String get saveMoment => 'ક્ષણ સેવ કરો';
 
   @override
-  String get titleIsRequired => 'શીર્ષક આવશ્યક છે';
+  String get titleIsRequired => 'શીર્ષક જરૂરી છે';
 
   @override
-  String get momentSaved => 'ક્ષણ સાચવાયો';
+  String get momentSaved => 'ક્ષણ સેવ થયો';
 
   @override
   String get preferences => 'પસંદગીઓ';
@@ -255,7 +255,7 @@ class AppLocalizationsGu extends AppLocalizations {
   String get languages => 'ભાષાઓ';
 
   @override
-  String get selectLanguage => 'પસંદની ભાષા પસંદ કરો';
+  String get selectLanguage => 'તમારી પસંદગીની ભાષા પસંદ કરો';
 
   @override
   String get account => 'એકાઉન્ટ';
@@ -264,13 +264,13 @@ class AppLocalizationsGu extends AppLocalizations {
   String get login => 'લૉગિન';
 
   @override
-  String get loginText => 'એડમિન કે તાત્કાલિક યુઝર તરીકે લૉગિન કરો';
+  String get loginText => 'એડમિન અથવા ટેમ્પ વપરાશકર્તા તરીકે લૉગિન કરો';
 
   @override
-  String get userLogs => 'વપરાશકર્તા લોગ્સ';
+  String get userLogs => 'વપરાશકર્તા લૉગ્સ';
 
   @override
-  String get noUserFound => 'કોઇ વપરાશકર્તા મળ્યો નથી.';
+  String get noUserFound => 'કોઈ વપરાશકર્તા મળ્યો નથી.';
 
   @override
   String get statusActive => 'સ્થિતિ: સક્રિય';
@@ -285,10 +285,10 @@ class AppLocalizationsGu extends AppLocalizations {
   String get members => 'સભ્યો';
 
   @override
-  String get viewLogs => 'લોગ્સ જુઓ';
+  String get viewLogs => 'લૉગ્સ જુઓ';
 
   @override
-  String get createTemporaryID => 'તાત્કાલિક ID બનાવો';
+  String get createTemporaryID => 'તત્કાલિક ID બનાવો';
 
   @override
   String get admin => 'એડમિન';
@@ -303,10 +303,10 @@ class AppLocalizationsGu extends AppLocalizations {
   String get continueAsGuest => 'મહેમાન તરીકે ચાલુ રાખો';
 
   @override
-  String get temporaryAccess => 'તાત્કાલિક ઍક્સેસ';
+  String get temporaryAccess => 'તત્કાલિક પ્રવેશ';
 
   @override
-  String get enterEmailAndPassword => 'ઇમેલ અને પાસવર્ડ દાખલ કરો';
+  String get enterEmailAndPassword => 'તત્કાલિક વપરાશકર્તા બનાવવા માટે ઇમેલ અને પાસવર્ડ દાખલ કરો.';
 
   @override
   String get enterEmail => 'ઇમેલ દાખલ કરો';
@@ -321,7 +321,7 @@ class AppLocalizationsGu extends AppLocalizations {
   String get passwordValidation => 'કૃપા કરીને પાસવર્ડ દાખલ કરો';
 
   @override
-  String get temporaryUser => 'તાત્કાલિક વપરાશકર્તા બનાવો';
+  String get temporaryUser => 'તત્કાલિક વપરાશકર્તા બનાવો';
 
   @override
   String get adminPanel => 'એડમિન પેનલ';
@@ -330,11 +330,80 @@ class AppLocalizationsGu extends AppLocalizations {
   String get applyFilters => 'ફિલ્ટર્સ લાગુ કરો';
 
   @override
-  String get houseRoot => 'હાઉસ રૂટ';
+  String get houseRoot => 'ઘરનું મૂળ';
 
   @override
   String get applyFilter => 'ફિલ્ટર લાગુ કરો';
 
   @override
   String get select => 'પસંદ કરો';
+
+  @override
+  String get upcomingEvents => 'આગામી કાર્યક્રમો';
+
+  @override
+  String get noUpcomingEvents => 'કોઈ આગામી કાર્યક્રમો નથી';
+
+  @override
+  String get invalidEmail => 'માન્ય ઇમેલ દાખલ કરો';
+
+  @override
+  String get createEvent => 'ઇવેન્ટ બનાવો';
+
+  @override
+  String get eventDescription => 'ઇવેન્ટનું વર્ણન';
+
+  @override
+  String get noEventDate => 'કોઈ તારીખ પસંદ કરેલ નથી';
+
+  @override
+  String get eventTitle => 'ઇવેન્ટ';
+
+  @override
+  String get chooseDate => 'તારીખ પસંદ કરો';
+
+  @override
+  String get pickImages => 'છબીઓ પસંદ કરો';
+
+  @override
+  String get uploadSelected => 'પસંદ કરેલી અપલોડ કરો';
+
+  @override
+  String get uploaded => 'અપલોડ થઈ ગઈ';
+
+  @override
+  String get image => 'છબી(ઓ)';
+
+  @override
+  String get viewAllMoments => 'બધા પળો જુઓ';
+
+  @override
+  String get createNewMoment => 'નવો પળ બનાવો';
+
+  @override
+  String get createNewMomentSubtitle => 'તમારા પરિવાર સાથે ખાસ યાદ કેદ કરો અને શેર કરો.';
+
+  @override
+  String get spouseGender => 'પત્ની/પતિનો લિંગ';
+
+  @override
+  String get male => 'પુરુષ';
+
+  @override
+  String get spouseDob => 'જીવનસાથીની જન્મતારીખ';
+
+  @override
+  String get spousePhoneNumber => 'જીવનસાથીનો ફોન નંબર';
+
+  @override
+  String get selectRootPerson => 'મૂળ વ્યક્તિ પસંદ કરો';
+
+  @override
+  String get eventCalendar => 'ઇવેન્ટ કેલેન્ડર';
+
+  @override
+  String get noteTitle => 'સૂચના:';
+
+  @override
+  String get noteMessage => 'બીજા કોઈપણ પરિવારના સભ્યને ઉમેરતા પહેલા, પ્રથમ મુખ્ય/મૂલ સભ્યને ઉમેરો અને તેને આંતરિક મૂળ સભ્ય તરીકે પસંદ કરો.';
 }

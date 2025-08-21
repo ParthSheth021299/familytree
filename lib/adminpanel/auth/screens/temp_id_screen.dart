@@ -1,4 +1,7 @@
 import 'package:family_tree/adminpanel/auth/cubit/auth_cubit.dart';
+import 'package:family_tree/adminpanel/utils/colors.dart';
+import 'package:family_tree/adminpanel/viewlogs/cubit/viewlogs_cubit.dart';
+import 'package:family_tree/adminpanel/viewlogs/presentation/screens/view_log_screen.dart';
 import 'package:family_tree/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,6 +33,22 @@ class _TempIdScreenState extends State<TempIdScreen> {
             // title: const Text('Create Temporary ID'),
             // centerTitle: true,
             // elevation: 2,
+            actions: [
+              TextButton.icon(
+                icon: Icon(Icons.accessibility_new_outlined),
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => BlocProvider(
+                        create: (_) => ViewlogsCubit(),
+                        child: const ViewLogScreen(),
+                      ),
+                    ),
+                  );
+                },
+                label: Text(AppLocalizations.of(context)!.viewLogs),
+              ),
+            ],
           ),
           body: Center(
             child: SingleChildScrollView(
@@ -65,7 +84,10 @@ class _TempIdScreenState extends State<TempIdScreen> {
                         decoration: InputDecoration(
                           hintText: AppLocalizations.of(context)!.enterEmail,
                           border: OutlineInputBorder(),
-                          prefixIcon: Icon(Icons.email_outlined),
+                          prefixIcon: Icon(
+                            Icons.email_outlined,
+                            color: AppColors.orangeDark,
+                          ),
                         ),
                         keyboardType: TextInputType.emailAddress,
                         validator: (value) {
@@ -88,7 +110,10 @@ class _TempIdScreenState extends State<TempIdScreen> {
                         decoration: InputDecoration(
                           hintText: AppLocalizations.of(context)!.enterPassword,
                           border: OutlineInputBorder(),
-                          prefixIcon: Icon(Icons.lock_outline),
+                          prefixIcon: Icon(
+                            Icons.lock_outline,
+                            color: AppColors.orangeDark,
+                          ),
                         ),
                         validator: (value) {
                           if (value == null) {

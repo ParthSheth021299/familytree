@@ -51,8 +51,7 @@ class GoogleSheetsService {
       'spouseName': member.spouseName,
       'hasChildren': member.hasChildren.toString(),
       'email': member.email,
-      'location': member.location,
-      'photoUrl': member.photoUrl,
+
       'isRoot': member.isRoot.toString(),
       'dob': member.dob,
       'spousePhotoUrl': member.spousePhotoUrl,

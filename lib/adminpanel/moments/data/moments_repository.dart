@@ -14,7 +14,10 @@ class MomentsRepository {
       "caption": caption,
       "imageUrl": imageUrl,
     };
-    await FirebaseFirestore.instance.collection('moments').add(momentData);
+    await FirebaseFirestore.instance
+        .collection('moments')
+        .doc(id)
+        .set(momentData);
     return 'Moment Created Successfully';
   }
 

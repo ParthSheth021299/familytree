@@ -15,21 +15,23 @@ class FamilyRepository {
           name: data['name'] ?? '',
           mainRoot: data['mainRoot'] ?? '',
           isRoot: (data['isRoot'] ?? false).toString(),
-          photoUrl: data['photoUrl'] ?? '',
+
           gender: data['gender'] ?? '',
           bloodGroup: data['bloodGroup'] ?? '',
-          phone: data['whatsapp'] ?? '',
+          phone: data['phone'] ?? '',
           isMarried: data['maritalStatus'] ?? '',
           spouseName: data['spouseName'] ?? '',
           hasChildren: (data['hasChildren'] ?? false).toString(),
           email: data['email'] ?? '',
-          location: data['location'] ?? '',
+
           dob: data['dob'] ?? '',
           spousePhotoUrl: data['spousePhotoUrl'] ?? '',
-          spouseWhatsapp: data['spouseWhatsapp'] ?? '',
+          spouseWhatsapp: data['spousePhone'] ?? '',
           spouseBloodGroup: data['spouseBloodGroup'] ?? '',
           spouseEmail: data['spouseEmail'] ?? '',
           spouseLocation: data['spouseLocation'] ?? '',
+
+          createdBy: data['createdBy'] ?? '',
         );
       }).toList();
     });
@@ -47,21 +49,23 @@ class FamilyRepository {
         name: data['name'] ?? '',
         mainRoot: data['mainRoot'] ?? '',
         isRoot: (data['isRoot'] ?? false).toString(),
-        photoUrl: data['photoUrl'] ?? '',
+
         gender: data['gender'] ?? '',
         bloodGroup: data['bloodGroup'] ?? '',
-        phone: data['whatsapp'] ?? '',
+        phone: data['phone'] ?? '',
         isMarried: data['maritalStatus'] ?? '',
         spouseName: data['spouseName'] ?? '',
         hasChildren: (data['hasChildren'] ?? false).toString(),
         email: data['email'] ?? '',
-        location: data['location'] ?? '',
+
         dob: data['dob'] ?? '',
         spousePhotoUrl: data['spousePhotoUrl'] ?? '',
-        spouseWhatsapp: data['spouseWhatsapp'] ?? '',
+        spouseWhatsapp: data['spousePhone'] ?? '',
         spouseBloodGroup: data['spouseBloodGroup'] ?? '',
         spouseEmail: data['spouseEmail'] ?? '',
         spouseLocation: data['spouseLocation'] ?? '',
+
+        createdBy: data['createdBy'] ?? '',
       );
     }).toList();
   }

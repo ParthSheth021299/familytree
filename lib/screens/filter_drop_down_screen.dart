@@ -70,11 +70,6 @@ class _FilterDropdownSheetState extends State<FilterDropdownSheet> {
         .where((e) => e.isNotEmpty)
         .toSet()
         .toList();
-    final houseRoots = widget.members
-        .map((e) => e.mainRoot)
-        .where((e) => e.isNotEmpty)
-        .toSet()
-        .toList();
 
     return Scaffold(
       appBar: AppBar(
@@ -106,20 +101,20 @@ class _FilterDropdownSheetState extends State<FilterDropdownSheet> {
               selectedBloodGroup,
               (val) => setState(() => selectedBloodGroup = val),
             ),
+            // const SizedBox(height: 12),
+            // _buildDropdown(
+            //   AppLocalizations.of(context)!.houseRoot,
+            //   houseRoots,
+            //   selectedHouseRoot,
+            //   (val) => setState(() => selectedHouseRoot = val),
+            // ),
             const SizedBox(height: 12),
-            _buildDropdown(
-              AppLocalizations.of(context)!.houseRoot,
-              houseRoots,
-              selectedHouseRoot,
-              (val) => setState(() => selectedHouseRoot = val),
-            ),
-            const SizedBox(height: 12),
-            _buildDropdown(
-              AppLocalizations.of(context)!.hasChildren,
-              ['true', 'false'],
-              selectedHasChildren,
-              (val) => setState(() => selectedHasChildren = val),
-            ),
+            // _buildDropdown(
+            //   AppLocalizations.of(context)!.hasChildren,
+            //   ['true', 'false'],
+            //   selectedHasChildren,
+            //   (val) => setState(() => selectedHasChildren = val),
+            // ),
           ],
         ),
       ),

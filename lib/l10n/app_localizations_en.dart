@@ -72,9 +72,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dobAdded => 'DOB Added';
 
   @override
-  String get female => 'Female';
-
-  @override
   String get other => 'Other';
 
   @override
@@ -106,6 +103,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get memberSummary => 'Member Summary';
+
+  @override
+  String get female => 'Female';
 
   @override
   String get no_birthdays_today => 'No birthdays today';
@@ -186,7 +186,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mainRoot => 'Main Root';
 
   @override
-  String get familyMembers => 'Family Members';
+  String get familyMembers => 'Members';
 
   @override
   String get noGroupedMemberFound => 'No grouped members found.';
@@ -337,4 +337,73 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get select => 'Select';
+
+  @override
+  String get upcomingEvents => 'Upcoming Events';
+
+  @override
+  String get noUpcomingEvents => 'No Upcoming Events';
+
+  @override
+  String get invalidEmail => 'Enter a valid email';
+
+  @override
+  String get createEvent => 'Create Event';
+
+  @override
+  String get eventDescription => 'Event Description';
+
+  @override
+  String get noEventDate => 'No Date Selected';
+
+  @override
+  String get eventTitle => 'Event';
+
+  @override
+  String get chooseDate => 'Choose Date';
+
+  @override
+  String get pickImages => 'Pick Images';
+
+  @override
+  String get uploadSelected => 'Upload Selected';
+
+  @override
+  String get uploaded => 'Uploaded';
+
+  @override
+  String get image => 'image(s)';
+
+  @override
+  String get viewAllMoments => 'View all Moments';
+
+  @override
+  String get createNewMoment => 'Create a New Moment';
+
+  @override
+  String get createNewMomentSubtitle => 'Capture and share a special memory with your family.';
+
+  @override
+  String get spouseGender => 'Spouse Gender';
+
+  @override
+  String get male => 'Male';
+
+  @override
+  String get spouseDob => 'Spouse Date of Birth';
+
+  @override
+  String get spousePhoneNumber => 'Spouse Phone Number';
+
+  @override
+  String get selectRootPerson => 'Select root person';
+
+  @override
+  String get eventCalendar => 'Event Calendar';
+
+  @override
+  String get noteTitle => 'NOTE:';
+
+  @override
+  String get noteMessage => 'Before adding any other family member, first add the root/main member and select it as the internal root member.';
 }

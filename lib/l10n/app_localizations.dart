@@ -223,12 +223,6 @@ abstract class AppLocalizations {
   /// **'DOB Added'**
   String get dobAdded;
 
-  /// No description provided for @female.
-  ///
-  /// In en, this message translates to:
-  /// **'Female'**
-  String get female;
-
   /// No description provided for @other.
   ///
   /// In en, this message translates to:
@@ -294,6 +288,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Member Summary'**
   String get memberSummary;
+
+  /// No description provided for @female.
+  ///
+  /// In en, this message translates to:
+  /// **'Female'**
+  String get female;
 
   /// No description provided for @no_birthdays_today.
   ///
@@ -454,7 +454,7 @@ abstract class AppLocalizations {
   /// No description provided for @familyMembers.
   ///
   /// In en, this message translates to:
-  /// **'Family Members'**
+  /// **'Members'**
   String get familyMembers;
 
   /// No description provided for @noGroupedMemberFound.
@@ -756,6 +756,144 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Select'**
   String get select;
+
+  /// No description provided for @upcomingEvents.
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming Events'**
+  String get upcomingEvents;
+
+  /// No description provided for @noUpcomingEvents.
+  ///
+  /// In en, this message translates to:
+  /// **'No Upcoming Events'**
+  String get noUpcomingEvents;
+
+  /// No description provided for @invalidEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid email'**
+  String get invalidEmail;
+
+  /// No description provided for @createEvent.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Event'**
+  String get createEvent;
+
+  /// No description provided for @eventDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Event Description'**
+  String get eventDescription;
+
+  /// No description provided for @noEventDate.
+  ///
+  /// In en, this message translates to:
+  /// **'No Date Selected'**
+  String get noEventDate;
+
+  /// No description provided for @eventTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Event'**
+  String get eventTitle;
+
+  /// No description provided for @chooseDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Date'**
+  String get chooseDate;
+
+  /// No description provided for @pickImages.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick Images'**
+  String get pickImages;
+
+  /// No description provided for @uploadSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload Selected'**
+  String get uploadSelected;
+
+  /// No description provided for @uploaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Uploaded'**
+  String get uploaded;
+
+  /// No description provided for @image.
+  ///
+  /// In en, this message translates to:
+  /// **'image(s)'**
+  String get image;
+
+  /// No description provided for @viewAllMoments.
+  ///
+  /// In en, this message translates to:
+  /// **'View all Moments'**
+  String get viewAllMoments;
+
+  /// No description provided for @createNewMoment.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a New Moment'**
+  String get createNewMoment;
+
+  /// No description provided for @createNewMomentSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Capture and share a special memory with your family.'**
+  String get createNewMomentSubtitle;
+
+  /// No description provided for @spouseGender.
+  ///
+  /// In en, this message translates to:
+  /// **'Spouse Gender'**
+  String get spouseGender;
+
+  /// No description provided for @male.
+  ///
+  /// In en, this message translates to:
+  /// **'Male'**
+  String get male;
+
+  /// No description provided for @spouseDob.
+  ///
+  /// In en, this message translates to:
+  /// **'Spouse Date of Birth'**
+  String get spouseDob;
+
+  /// No description provided for @spousePhoneNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Spouse Phone Number'**
+  String get spousePhoneNumber;
+
+  /// No description provided for @selectRootPerson.
+  ///
+  /// In en, this message translates to:
+  /// **'Select root person'**
+  String get selectRootPerson;
+
+  /// No description provided for @eventCalendar.
+  ///
+  /// In en, this message translates to:
+  /// **'Event Calendar'**
+  String get eventCalendar;
+
+  /// No description provided for @noteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'NOTE:'**
+  String get noteTitle;
+
+  /// No description provided for @noteMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Before adding any other family member, first add the root/main member and select it as the internal root member.'**
+  String get noteMessage;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

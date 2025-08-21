@@ -37,9 +37,11 @@ class _EditMemberScreenState extends State<EditMemberScreen> {
   bool isMarried = false;
   bool isRoot = false;
   bool hasChildren = false;
+  String? status; // in FamilyMember model
+  String? isAlive; // default true for alive
 
   final List<String> genderOptions = ['male', 'female'];
-  final List<String> mainRootOptions = ['Dahibanagar', 'Kubernagar'];
+
   List<FamilyMember>? allMembers;
 
   String? selectedParentId;
@@ -69,7 +71,7 @@ class _EditMemberScreenState extends State<EditMemberScreen> {
         nameController = TextEditingController(text: member.name);
         phoneController = TextEditingController(text: member.phone);
         emailController = TextEditingController(text: member.email);
-        locationController = TextEditingController(text: member.location);
+        // locationController = TextEditingController(text: member.location);
         bloodGroupController = TextEditingController(text: member.bloodGroup);
         dobController = TextEditingController(text: member.dob);
 
@@ -107,7 +109,6 @@ class _EditMemberScreenState extends State<EditMemberScreen> {
     setState(() {
       parentList = fetchedList;
     });
-    print("PARENT LIST ${parentList}");
   }
 
   Future<List<FamilyMember>> fetchParentListByMainRoot({
@@ -224,6 +225,7 @@ class _EditMemberScreenState extends State<EditMemberScreen> {
         'spouseEmail': isMarried ? spouseEmailController.text : '',
         'spouseLocation': isMarried ? spouseLocationController.text : '',
         'parentId': selectedParentId ?? widget.member.parentId,
+        'isAlive': isAlive,
       };
 
       await FirebaseFirestore.instance
@@ -308,16 +310,16 @@ class _EditMemberScreenState extends State<EditMemberScreen> {
               onChanged: (val) => setState(() => selectedGender = val),
             ),
             SizedBox(height: 20),
-            DropdownButtonFormField<String>(
-              value: selectedMainRoot,
-              items: mainRootOptions.map((root) {
-                return DropdownMenuItem(value: root, child: Text(root));
-              }).toList(),
-              decoration: InputDecoration(
-                labelText: AppLocalizations.of(context)!.mainRoot,
-              ),
-              onChanged: (val) => setState(() => selectedMainRoot = val),
-            ),
+            // DropdownButtonFormField<String>(
+            //   value: selectedMainRoot,
+            //   items: mainRootOptions.map((root) {
+            //     return DropdownMenuItem(value: root, child: Text(root));
+            //   }).toList(),
+            //   decoration: InputDecoration(
+            //     labelText: AppLocalizations.of(context)!.mainRoot,
+            //   ),
+            //   onChanged: (val) => setState(() => selectedMainRoot = val),
+            // ),
             SizedBox(height: 20),
             TextFormField(
               controller: phoneController,
@@ -367,17 +369,33 @@ class _EditMemberScreenState extends State<EditMemberScreen> {
               onChanged: (val) => setState(() => isRoot = val),
               title: Text(AppLocalizations.of(context)!.isInternalRoot),
             ),
+            SizedBox(height: 20),
+
+            // SwitchListTile(
+            //   title: const Text('Alive'),
+            //   value: isAlive == 'true' ? true : false,
+            //   onChanged: (value) {
+            //     setState(() {
+            //       isAlive = value.toString();
+            //     });
+            //   },
+            //   secondary: Icon(
+            //     isAlive == true ? Icons.favorite : Icons.favorite_border,
+            //     color: isAlive == true ? Colors.green : Colors.red,
+            //   ),
+            // ),
             SizedBox(height: 10),
-            SwitchListTile(
-              title: Text(AppLocalizations.of(context)!.hasChildren),
-              value: hasChildren,
-              onChanged: (value) {
-                setState(() {
-                  hasChildren = value;
-                });
-              },
-            ),
-            SizedBox(height: 10),
+
+            // SwitchListTile(
+            //   title: Text(AppLocalizations.of(context)!.hasChildren),
+            //   value: hasChildren,
+            //   onChanged: (value) {
+            //     setState(() {
+            //       hasChildren = value;
+            //     });
+            //   },
+            // ),
+            // SizedBox(height: 10),
             ParentDropdown(
               currentMemberId: widget.member.id,
               selectedParentId: widget.member.parentId,

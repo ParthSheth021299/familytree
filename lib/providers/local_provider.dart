@@ -6,6 +6,7 @@ class LocaleProvider extends ChangeNotifier {
   Locale get locale => _locale;
 
   void setLocale(Locale newLocale) {
+    print("LOCALE ${newLocale}");
     if (_locale == newLocale) return;
     _locale = newLocale;
     notifyListeners();

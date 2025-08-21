@@ -39,7 +39,7 @@ class _MembersState extends State<Members> {
                 ),
               ),
             ],
-            centerTitle: true,
+            centerTitle: false,
             elevation: 0,
           ),
           body: groupedData.isEmpty
@@ -52,8 +52,14 @@ class _MembersState extends State<Members> {
               : ListView(
                   padding: const EdgeInsets.all(16),
                   children: groupedData.entries.map((entry) {
-                    final root = entry.key;
                     final children = entry.value;
+
+                    // Find the internal root member from the children list
+                    final internalRoot = children.firstWhere(
+                      (member) =>
+                          member.parentId == null || member.parentId!.isEmpty,
+                      orElse: () => children.first,
+                    );
 
                     return Card(
                       shape: RoundedRectangleBorder(
@@ -78,7 +84,7 @@ class _MembersState extends State<Members> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                root,
+                                "${internalRoot.name}", // Show internal root name here
                                 style: const TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w600,
@@ -99,10 +105,7 @@ class _MembersState extends State<Members> {
                           ),
                           children: children.map((member) {
                             return Padding(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 4.0,
-                                horizontal: 4,
-                              ),
+                              padding: const EdgeInsets.only(bottom: 24.0),
                               child: Container(
                                 decoration: BoxDecoration(
                                   border: Border.all(
@@ -129,6 +132,7 @@ class _MembersState extends State<Members> {
                                   trailing: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
+                                      // Edit button
                                       IconButton(
                                         icon: const Icon(
                                           Icons.edit,
@@ -150,22 +154,21 @@ class _MembersState extends State<Members> {
                                                       BorderRadius.circular(12),
                                                 ),
                                                 child: ConstrainedBox(
-                                                  constraints: const BoxConstraints(
-                                                    maxWidth: 600,
-                                                    maxHeight:
-                                                        600, // 👈 Set a height limit so scrolling kicks in
-                                                  ),
+                                                  constraints:
+                                                      const BoxConstraints(
+                                                        maxWidth: 600,
+                                                        maxHeight: 600,
+                                                      ),
                                                   child: Column(
                                                     mainAxisSize:
                                                         MainAxisSize.min,
                                                     children: [
-                                                      // Title Bar
                                                       Container(
                                                         decoration: BoxDecoration(
                                                           color: AppColors
                                                               .orangePrimary,
                                                           borderRadius:
-                                                              BorderRadius.only(
+                                                              const BorderRadius.only(
                                                                 topLeft:
                                                                     Radius.circular(
                                                                       10,
@@ -193,7 +196,7 @@ class _MembersState extends State<Members> {
                                                                 AppLocalizations.of(
                                                                   context,
                                                                 )!.editMember,
-                                                                style: TextStyle(
+                                                                style: const TextStyle(
                                                                   fontSize: 20,
                                                                   color: Colors
                                                                       .white,
@@ -217,8 +220,6 @@ class _MembersState extends State<Members> {
                                                           ),
                                                         ),
                                                       ),
-
-                                                      // Scrollable Content
                                                       Expanded(
                                                         child: SingleChildScrollView(
                                                           padding:
@@ -239,6 +240,7 @@ class _MembersState extends State<Members> {
                                           );
                                         },
                                       ),
+                                      // Delete button
                                       IconButton(
                                         icon: const Icon(
                                           Icons.delete,
@@ -257,7 +259,7 @@ class _MembersState extends State<Members> {
                                                     AppLocalizations.of(
                                                       context,
                                                     )!.confrimDelete,
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,
                                                     ),
@@ -310,7 +312,7 @@ class _MembersState extends State<Members> {
                                                     AppLocalizations.of(
                                                       context,
                                                     )!.delete,
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                       color: Colors.red,
                                                     ),
                                                   ),

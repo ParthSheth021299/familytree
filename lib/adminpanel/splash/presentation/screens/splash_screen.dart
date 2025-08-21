@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:family_tree/adminpanel/dashboard/presentation/screens/admin_home_screen.dart';
 import 'package:family_tree/adminpanel/guestuserdashboard/presentation/screens/guest_user_dash_board.dart';
+import 'package:family_tree/service/permission_service.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -25,6 +26,7 @@ class _SplashScreenState extends State<SplashScreen>
     );
     _fadeIn = CurvedAnimation(parent: _controller, curve: Curves.easeIn);
     _controller.forward();
+
     checkLoginStatus();
   }
 

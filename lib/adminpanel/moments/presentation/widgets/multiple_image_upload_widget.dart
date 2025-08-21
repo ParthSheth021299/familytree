@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'dart:io' as io;
+import 'package:family_tree/l10n/app_localizations.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -45,6 +46,9 @@ class _MultiImagePickerWidgetState extends State<MultiImagePickerWidget> {
       setState(() {
         _selectedFiles = validFiles;
       });
+      // if (_selectedFiles.isNotEmpty) {
+      //   _uploadImages();
+      // }
     }
   }
 
@@ -85,85 +89,120 @@ class _MultiImagePickerWidgetState extends State<MultiImagePickerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: _selectedFiles.map((file) {
-            final index = _selectedFiles.indexOf(file);
-            return Stack(
-              children: [
-                Container(
-                  width: 100,
-                  height: 100,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: _selectedFiles.map((file) {
+              final index = _selectedFiles.indexOf(file);
+              return Stack(
+                children: [
+                  Container(
+                    width: 100,
+                    height: 100,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                    ),
+                    child: FutureBuilder<Uint8List>(
+                      future: file.readAsBytes(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done &&
+                            snapshot.hasData) {
+                          return Image.memory(
+                            snapshot.data!,
+                            fit: BoxFit.cover,
+                          );
+                        } else {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                      },
+                    ),
                   ),
-                  child: FutureBuilder<Uint8List>(
-                    future: file.readAsBytes(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done &&
-                          snapshot.hasData) {
-                        return Image.memory(snapshot.data!, fit: BoxFit.cover);
-                      } else {
-                        return const Center(child: CircularProgressIndicator());
-                      }
-                    },
+                  Positioned(
+                    top: 0,
+                    right: 0,
+                    child: GestureDetector(
+                      onTap: () => _removeImage(index),
+                      child: const CircleAvatar(
+                        backgroundColor: Colors.black54,
+                        radius: 12,
+                        child: Icon(Icons.close, size: 14, color: Colors.white),
+                      ),
+                    ),
                   ),
-                ),
-                Positioned(
-                  top: 0,
-                  right: 0,
-                  child: GestureDetector(
-                    onTap: () => _removeImage(index),
-                    child: const CircleAvatar(
-                      backgroundColor: Colors.black54,
-                      radius: 12,
-                      child: Icon(Icons.close, size: 14, color: Colors.white),
+                ],
+              );
+            }).toList(),
+          ),
+          const SizedBox(height: 10),
+          Row(
+            children: [
+              Expanded(
+                child: SizedBox(
+                  // width: MediaQuery.of(context).size.width * 0.4,
+                  height: 90,
+                  child: ElevatedButton.icon(
+                    onPressed: _pickImages,
+                    icon: const Icon(Icons.image_search),
+                    label: Text(
+                      AppLocalizations.of(context)!.pickImages,
+                      style: TextStyle(fontSize: 12),
+                      softWrap: true,
+                      overflow: TextOverflow.visible,
                     ),
                   ),
                 ),
-              ],
-            );
-          }).toList(),
-        ),
-        const SizedBox(height: 10),
-        Row(
-          children: [
-            ElevatedButton.icon(
-              onPressed: _pickImages,
-              icon: const Icon(Icons.image_search),
-              label: const Text("Pick Images"),
-            ),
-            const SizedBox(width: 10),
-            ElevatedButton.icon(
-              onPressed: _selectedFiles.isEmpty || _isUploading
-                  ? null
-                  : _uploadImages,
-              icon: const Icon(Icons.upload),
-              label: const Text("Upload Selected"),
-            ),
-            const SizedBox(width: 10),
-            if (_selectedFiles.isNotEmpty || _uploadedUrls.isNotEmpty)
-              TextButton(onPressed: _clearAll, child: const Text("Clear All")),
-          ],
-        ),
-        if (_isUploading)
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 10),
-            child: LinearProgressIndicator(),
+              ),
+              const SizedBox(width: 20),
+              // Spacer(),
+              Expanded(
+                child: SizedBox(
+                  // width: MediaQuery.of(context).size.width * 0.4,
+                  height: 90,
+                  child: ElevatedButton.icon(
+                    onPressed: _selectedFiles.isEmpty || _isUploading
+                        ? null
+                        : _uploadImages,
+                    icon: const Icon(Icons.upload),
+                    label: Text(
+                      AppLocalizations.of(context)!.uploadSelected,
+                      style: TextStyle(fontSize: 12),
+                      softWrap: true,
+                      overflow: TextOverflow.visible,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 10),
+              // if (_selectedFiles.isNotEmpty || _uploadedUrls.isNotEmpty)
+              //   TextButton(
+              //     onPressed: _clearAll,
+              //     child: const Text("Clear All"),
+              //   ),
+            ],
           ),
-        if (_uploadedUrls.isNotEmpty)
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: Text(
-              "✅ Uploaded ${_uploadedUrls.length} image(s)",
-              style: TextStyle(color: Colors.green.shade700),
+          // if (_selectedFiles.isNotEmpty || _uploadedUrls.isNotEmpty)
+          //   TextButton(onPressed: _clearAll, child: const Text("Clear All")),
+          if (_isUploading)
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 10),
+              child: LinearProgressIndicator(),
             ),
-          ),
-      ],
+          if (_uploadedUrls.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: Text(
+                "✅ ${AppLocalizations.of(context)!.uploaded} ${_uploadedUrls.length} ${AppLocalizations.of(context)!.image}",
+                style: TextStyle(color: Colors.green.shade700),
+              ),
+            ),
+        ],
+      ),
     );
   }
 }

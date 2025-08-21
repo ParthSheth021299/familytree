@@ -35,4 +35,37 @@ class MomentsCubit extends Cubit<MomentsState> {
       emit(MomentsErrorState(errorMessage: e.message.toString()));
     }
   }
+
+  //Update moments
+  Future<void> updateMoment(MomentsModel updatedMoment) async {
+    try {
+      emit(MomentshLoadingState());
+
+      // Example Firestore update
+      await FirebaseFirestore.instance
+          .collection("moments")
+          .doc(updatedMoment.id)
+          .update(updatedMoment.toJson());
+
+      // Refetch moments after update
+      await fetchMoments();
+    } catch (e) {
+      emit(MomentsErrorState(errorMessage: e.toString()));
+    }
+  }
+
+  //Delete moments
+  Future<void> deleteMoment(String docId) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('moments')
+          .doc(docId)
+          .delete();
+
+      // Optionally refresh list after deletion
+      fetchMoments();
+    } catch (e) {
+      print('Error deleting moment: $e');
+    }
+  }
 }

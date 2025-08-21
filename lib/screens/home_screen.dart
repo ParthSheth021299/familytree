@@ -659,10 +659,7 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 CircleAvatar(
                   radius: 30,
-                  backgroundImage: (m.photoUrl.isNotEmpty)
-                      ? NetworkImage(m.photoUrl)
-                      : const AssetImage('assets/images/avatar.jpg')
-                            as ImageProvider,
+                  backgroundImage: AssetImage('assets/images/avatar.jpg'),
                 ),
                 const SizedBox(height: 4),
                 Text(m.name, style: GoogleFonts.poppins(fontSize: 12)),
@@ -742,7 +739,7 @@ class _HomeScreenState extends State<HomeScreen> {
           floatingActionButton: FloatingActionButton.extended(
             onPressed: () => Navigator.push(
               context,
-              MaterialPageRoute(builder: (_) => const AddFamilyChainScreen()),
+              MaterialPageRoute(builder: (_) => AddFamilyChainScreen()),
             ),
             icon: const Icon(Icons.add),
             label: Text(AppLocalizations.of(context)!.addFamily),

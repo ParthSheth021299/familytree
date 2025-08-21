@@ -10,8 +10,7 @@ class FamilyMember {
   final String spouseName;
   final String hasChildren;
   final String email;
-  final String location;
-  final String photoUrl;
+
   final String isRoot;
   final String dob;
   final String spousePhotoUrl;
@@ -19,6 +18,8 @@ class FamilyMember {
   final String spouseBloodGroup;
   final String spouseEmail;
   final String spouseLocation;
+
+  final String createdBy;
 
   FamilyMember({
     required this.id,
@@ -32,8 +33,7 @@ class FamilyMember {
     required this.spouseName,
     required this.hasChildren,
     required this.email,
-    required this.location,
-    required this.photoUrl,
+
     required this.isRoot,
     required this.dob,
     required this.spousePhotoUrl,
@@ -41,6 +41,8 @@ class FamilyMember {
     required this.spouseBloodGroup,
     required this.spouseEmail,
     required this.spouseLocation,
+
+    required this.createdBy,
   });
 
   factory FamilyMember.fromJson(Map<String, dynamic> json) {
@@ -56,8 +58,7 @@ class FamilyMember {
       spouseName: json['spouseName'] ?? '',
       hasChildren: json['hasChildren'].toString(),
       email: json['email'] ?? '',
-      location: json['location'] ?? '',
-      photoUrl: json['photoUrl'] ?? '',
+
       isRoot: json['isRoot'].toString(),
       dob: json['dob'].toString(),
       spousePhotoUrl: json['spousePhotoUrl'].toString(),
@@ -65,6 +66,8 @@ class FamilyMember {
       spouseBloodGroup: json['spouseBloodGroup'].toString(),
       spouseEmail: json['spouseEmail'].toString(),
       spouseLocation: json['spouseLocation'].toString(),
+
+      createdBy: json['createdBy'].toString(),
     );
   }
 
@@ -82,8 +85,7 @@ class FamilyMember {
       'hasChildren': hasChildren
           .toString(), // Convert bool to String for Sheets
       'email': email,
-      'location': location,
-      'photoUrl': photoUrl,
+
       'isRoot': isRoot.toString(), // Convert bool to String for Sheets
       'dob': dob.toString(),
       'spousePhotoUrl': spousePhotoUrl.toString(),
@@ -91,6 +93,8 @@ class FamilyMember {
       'spouseBloodGroup': spouseBloodGroup.toString(),
       'spouseEmail': spouseEmail.toString(),
       'spouseLocation': spouseLocation.toString(),
+
+      'createdBy': createdBy.toString(),
     };
   }
 
@@ -106,8 +110,7 @@ class FamilyMember {
     spouseName: '',
     hasChildren: '',
     email: '',
-    location: '',
-    photoUrl: '',
+
     isRoot: '',
     dob: '',
     spousePhotoUrl: '',
@@ -115,6 +118,8 @@ class FamilyMember {
     spouseBloodGroup: '',
     spouseEmail: '',
     spouseLocation: '',
+
+    createdBy: '',
   );
 }
 
@@ -123,7 +128,7 @@ extension FamilyMemberCopyWith on FamilyMember {
     String? name,
     String? phone,
     String? email,
-    String? location,
+
     String? dob,
     String? bloodGroup,
     String? gender,
@@ -137,6 +142,8 @@ extension FamilyMemberCopyWith on FamilyMember {
     String? isRoot,
     String? hasChildren,
     String? parentId,
+    String? isAlive,
+    String? createdBy,
   }) {
     return FamilyMember(
       id: id,
@@ -150,8 +157,7 @@ extension FamilyMemberCopyWith on FamilyMember {
       spouseName: spouseName ?? this.spouseName,
       hasChildren: hasChildren ?? this.hasChildren,
       email: email ?? this.email,
-      location: location ?? this.location,
-      photoUrl: photoUrl,
+
       isRoot: isRoot ?? this.isRoot,
       dob: dob ?? this.dob,
       spousePhotoUrl: spousePhotoUrl,
@@ -159,6 +165,8 @@ extension FamilyMemberCopyWith on FamilyMember {
       spouseBloodGroup: spouseBloodGroup ?? this.spouseBloodGroup,
       spouseEmail: spouseEmail ?? this.spouseEmail,
       spouseLocation: spouseLocation ?? this.spouseLocation,
+
+      createdBy: createdBy ?? this.createdBy,
     );
   }
 }

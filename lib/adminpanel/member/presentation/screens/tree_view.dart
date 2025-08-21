@@ -1,4 +1,5 @@
 import 'package:family_tree/adminpanel/member/cubit/member_cubit.dart';
+import 'package:family_tree/adminpanel/utils/colors.dart';
 import 'package:family_tree/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,10 +25,6 @@ class _TreeViewScreenState extends State<TreeViewScreen> {
     ..subtreeSeparation = 30
     ..orientation = BuchheimWalkerConfiguration.ORIENTATION_TOP_BOTTOM;
 
-  Node societyNode = Node.Id('Society');
-  Node dahibanagarNode = Node.Id('Dahibanagar');
-  Node kubernagarNode = Node.Id('Kubernagar');
-
   @override
   void initState() {
     super.initState();
@@ -38,17 +35,11 @@ class _TreeViewScreenState extends State<TreeViewScreen> {
     final graph = Graph();
     final Map<String, Node> nodeMap = {};
 
-    // Top-level society and roots
-    societyNode = Node.Id('Society');
-    dahibanagarNode = Node.Id('Dahibanagar');
-    kubernagarNode = Node.Id('Kubernagar');
+    // Root node
+    final jaiHatkeshNode = Node.Id('Jai Hatkesh');
+    graph.addNode(jaiHatkeshNode..key = ValueKey(_labelBox("Jai Hatkesh")));
 
-    graph.addNode(societyNode..key = ValueKey(_labelBox("Society")));
-    graph.addNode(dahibanagarNode..key = ValueKey(_labelBox("Dahibanagar")));
-    graph.addNode(kubernagarNode..key = ValueKey(_labelBox("Kubernagar")));
-    graph.addEdge(societyNode, dahibanagarNode);
-    graph.addEdge(societyNode, kubernagarNode);
-
+    // Add all members
     for (var member in members) {
       final node = Node.Id(member.id);
       node.key = ValueKey(_MemberBox(member));
@@ -56,22 +47,19 @@ class _TreeViewScreenState extends State<TreeViewScreen> {
       nodeMap[member.id] = node;
     }
 
+    // Add edges
     for (var member in members) {
       final node = nodeMap[member.id]!;
 
       if (member.isRoot == 'true') {
-        final rootNode = member.mainRoot.toLowerCase() == 'dahibanagar'
-            ? dahibanagarNode
-            : kubernagarNode;
-        graph.addEdge(rootNode, node);
+        // Root members connect to Jai Hatkesh
+        graph.addEdge(jaiHatkeshNode, node);
       } else if (member.parentId.isNotEmpty &&
           nodeMap.containsKey(member.parentId)) {
         graph.addEdge(nodeMap[member.parentId]!, node);
       } else {
-        final fallback = member.mainRoot.toLowerCase() == 'dahibanagar'
-            ? dahibanagarNode
-            : kubernagarNode;
-        graph.addEdge(fallback, node);
+        // Fallback to Jai Hatkesh if parent not found
+        graph.addEdge(jaiHatkeshNode, node);
       }
     }
 
@@ -193,13 +181,15 @@ class _TreeViewScreenState extends State<TreeViewScreen> {
                   constrained: false,
                   minScale: 0.1,
                   maxScale: 5,
-                  child: GraphView(
-                    graph: graph,
-                    algorithm: BuchheimWalkerAlgorithm(
-                      _treeConfig,
-                      TreeEdgeRenderer(_treeConfig),
+                  child: Center(
+                    child: GraphView(
+                      graph: graph,
+                      algorithm: BuchheimWalkerAlgorithm(
+                        _treeConfig,
+                        TreeEdgeRenderer(_treeConfig),
+                      ),
+                      builder: (Node node) => node.key!.value as Widget,
                     ),
-                    builder: (Node node) => node.key!.value as Widget,
                   ),
                 ),
               ),
@@ -228,7 +218,7 @@ class _MemberBoxState extends State<_MemberBox> {
   @override
   Widget build(BuildContext context) {
     final m = widget.member;
-    final bool hasPhoto = m.photoUrl.isNotEmpty;
+    print("PHINE NUMBER ${m.phone}");
 
     return GestureDetector(
       onTap: () => setState(() => expanded = !expanded),
@@ -257,10 +247,9 @@ class _MemberBoxState extends State<_MemberBox> {
             children: [
               CircleAvatar(
                 radius: expanded ? 34 : 28,
-                backgroundImage: hasPhoto
-                    ? NetworkImage(m.photoUrl)
-                    : const AssetImage('assets/images/avatar.jpg')
-                          as ImageProvider,
+                backgroundImage:
+                    const AssetImage('assets/images/avatar.jpg')
+                        as ImageProvider,
               ),
               const SizedBox(height: 8),
               Text(
@@ -280,11 +269,11 @@ class _MemberBoxState extends State<_MemberBox> {
                     "🩸 ${AppLocalizations.of(context)!.bloodGroup}",
                     m.bloodGroup,
                   ),
-                if (m.location.isNotEmpty)
-                  _infoRow(
-                    "📍 ${AppLocalizations.of(context)!.location}",
-                    m.location,
-                  ),
+                // if (m.location.isNotEmpty)
+                //   _infoRow(
+                //     "📍 ${AppLocalizations.of(context)!.location}",
+                //     m.location,
+                //   ),
                 if (m.email.isNotEmpty)
                   _infoRow(
                     "📧 ${AppLocalizations.of(context)!.email}",
@@ -295,21 +284,19 @@ class _MemberBoxState extends State<_MemberBox> {
                     "📱 ${AppLocalizations.of(context)!.whatsapp}",
                     m.phone,
                   ),
-                if (m.hasChildren == 'true')
-                  _infoRow(
-                    "👶 ${AppLocalizations.of(context)!.children}",
-                    "Yes",
-                  ),
+
                 if (m.spouseName.isNotEmpty)
                   TextButton.icon(
                     onPressed: () => setState(() => showSpouse = !showSpouse),
                     icon: Icon(
                       showSpouse ? Icons.visibility_off : Icons.visibility,
+                      color: AppColors.orangePrimary,
                     ),
                     label: Text(
                       showSpouse
                           ? AppLocalizations.of(context)!.hideSpouse
                           : AppLocalizations.of(context)!.showSpouse,
+                      style: TextStyle(color: AppColors.orangePrimary),
                     ),
                   ),
                 if (showSpouse)

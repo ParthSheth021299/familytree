@@ -49,7 +49,6 @@ class AuthRepository {
 
       // ✅ ADMIN FLOW
       if (user.email == 'admin@gmail.com') {
-        print("✅ Admin logged in: ${user.email}");
         return null;
       }
 

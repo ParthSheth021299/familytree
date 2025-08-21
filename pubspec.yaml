@@ -30,7 +30,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  http: ^0.13.6
   image_picker: ^1.0.4
   graphview: ^1.0.0
   flutter_svg: ^2.0.7
@@ -62,7 +61,12 @@ dependencies:
   path_provider:
   permission_handler:
   firebase_messaging:
-  # flutter_local_notifications:
+  flutter_local_notifications: ^19.4.0
+  device_info_plus:
+  table_calendar:
+  onesignal_flutter: ^5.3.4
+  cached_network_image: ^3.4.1
+  
 
 dev_dependencies:
   flutter_test:
@@ -95,6 +99,23 @@ flutter:
     - assets/images/hi.jpg
     - assets/images/background.jpg
     - assets/images/namaste.jpg
+    - assets/icons/settings.png 
+    - assets/icons/enter.png 
+    - assets/icons/group-chat.png 
+    - assets/icons/log.png 
+    - assets/icons/deadline.png 
+    - assets/icons/previous.png 
+    - assets/icons/add.png 
+    - assets/icons/photos.png 
+    - assets/icons/decision-tree.png 
+    - assets/icons/padlock.png 
+    - assets/icons/mail.png 
+    - assets/icons/logout.png
+    - assets/icons/memories.png
+    - assets/icons/setting.png
+    - assets/icons/event.png
+    - assets/icons/diagram.png
+    - assets/icons/temporary.png
  
    
 

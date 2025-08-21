@@ -1,5 +1,5 @@
 import 'package:family_tree/adminpanel/auth/screens/temp_id_screen.dart';
-import 'package:family_tree/adminpanel/create_event/screens/admin_drawer.dart';
+import 'package:family_tree/adminpanel/create_event/screens/create_event.dart';
 import 'package:family_tree/adminpanel/guestuserdashboard/presentation/screens/guest_user_dash_board.dart';
 import 'package:family_tree/adminpanel/member/cubit/member_cubit.dart';
 import 'package:family_tree/adminpanel/member/presentation/screens/members.dart';
@@ -81,7 +81,7 @@ class AppDrawer extends StatelessWidget {
                   children: [
                     _buildDrawerItem(
                       context,
-                      icon: Icons.timelapse,
+                      imagePath: 'assets/icons/temporary.png',
                       label: AppLocalizations.of(context)!.createTemporaryID,
                       onTap: () {
                         Navigator.of(context).push(
@@ -89,24 +89,24 @@ class AppDrawer extends StatelessWidget {
                         );
                       },
                     ),
+                    // _buildDrawerItem(
+                    //   context,
+                    //   imagePath: 'assets/icons/log.png',
+                    //   label: AppLocalizations.of(context)!.viewLogs,
+                    //   onTap: () {
+                    //     Navigator.of(context).push(
+                    //       MaterialPageRoute(
+                    //         builder: (_) => BlocProvider(
+                    //           create: (_) => ViewlogsCubit(),
+                    //           child: const ViewLogScreen(),
+                    //         ),
+                    //       ),
+                    //     );
+                    //   },
+                    // ),
                     _buildDrawerItem(
                       context,
-                      icon: Icons.history,
-                      label: AppLocalizations.of(context)!.viewLogs,
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) => BlocProvider(
-                              create: (_) => ViewlogsCubit(),
-                              child: const ViewLogScreen(),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                    _buildDrawerItem(
-                      context,
-                      icon: Icons.account_tree_outlined,
+                      imagePath: 'assets/icons/diagram.png',
                       label: AppLocalizations.of(context)!.treeView,
                       onTap: () {
                         Navigator.of(context).push(
@@ -121,7 +121,7 @@ class AppDrawer extends StatelessWidget {
                     ),
                     _buildDrawerItem(
                       context,
-                      icon: Icons.person,
+                      imagePath: 'assets/icons/group-chat.png',
                       label: AppLocalizations.of(context)!.members,
                       onTap: () {
                         Navigator.of(context).push(
@@ -131,7 +131,7 @@ class AppDrawer extends StatelessWidget {
                     ),
                     _buildDrawerItem(
                       context,
-                      icon: Icons.memory_outlined,
+                      imagePath: 'assets/icons/photos.png',
                       label: AppLocalizations.of(context)!.memories,
                       onTap: () {
                         Navigator.of(context).push(
@@ -143,19 +143,19 @@ class AppDrawer extends StatelessWidget {
                     ),
                     _buildDrawerItem(
                       context,
-                      icon: Icons.memory_outlined,
-                      label: "Event",
+                      imagePath: 'assets/icons/event.png',
+                      label: AppLocalizations.of(context)!.eventTitle,
                       onTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (_) => const CreateEvent(),
+                            builder: (_) => const EventCreateScreen(),
                           ),
                         );
                       },
                     ),
                     _buildDrawerItem(
                       context,
-                      icon: Icons.settings,
+                      imagePath: 'assets/icons/setting.png',
                       label: AppLocalizations.of(context)!.settings,
                       onTap: () {
                         Navigator.of(context).push(
@@ -168,7 +168,7 @@ class AppDrawer extends StatelessWidget {
                     ),
                     _buildDrawerItem(
                       context,
-                      icon: Icons.logout,
+                      imagePath: 'assets/icons/logout.png',
                       label: AppLocalizations.of(context)!.logout,
                       onTap: () async {
                         final prefs = await SharedPreferences.getInstance();
@@ -184,27 +184,24 @@ class AppDrawer extends StatelessWidget {
                 ),
 
                 // Version pinned to bottom
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    width: double.infinity,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Divider(),
-                        Text(
-                          'App version 1.0.0',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey.shade600,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
               ],
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              width: double.infinity,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Divider(),
+                  Text(
+                    'App version 1.0.0',
+                    style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -214,7 +211,7 @@ class AppDrawer extends StatelessWidget {
 
   Widget _buildDrawerItem(
     BuildContext context, {
-    required IconData icon,
+    required String imagePath,
     required String label,
     required VoidCallback onTap,
   }) {
@@ -224,7 +221,7 @@ class AppDrawer extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         onTap: onTap,
         child: ListTile(
-          leading: Icon(icon, color: AppColors.orangePrimary),
+          leading: Image.asset(imagePath),
           title: Text(
             label,
             style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500),

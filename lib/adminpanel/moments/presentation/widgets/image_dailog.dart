@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:family_tree/adminpanel/utils/colors.dart';
 import 'package:flutter/material.dart';
 
 void showImageGalleryDialog(
@@ -23,14 +25,35 @@ void showImageGalleryDialog(
               itemBuilder: (context, index) {
                 return InteractiveViewer(
                   child: Center(
-                    child: Image.network(
-                      images[index],
+                    // child: Image.network(
+                    //   images[index],
+                    //   fit: BoxFit.contain,
+                    //   errorBuilder: (context, error, stackTrace) => const Icon(
+                    //     Icons.broken_image,
+                    //     size: 100,
+                    //     color: Colors.white,
+                    //   ),
+                    //   loadingBuilder: (context, child, loadingProgress) {
+                    //     if (loadingProgress == null) {
+                    //       // ✅ Image loaded successfully → return actual image
+                    //       return child;
+                    //     }
+                    //     // ⏳ While loading → show progress
+                    //     return const Center(
+                    //       child: CircularProgressIndicator(
+                    //         color: AppColors.orangeDark,
+                    //       ),
+                    //     );
+                    //   },
+                    // ),
+                    child: CachedNetworkImage(
+                      imageUrl: images[index],
+
                       fit: BoxFit.contain,
-                      errorBuilder: (context, error, stackTrace) => const Icon(
-                        Icons.broken_image,
-                        size: 100,
-                        color: Colors.white,
-                      ),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.broken_image),
+                      progressIndicatorBuilder: (context, url, progress) =>
+                          CircularProgressIndicator(),
                     ),
                   ),
                 );

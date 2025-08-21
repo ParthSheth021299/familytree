@@ -36,12 +36,23 @@ class MemberCubit extends Cubit<MemberState> {
     );
   }
 
+  // Map<String, List<FamilyMember>> getGroupedMembers() {
+  //   final Map<String, List<FamilyMember>> grouped = {};
+
+  //   for (var member in _allMembers) {
+  //     final familyKey =
+  //         member.mainRoot ?? 'Unknown'; // or parentId, or familyId
+  //     grouped.putIfAbsent(familyKey, () => []).add(member);
+  //     print("GROP  MEMEBER ${member}");
+  //   }
+
+  //   return grouped;
+  // }
   Map<String, List<FamilyMember>> getGroupedMembers() {
     final Map<String, List<FamilyMember>> grouped = {};
 
     for (var member in _allMembers) {
-      final familyKey =
-          member.mainRoot ?? 'Unknown'; // or parentId, or familyId
+      final familyKey = member.createdBy ?? 'Unknown';
       grouped.putIfAbsent(familyKey, () => []).add(member);
     }
 
