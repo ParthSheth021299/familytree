@@ -8,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
 class AddFamilyChainScreen extends StatefulWidget {
   const AddFamilyChainScreen({super.key});
@@ -25,6 +26,8 @@ class _AddFamilyChainScreenState extends State<AddFamilyChainScreen> {
   final bloodGroupController = TextEditingController();
   final dobController = TextEditingController();
   final spouseNameController = TextEditingController();
+  final spouseLocationController = TextEditingController();
+  final locationController = TextEditingController();
 
   String? mainRoot = 'Jai Hatkesh';
 
@@ -38,6 +41,7 @@ class _AddFamilyChainScreenState extends State<AddFamilyChainScreen> {
       TextEditingController();
   final TextEditingController spouseDobController = TextEditingController();
   final TextEditingController spousePhoneController = TextEditingController();
+  final TextEditingController spouseEmailController = TextEditingController();
 
   String? spouseGender; // 'male' or 'female'
 
@@ -54,6 +58,7 @@ class _AddFamilyChainScreenState extends State<AddFamilyChainScreen> {
   ];
   String? selectedBloodGroup;
   String? selctedSpouseBloodGroup;
+  PhoneNumber number = PhoneNumber(isoCode: 'IN'); // Default India
 
   @override
   void initState() {
@@ -70,6 +75,9 @@ class _AddFamilyChainScreenState extends State<AddFamilyChainScreen> {
     bloodGroupController.dispose();
     dobController.dispose();
     spouseNameController.dispose();
+    locationController.dispose();
+    spouseLocationController.dispose();
+    spouseEmailController.dispose();
     super.dispose();
   }
 
@@ -111,6 +119,7 @@ class _AddFamilyChainScreenState extends State<AddFamilyChainScreen> {
       'bloodGroup': selectedBloodGroup?.trim(),
       'dob': dobController.text.trim(),
       'gender': gender, // new field for main member
+      'location': locationController.text.trim(),
 
       'isMarried': isMarried == 'true',
       'spouseName': isMarried == 'true' ? spouseNameController.text.trim() : '',
@@ -121,6 +130,12 @@ class _AddFamilyChainScreenState extends State<AddFamilyChainScreen> {
           : '',
       'spouseBloodGroup': isMarried == 'true'
           ? selctedSpouseBloodGroup?.trim()
+          : '',
+      'spouseLocation': isMarried == 'true'
+          ? spouseLocationController.text.trim()
+          : '',
+      'spouseEmail': isMarried == 'true'
+          ? spouseEmailController.text.trim()
           : '',
 
       'mainRoot': mainRoot,
@@ -158,6 +173,9 @@ class _AddFamilyChainScreenState extends State<AddFamilyChainScreen> {
     selectedBloodGroup = null;
     selctedSpouseBloodGroup = null;
     mainRoot = null;
+    locationController.clear();
+    spouseLocationController.clear();
+    spouseEmailController.clear();
     setState(() {});
   }
 
@@ -204,17 +222,7 @@ class _AddFamilyChainScreenState extends State<AddFamilyChainScreen> {
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.addFamilyMember),
         automaticallyImplyLeading: false,
-        // actions: [
-        //   IconButton(
-        //     onPressed: () {
-        //       Navigator.of(context).pushAndRemoveUntil(
-        //         MaterialPageRoute(builder: (_) => const GuestUserDashBoard()),
-        //         (route) => false,
-        //       );
-        //     },
-        //     icon: Icon(Icons.logout),
-        //   ),
-        // ],
+
         actions: [
           PopupMenuButton<String>(
             onSelected: (value) {
@@ -349,16 +357,25 @@ class _AddFamilyChainScreenState extends State<AddFamilyChainScreen> {
                       val == null || val.isEmpty ? 'Required' : null,
                 ),
                 SizedBox(height: 20),
-                TextFormField(
-                  controller: phoneController,
-                  decoration: InputDecoration(
+                InternationalPhoneNumberInput(
+                  onInputChanged: (PhoneNumber num) {
+                    phoneController.text = num.phoneNumber.toString();
+                  },
+                  selectorConfig: const SelectorConfig(
+                    selectorType: PhoneInputSelectorType.DROPDOWN,
+                  ),
+                  initialValue: number,
+                  textFieldController: TextEditingController(),
+                  formatInput: false,
+
+                  keyboardType: TextInputType.phone,
+                  inputDecoration: InputDecoration(
                     labelText: AppLocalizations.of(context)!.phoneNumber,
                   ),
-                  keyboardType: TextInputType.phone,
-                  inputFormatters: [
-                    FilteringTextInputFormatter
-                        .digitsOnly, // Only numbers allowed
-                  ],
+                  // inputFormatters: [
+                  //   FilteringTextInputFormatter
+                  //       .digitsOnly, // Only numbers allowed
+                  // ],
                 ),
                 SizedBox(height: 20),
                 TextFormField(
@@ -519,18 +536,40 @@ class _AddFamilyChainScreenState extends State<AddFamilyChainScreen> {
                     ),
                   ),
                   SizedBox(height: 20),
-                  TextFormField(
-                    controller: spousePhoneController,
-                    decoration: InputDecoration(
+                  // TextFormField(
+                  //   controller: spousePhoneController,
+                  //   decoration: InputDecoration(
+                  //     labelText: AppLocalizations.of(
+                  //       context,
+                  //     )!.spousePhoneNumber,
+                  //   ),
+                  //   keyboardType: TextInputType.phone,
+                  //   inputFormatters: [
+                  //     FilteringTextInputFormatter
+                  //         .digitsOnly, // Only numbers allowed
+                  //   ],
+                  // ),
+                  InternationalPhoneNumberInput(
+                    onInputChanged: (PhoneNumber num) {
+                      spousePhoneController.text = num.phoneNumber.toString();
+                    },
+                    selectorConfig: const SelectorConfig(
+                      selectorType: PhoneInputSelectorType.DROPDOWN,
+                    ),
+                    initialValue: number,
+                    textFieldController: TextEditingController(),
+                    formatInput: false,
+
+                    keyboardType: TextInputType.phone,
+                    inputDecoration: InputDecoration(
                       labelText: AppLocalizations.of(
                         context,
                       )!.spousePhoneNumber,
                     ),
-                    keyboardType: TextInputType.phone,
-                    inputFormatters: [
-                      FilteringTextInputFormatter
-                          .digitsOnly, // Only numbers allowed
-                    ],
+                    // inputFormatters: [
+                    //   FilteringTextInputFormatter
+                    //       .digitsOnly, // Only numbers allowed
+                    // ],
                   ),
                   SizedBox(height: 20),
                 ],

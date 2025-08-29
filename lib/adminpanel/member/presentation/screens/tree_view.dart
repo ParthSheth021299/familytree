@@ -1,4 +1,5 @@
 import 'package:family_tree/adminpanel/member/cubit/member_cubit.dart';
+import 'package:family_tree/adminpanel/member/presentation/widgets/two_container.dart';
 import 'package:family_tree/adminpanel/utils/colors.dart';
 import 'package:family_tree/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -90,15 +91,23 @@ class _TreeViewScreenState extends State<TreeViewScreen> {
 
   Widget _labelBox(String label) {
     return Container(
+      width: 200,
+      height: 100,
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
         color: Colors.orange.shade100,
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: Colors.orange.shade300),
       ),
-      child: Text(
-        label,
-        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+      child: Center(
+        child: Text(
+          label,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+            color: Colors.black,
+          ),
+        ),
       ),
     );
   }
@@ -133,6 +142,8 @@ class _TreeViewScreenState extends State<TreeViewScreen> {
               Padding(
                 padding: const EdgeInsets.all(12),
                 child: Card(
+                  borderOnForeground: true,
+                  shape: BoxBorder.all(color: AppColors.orangeDark),
                   child: Row(
                     children: [
                       Expanded(
@@ -150,6 +161,9 @@ class _TreeViewScreenState extends State<TreeViewScreen> {
                               vertical: 10,
                             ),
                           ),
+                          onChanged: (value) {
+                            context.read<MemberCubit>().search(value.trim());
+                          },
                         ),
                       ),
                       IconButton(
@@ -205,7 +219,7 @@ class _TreeViewScreenState extends State<TreeViewScreen> {
 
 class _MemberBox extends StatefulWidget {
   final FamilyMember member;
-  const _MemberBox(this.member, {super.key});
+  const _MemberBox(this.member);
 
   @override
   State<_MemberBox> createState() => _MemberBoxState();
@@ -218,152 +232,27 @@ class _MemberBoxState extends State<_MemberBox> {
   @override
   Widget build(BuildContext context) {
     final m = widget.member;
-    print("PHINE NUMBER ${m.phone}");
 
-    return GestureDetector(
-      onTap: () => setState(() => expanded = !expanded),
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width < 500 ? 200 : 240,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 300),
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: expanded ? Colors.blue.shade50 : Colors.white,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: expanded ? Colors.blue.shade200 : Colors.grey.shade300,
-              width: 1.2,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.05),
-                blurRadius: 5,
-                offset: const Offset(2, 2),
-              ),
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              CircleAvatar(
-                radius: expanded ? 34 : 28,
-                backgroundImage:
-                    const AssetImage('assets/images/avatar.jpg')
-                        as ImageProvider,
-              ),
-              const SizedBox(height: 8),
-              Text(
-                m.name,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              if (expanded) ...[
-                const SizedBox(height: 10),
-                const Divider(),
-                if (m.bloodGroup.isNotEmpty)
-                  _infoRow(
-                    "🩸 ${AppLocalizations.of(context)!.bloodGroup}",
-                    m.bloodGroup,
-                  ),
-                // if (m.location.isNotEmpty)
-                //   _infoRow(
-                //     "📍 ${AppLocalizations.of(context)!.location}",
-                //     m.location,
-                //   ),
-                if (m.email.isNotEmpty)
-                  _infoRow(
-                    "📧 ${AppLocalizations.of(context)!.email}",
-                    m.email,
-                  ),
-                if (m.phone.isNotEmpty)
-                  _infoRow(
-                    "📱 ${AppLocalizations.of(context)!.whatsapp}",
-                    m.phone,
-                  ),
+    return CoupleCard(
+      person: Person(
+        name: m.name,
+        phone: m.phone,
+        email: m.email,
+        isMarried: m.isMarried.toLowerCase() == 'true' ? true : false,
+        gender: m.gender.toLowerCase() == 'male' ? Gender.male : Gender.female,
+        spouse: Person(
+          name: m.spouseName,
+          phone: m.spouseWhatsapp,
+          email: m.spouseEmail,
 
-                if (m.spouseName.isNotEmpty)
-                  TextButton.icon(
-                    onPressed: () => setState(() => showSpouse = !showSpouse),
-                    icon: Icon(
-                      showSpouse ? Icons.visibility_off : Icons.visibility,
-                      color: AppColors.orangePrimary,
-                    ),
-                    label: Text(
-                      showSpouse
-                          ? AppLocalizations.of(context)!.hideSpouse
-                          : AppLocalizations.of(context)!.showSpouse,
-                      style: TextStyle(color: AppColors.orangePrimary),
-                    ),
-                  ),
-                if (showSpouse)
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Divider(),
-                      _infoRow(
-                        "❤️ ${AppLocalizations.of(context)!.spouse}",
-                        m.spouseName,
-                      ),
-                      if (m.spouseEmail.isNotEmpty)
-                        _infoRow(
-                          "📧 ${AppLocalizations.of(context)!.email}",
-                          m.spouseEmail,
-                        ),
-                      if (m.spouseWhatsapp.isNotEmpty)
-                        _infoRow(
-                          "📱 ${AppLocalizations.of(context)!.whatsapp}",
-                          m.spouseWhatsapp,
-                        ),
-                      if (m.spouseBloodGroup.isNotEmpty)
-                        _infoRow(
-                          "🩸 ${AppLocalizations.of(context)!.bloodGroup}",
-                          m.spouseBloodGroup,
-                        ),
-                      if (m.spouseLocation.isNotEmpty)
-                        _infoRow(
-                          "📍 ${AppLocalizations.of(context)!.location}",
-                          m.spouseLocation,
-                        ),
-                      if (m.spousePhotoUrl.isNotEmpty)
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8),
-                          child: CircleAvatar(
-                            radius: 28,
-                            backgroundImage: NetworkImage(m.spousePhotoUrl),
-                          ),
-                        ),
-                    ],
-                  ),
-              ],
-            ],
-          ),
+          gender: m.spouseGender.toLowerCase() == 'male'
+              ? Gender.male
+              : Gender.female,
+          location: '',
+          bloodGroup: m.spouseBloodGroup,
         ),
-      ),
-    );
-  }
-
-  Widget _infoRow(String label, String value) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "$label: ",
-            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
-          ),
-          Expanded(
-            child: Text(
-              value,
-              style: const TextStyle(fontSize: 13),
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-        ],
+        location: '',
+        bloodGroup: m.bloodGroup,
       ),
     );
   }

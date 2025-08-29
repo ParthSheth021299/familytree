@@ -17,7 +17,7 @@ class AuthCubit extends Cubit<AuthState> {
       final error = await authRepository.loginAdmin(email, password);
 
       if (error != null) {
-        showToast("User not found");
+        showToast(error.toString(), isError: true);
         emit(AuthErrorState(errorMessage: error));
       } else {
         if (email == "admin@gmail.com") {
@@ -37,7 +37,12 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       final error = await authRepository.createTempAccount(email, password);
       if (error != null) {
-        showToast("Cant create user");
+        if (error == 'User Created') {
+          showToast(error.toString(), isError: false);
+        } else {
+          showToast(error.toString(), isError: true);
+        }
+
         emit(AuthErrorState(errorMessage: error));
       } else {
         showToast("User Created Successfully");

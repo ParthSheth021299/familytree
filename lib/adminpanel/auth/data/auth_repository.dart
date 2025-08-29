@@ -114,11 +114,26 @@ class AuthRepository {
         "createdAt": FieldValue.serverTimestamp(),
         "isActive": true,
       });
+
       return "User Created";
-    } on Exception catch (e) {
-      debugPrint("Error $e");
+    } on FirebaseAuthException catch (e) {
+      // handle Firebase specific errors
+      switch (e.code) {
+        case "email-already-in-use":
+          return "This email is already registered. Please try logging in.";
+        case "invalid-email":
+          return "The email address is invalid.";
+        case "weak-password":
+          return "Password is too weak. Please use a stronger one.";
+        case "operation-not-allowed":
+          return "Email/password accounts are not enabled.";
+        default:
+          return "Authentication error: ${e.message}";
+      }
+    } catch (e) {
+      debugPrint("Error: $e");
+      return "An unexpected error occurred. Please try again.";
     }
-    return null;
   }
 
   Future<String?> validateUser(User user) async {

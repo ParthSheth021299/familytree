@@ -233,7 +233,7 @@ class _EditMemberScreenState extends State<EditMemberScreen> {
           .doc(widget.member.id)
           .update(updatedData);
 
-      showToast(AppLocalizations.of(context)!.familyMemberAdded);
+      showToast("Member Data Updated");
 
       Navigator.pop(context);
     }
@@ -547,5 +547,19 @@ class _ParentDropdownState extends State<ParentDropdown> {
         border: OutlineInputBorder(),
       ),
     );
+  }
+}
+
+Future<void> _promoteChildrenToRoots(String deletedRootId) async {
+  final childrenSnapshot = await FirebaseFirestore.instance
+      .collection('family_members')
+      .where('parentId', isEqualTo: deletedRootId)
+      .get();
+
+  for (var child in childrenSnapshot.docs) {
+    await child.reference.update({
+      'parentId': null, // no parent anymore
+      'isRoot': 'true', // promote to root
+    });
   }
 }

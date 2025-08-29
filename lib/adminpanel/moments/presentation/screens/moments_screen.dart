@@ -122,7 +122,16 @@ class _MomentsScreenState extends State<MomentsScreen> {
                       if (titleEditingController.text.isEmpty) {
                         showToast(
                           AppLocalizations.of(context)!.titleIsRequired,
+                          isError: true,
                         );
+                        return;
+                      }
+                      if (captionEditingController.text.isEmpty) {
+                        showToast('Caption is required', isError: true);
+                        return;
+                      }
+                      if (uploadedUrls.isEmpty) {
+                        showToast('Upload Images', isError: true);
                         return;
                       }
 

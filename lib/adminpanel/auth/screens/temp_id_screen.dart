@@ -1,4 +1,5 @@
 import 'package:family_tree/adminpanel/auth/cubit/auth_cubit.dart';
+import 'package:family_tree/adminpanel/service/toast.dart';
 import 'package:family_tree/adminpanel/utils/colors.dart';
 import 'package:family_tree/adminpanel/viewlogs/cubit/viewlogs_cubit.dart';
 import 'package:family_tree/adminpanel/viewlogs/presentation/screens/view_log_screen.dart';
@@ -16,13 +17,12 @@ class TempIdScreen extends StatefulWidget {
 class _TempIdScreenState extends State<TempIdScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  bool showPassword = false;
 
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    final isWide = MediaQuery.of(context).size.width > 600;
-
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
         // Handle success/failure messages here if needed
@@ -105,11 +105,25 @@ class _TempIdScreenState extends State<TempIdScreen> {
                       Text(AppLocalizations.of(context)!.password),
                       const SizedBox(height: 6),
                       TextFormField(
+                        obscureText: !showPassword,
                         controller: passwordController,
-                        obscureText: true,
+
                         decoration: InputDecoration(
                           hintText: AppLocalizations.of(context)!.enterPassword,
                           border: OutlineInputBorder(),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              showPassword
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                              color: Colors.grey.shade600,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                showPassword = !showPassword;
+                              });
+                            },
+                          ),
                           prefixIcon: Icon(
                             Icons.lock_outline,
                             color: AppColors.orangeDark,
@@ -141,6 +155,8 @@ class _TempIdScreenState extends State<TempIdScreen> {
                               emailController.text.trim(),
                               passwordController.text.trim(),
                             );
+                            emailController.clear();
+                            passwordController.clear();
                           }
                         },
                         style: ElevatedButton.styleFrom(

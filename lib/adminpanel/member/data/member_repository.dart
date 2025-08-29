@@ -19,7 +19,7 @@ class FamilyRepository {
           gender: data['gender'] ?? '',
           bloodGroup: data['bloodGroup'] ?? '',
           phone: data['phone'] ?? '',
-          isMarried: data['maritalStatus'] ?? '',
+          isMarried: data['isMarried'].toString(),
           spouseName: data['spouseName'] ?? '',
           hasChildren: (data['hasChildren'] ?? false).toString(),
           email: data['email'] ?? '',
@@ -30,6 +30,7 @@ class FamilyRepository {
           spouseBloodGroup: data['spouseBloodGroup'] ?? '',
           spouseEmail: data['spouseEmail'] ?? '',
           spouseLocation: data['spouseLocation'] ?? '',
+          spouseGender: data['spouseGender'] ?? '',
 
           createdBy: data['createdBy'] ?? '',
         );
@@ -49,11 +50,11 @@ class FamilyRepository {
         name: data['name'] ?? '',
         mainRoot: data['mainRoot'] ?? '',
         isRoot: (data['isRoot'] ?? false).toString(),
-
+        spouseGender: data['spouseGender'] ?? '',
         gender: data['gender'] ?? '',
         bloodGroup: data['bloodGroup'] ?? '',
         phone: data['phone'] ?? '',
-        isMarried: data['maritalStatus'] ?? '',
+        isMarried: data['isMarried'].toString() ?? '',
         spouseName: data['spouseName'] ?? '',
         hasChildren: (data['hasChildren'] ?? false).toString(),
         email: data['email'] ?? '',

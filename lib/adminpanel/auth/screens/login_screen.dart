@@ -171,35 +171,75 @@ class _LoginScreenState extends State<LoginScreen> {
                           const SizedBox(height: 30),
 
                           // Login Button
+                          // SizedBox(
+                          //   width: double.infinity,
+                          //   height: 48,
+                          //   child: ElevatedButton(
+                          //     onPressed: () {
+                          //       if (!_formKey.currentState!.validate()) {
+                          //         return;
+                          //       } else {
+                          //         BlocProvider.of<AuthCubit>(context).login(
+                          //           emailController.text.trim(),
+                          //           passwordController.text.trim(),
+                          //         );
+                          //       }
+                          //     },
+                          //     style: ElevatedButton.styleFrom(
+                          //       backgroundColor: Colors.deepOrange,
+                          //       shape: RoundedRectangleBorder(
+                          //         borderRadius: BorderRadius.circular(12),
+                          //       ),
+                          //     ),
+                          //     child: Text(
+                          //       AppLocalizations.of(context)!.login,
+                          //       style: TextStyle(
+                          //         fontSize: 16,
+                          //         color: Colors.white,
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ),
+                          // Login Button OR Loader
                           SizedBox(
                             width: double.infinity,
                             height: 48,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                if (!_formKey.currentState!.validate()) {
-                                  return;
-                                } else {
-                                  BlocProvider.of<AuthCubit>(context).login(
-                                    emailController.text.trim(),
-                                    passwordController.text.trim(),
-                                  );
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.deepOrange,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                              ),
-                              child: Text(
-                                AppLocalizations.of(context)!.login,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
+                            child: state is AuthLoadingState
+                                ? const Center(
+                                    child: CircularProgressIndicator(
+                                      color: Colors.deepOrange,
+                                      strokeWidth: 2.5,
+                                    ),
+                                  )
+                                : ElevatedButton(
+                                    onPressed: () {
+                                      if (!_formKey.currentState!.validate()) {
+                                        return;
+                                      } else {
+                                        BlocProvider.of<AuthCubit>(
+                                          context,
+                                        ).login(
+                                          emailController.text.trim(),
+                                          passwordController.text.trim(),
+                                        );
+                                      }
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.deepOrange,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      AppLocalizations.of(context)!.login,
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
                           ),
+
                           const SizedBox(height: 30),
 
                           // Divider

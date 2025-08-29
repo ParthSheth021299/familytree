@@ -10,7 +10,6 @@ class FamilyMember {
   final String spouseName;
   final String hasChildren;
   final String email;
-
   final String isRoot;
   final String dob;
   final String spousePhotoUrl;
@@ -18,6 +17,7 @@ class FamilyMember {
   final String spouseBloodGroup;
   final String spouseEmail;
   final String spouseLocation;
+  final String spouseGender;
 
   final String createdBy;
 
@@ -41,7 +41,7 @@ class FamilyMember {
     required this.spouseBloodGroup,
     required this.spouseEmail,
     required this.spouseLocation,
-
+    required this.spouseGender,
     required this.createdBy,
   });
 
@@ -58,7 +58,7 @@ class FamilyMember {
       spouseName: json['spouseName'] ?? '',
       hasChildren: json['hasChildren'].toString(),
       email: json['email'] ?? '',
-
+      spouseGender: json['spouseGender'] ?? '',
       isRoot: json['isRoot'].toString(),
       dob: json['dob'].toString(),
       spousePhotoUrl: json['spousePhotoUrl'].toString(),
@@ -85,7 +85,7 @@ class FamilyMember {
       'hasChildren': hasChildren
           .toString(), // Convert bool to String for Sheets
       'email': email,
-
+      'spouseGender': spouseGender,
       'isRoot': isRoot.toString(), // Convert bool to String for Sheets
       'dob': dob.toString(),
       'spousePhotoUrl': spousePhotoUrl.toString(),
@@ -110,7 +110,7 @@ class FamilyMember {
     spouseName: '',
     hasChildren: '',
     email: '',
-
+    spouseGender: '',
     isRoot: '',
     dob: '',
     spousePhotoUrl: '',
@@ -128,7 +128,7 @@ extension FamilyMemberCopyWith on FamilyMember {
     String? name,
     String? phone,
     String? email,
-
+    String? spouseGender,
     String? dob,
     String? bloodGroup,
     String? gender,
@@ -157,7 +157,7 @@ extension FamilyMemberCopyWith on FamilyMember {
       spouseName: spouseName ?? this.spouseName,
       hasChildren: hasChildren ?? this.hasChildren,
       email: email ?? this.email,
-
+      spouseGender: spouseGender ?? this.spouseGender,
       isRoot: isRoot ?? this.isRoot,
       dob: dob ?? this.dob,
       spousePhotoUrl: spousePhotoUrl,

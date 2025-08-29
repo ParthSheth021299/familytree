@@ -532,7 +532,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:family_tree/adminpanel/moments/cubit/moments_cubit.dart';
 import 'package:family_tree/adminpanel/moments/presentation/widgets/image_dailog.dart';
-import 'package:image_picker/image_picker.dart';
 
 class MomentsListScreen extends StatefulWidget {
   final bool isAdmin;
@@ -616,9 +615,6 @@ class _MomentsListScreenState extends State<MomentsListScreen> {
                                                 await showEditMomentDialog(context, moment, (
                                                   updatedMoment,
                                                 ) async {
-                                                  print(
-                                                    "MOMENT ${updatedMoment.title}",
-                                                  );
                                                   // await FirebaseFirestore.instance
                                                   //     .collection('moments')
                                                   //     .doc(updatedMoment.id)

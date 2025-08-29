@@ -30,7 +30,7 @@ class RootMember {
       spouseBloodGroup: 'B+',
       spouseEmail: 'kokila@example.com',
       spouseLocation: 'Ahmedabad',
-
+      spouseGender: '',
       createdBy: '',
     );
     await _firebaseFirestore

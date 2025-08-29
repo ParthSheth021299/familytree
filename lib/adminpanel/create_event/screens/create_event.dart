@@ -61,6 +61,7 @@ class _EventCreateScreenState extends State<EventCreateScreen> {
       // ScaffoldMessenger.of(context).showSnackBar(
       //   const SnackBar(content: Text('Please complete all fields')),
       // );
+      showToast('Please select date', isError: true);
       return;
     }
 
@@ -82,7 +83,10 @@ class _EventCreateScreenState extends State<EventCreateScreen> {
       );
       _titleController.clear();
       _descriptionController.clear();
-      _selectedDate = null;
+
+      setState(() {
+        _selectedDate = null;
+      });
 
       // Navigator.pop(context);
     } catch (e) {
