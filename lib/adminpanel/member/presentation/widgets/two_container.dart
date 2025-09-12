@@ -68,6 +68,7 @@ class _InfoPanel extends StatelessWidget {
       width: 180,
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
+        color: person.isAlive ? null : Colors.grey,
         border: Border.all(
           color: person.gender == Gender.male ? Colors.blue : Colors.pink,
           width: 2,
@@ -125,6 +126,7 @@ class Person {
   final Person? spouse;
   final String location;
   final String bloodGroup;
+  final bool isAlive;
 
   const Person({
     required this.name,
@@ -135,5 +137,6 @@ class Person {
     this.spouse,
     required this.location,
     required this.bloodGroup,
+    required this.isAlive,
   });
 }

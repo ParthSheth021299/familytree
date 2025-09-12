@@ -94,64 +94,126 @@ class _AddFamilyChainScreenState extends State<AddFamilyChainScreen> {
     setState(() => internalRootOptions = query.docs);
   }
 
+  // Future<void> saveMember() async {
+  //   if (!_formKey.currentState!.validate()) return;
+
+  //   final uid = FirebaseAuth.instance.currentUser?.uid;
+  //   if (uid == null) return;
+
+  //   final memberData = {
+  //     'name': nameController.text.trim(),
+  //     'phone': phoneController.text.trim(),
+  //     'email': emailController.text.trim(),
+  //     'bloodGroup': selectedBloodGroup?.trim(),
+  //     'dob': dobController.text.trim(),
+  //     'gender': gender, // new field for main member
+  //     'location': locationController.text.trim(),
+
+  //     'isMarried': isMarried == 'true',
+  //     'spouseName': isMarried == 'true' ? spouseNameController.text.trim() : '',
+  //     'spouseGender': isMarried == 'true' ? spouseGender : '',
+  //     'spouseDob': isMarried == 'true' ? spouseDobController.text.trim() : '',
+  //     'spousePhone': isMarried == 'true'
+  //         ? spousePhoneController.text.trim()
+  //         : '',
+  //     'spouseBloodGroup': isMarried == 'true'
+  //         ? selctedSpouseBloodGroup?.trim()
+  //         : '',
+  //     'spouseLocation': isMarried == 'true'
+  //         ? spouseLocationController.text.trim()
+  //         : '',
+  //     'spouseEmail': isMarried == 'true'
+  //         ? spouseEmailController.text.trim()
+  //         : '',
+
+  //     'mainRoot': mainRoot,
+  //     'createdBy': uid,
+  //     'createdAt': FieldValue.serverTimestamp(),
+  //     'isRoot': isInternalRoot == 'true',
+  //     'parentId': isInternalRoot == 'true' ? null : internalRootId,
+  //     // 'isAlive': isAlive,
+  //   };
+
+  //   await FirebaseFirestore.instance
+  //       .collection('family_members')
+  //       .add(memberData);
+
+  //   showToast(AppLocalizations.of(context)!.familyMemberAdded);
+
+  //   clearForm();
+  // }
   Future<void> saveMember() async {
-    if (!_formKey.currentState!.validate()) return;
+    // if (!_formKey.currentState!.validate()) return;
 
     final uid = FirebaseAuth.instance.currentUser?.uid;
     if (uid == null) return;
 
-    final memberData = {
-      // 'name': nameController.text.trim(),
-      // 'phone': phoneController.text.trim(),
-      // 'email': emailController.text.trim(),
-      // 'bloodGroup': bloodGroupController.text.trim(),
-      // 'dob': dobController.text.trim(),
-      // 'spouseName': isMarried == 'true' ? spouseNameController.text.trim() : '',
-      // 'isMarried': isMarried == 'true',
-      // 'mainRoot': mainRoot,
-      // 'createdBy': uid,
-      // 'createdAt': FieldValue.serverTimestamp(),
-      // 'isRoot': isInternalRoot == 'true',
-      // 'parentId': isInternalRoot == 'true' ? null : internalRootId,
+    final now = FieldValue.serverTimestamp();
+
+    // 1️⃣ Create main member (husband/wife)
+    final mainMemberRef = FirebaseFirestore.instance
+        .collection('family_members')
+        .doc();
+
+    final mainMemberData = {
+      'id': mainMemberRef.id,
       'name': nameController.text.trim(),
       'phone': phoneController.text.trim(),
       'email': emailController.text.trim(),
       'bloodGroup': selectedBloodGroup?.trim(),
       'dob': dobController.text.trim(),
-      'gender': gender, // new field for main member
+      'gender': gender,
       'location': locationController.text.trim(),
-
+      'isAlive': true,
       'isMarried': isMarried == 'true',
-      'spouseName': isMarried == 'true' ? spouseNameController.text.trim() : '',
-      'spouseGender': isMarried == 'true' ? spouseGender : '',
-      'spouseDob': isMarried == 'true' ? spouseDobController.text.trim() : '',
-      'spousePhone': isMarried == 'true'
-          ? spousePhoneController.text.trim()
-          : '',
-      'spouseBloodGroup': isMarried == 'true'
-          ? selctedSpouseBloodGroup?.trim()
-          : '',
-      'spouseLocation': isMarried == 'true'
-          ? spouseLocationController.text.trim()
-          : '',
-      'spouseEmail': isMarried == 'true'
-          ? spouseEmailController.text.trim()
-          : '',
-
+      'spouseId': null, // will be updated if married
       'mainRoot': mainRoot,
       'createdBy': uid,
-      'createdAt': FieldValue.serverTimestamp(),
+      'createdAt': now,
       'isRoot': isInternalRoot == 'true',
       'parentId': isInternalRoot == 'true' ? null : internalRootId,
-      // 'isAlive': isAlive,
     };
 
-    await FirebaseFirestore.instance
-        .collection('family_members')
-        .add(memberData);
+    WriteBatch batch = FirebaseFirestore.instance.batch();
+    batch.set(mainMemberRef, mainMemberData);
+
+    DocumentReference? spouseRef;
+
+    // 2️⃣ If married, create spouse doc
+    if (isMarried == 'true') {
+      spouseRef = FirebaseFirestore.instance.collection('family_members').doc();
+
+      final spouseData = {
+        'id': spouseRef.id,
+        'name': spouseNameController.text.trim(),
+        'phone': spousePhoneController.text.trim(),
+        'email': spouseEmailController.text.trim(),
+        'bloodGroup': selctedSpouseBloodGroup?.trim(),
+        'dob': spouseDobController.text.trim(),
+        'gender': spouseGender,
+        'location': spouseLocationController.text.trim(),
+        'isAlive': true,
+
+        'isMarried': true,
+        'spouseId': mainMemberRef.id, // link to main member
+
+        'mainRoot': mainRoot,
+        'createdBy': uid,
+        'createdAt': now,
+        'isRoot': isInternalRoot == 'true',
+        'parentId': isInternalRoot == 'true' ? null : internalRootId,
+      };
+
+      batch.set(spouseRef, spouseData);
+
+      // 🔄 update mainMember spouseId to spouseRef.id
+      batch.update(mainMemberRef, {'spouseId': spouseRef.id});
+    }
+
+    // 3️⃣ Commit batch
+    await batch.commit();
 
     showToast(AppLocalizations.of(context)!.familyMemberAdded);
-
     clearForm();
   }
 
@@ -357,25 +419,17 @@ class _AddFamilyChainScreenState extends State<AddFamilyChainScreen> {
                       val == null || val.isEmpty ? 'Required' : null,
                 ),
                 SizedBox(height: 20),
-                InternationalPhoneNumberInput(
-                  onInputChanged: (PhoneNumber num) {
-                    phoneController.text = num.phoneNumber.toString();
-                  },
-                  selectorConfig: const SelectorConfig(
-                    selectorType: PhoneInputSelectorType.DROPDOWN,
-                  ),
-                  initialValue: number,
-                  textFieldController: TextEditingController(),
-                  formatInput: false,
 
-                  keyboardType: TextInputType.phone,
-                  inputDecoration: InputDecoration(
+                TextFormField(
+                  controller: phoneController,
+                  decoration: InputDecoration(
                     labelText: AppLocalizations.of(context)!.phoneNumber,
                   ),
-                  // inputFormatters: [
-                  //   FilteringTextInputFormatter
-                  //       .digitsOnly, // Only numbers allowed
-                  // ],
+                  keyboardType: TextInputType.phone,
+                  inputFormatters: [
+                    FilteringTextInputFormatter
+                        .digitsOnly, // Only numbers allowed
+                  ],
                 ),
                 SizedBox(height: 20),
                 TextFormField(
@@ -449,6 +503,13 @@ class _AddFamilyChainScreenState extends State<AddFamilyChainScreen> {
                   ),
                 ),
                 SizedBox(height: 20),
+                TextFormField(
+                  controller: locationController,
+                  decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)!.location,
+                  ),
+                ),
+                SizedBox(height: 20),
                 SwitchListTile(
                   title: Text(AppLocalizations.of(context)!.areYouMarried),
 
@@ -457,6 +518,7 @@ class _AddFamilyChainScreenState extends State<AddFamilyChainScreen> {
                       setState(() => isMarried = val ? 'true' : 'false'),
                 ),
                 SizedBox(height: 20),
+
                 // SwitchListTile(
                 //   title: Text('Alive'),
 
@@ -536,42 +598,48 @@ class _AddFamilyChainScreenState extends State<AddFamilyChainScreen> {
                     ),
                   ),
                   SizedBox(height: 20),
-                  // TextFormField(
-                  //   controller: spousePhoneController,
-                  //   decoration: InputDecoration(
-                  //     labelText: AppLocalizations.of(
-                  //       context,
-                  //     )!.spousePhoneNumber,
-                  //   ),
-                  //   keyboardType: TextInputType.phone,
-                  //   inputFormatters: [
-                  //     FilteringTextInputFormatter
-                  //         .digitsOnly, // Only numbers allowed
-                  //   ],
-                  // ),
-                  InternationalPhoneNumberInput(
-                    onInputChanged: (PhoneNumber num) {
-                      spousePhoneController.text = num.phoneNumber.toString();
-                    },
-                    selectorConfig: const SelectorConfig(
-                      selectorType: PhoneInputSelectorType.DROPDOWN,
-                    ),
-                    initialValue: number,
-                    textFieldController: TextEditingController(),
-                    formatInput: false,
-
-                    keyboardType: TextInputType.phone,
-                    inputDecoration: InputDecoration(
+                  TextFormField(
+                    controller: spousePhoneController,
+                    decoration: InputDecoration(
                       labelText: AppLocalizations.of(
                         context,
                       )!.spousePhoneNumber,
                     ),
-                    // inputFormatters: [
-                    //   FilteringTextInputFormatter
-                    //       .digitsOnly, // Only numbers allowed
-                    // ],
+                    keyboardType: TextInputType.phone,
+                    inputFormatters: [
+                      FilteringTextInputFormatter
+                          .digitsOnly, // Only numbers allowed
+                    ],
                   ),
+                  // InternationalPhoneNumberInput(
+                  //   onInputChanged: (PhoneNumber num) {
+                  //     spousePhoneController.text = num.phoneNumber.toString();
+                  //   },
+                  //   selectorConfig: const SelectorConfig(
+                  //     selectorType: PhoneInputSelectorType.DROPDOWN,
+                  //   ),
+                  //   initialValue: number,
+                  //   textFieldController: TextEditingController(),
+                  //   formatInput: false,
+
+                  //   keyboardType: TextInputType.phone,
+                  //   inputDecoration: InputDecoration(
+                  //     labelText: AppLocalizations.of(
+                  //       context,
+                  //     )!.spousePhoneNumber,
+                  //   ),
+                  // inputFormatters: [
+                  //   FilteringTextInputFormatter
+                  //       .digitsOnly, // Only numbers allowed
+                  // ],
+                  // ),
                   SizedBox(height: 20),
+                  TextFormField(
+                    controller: spouseLocationController,
+                    decoration: InputDecoration(
+                      labelText: AppLocalizations.of(context)!.spouseLocation,
+                    ),
+                  ),
                 ],
                 SizedBox(height: 20),
                 const Divider(),

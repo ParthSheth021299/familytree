@@ -31,6 +31,7 @@ class _EditMemberScreenState extends State<EditMemberScreen> {
   TextEditingController spouseBloodGroupController = TextEditingController();
   TextEditingController spouseEmailController = TextEditingController();
   TextEditingController spouseLocationController = TextEditingController();
+  TextEditingController spouseDobController = TextEditingController();
 
   String? selectedGender;
   String? selectedMainRoot;
@@ -38,7 +39,9 @@ class _EditMemberScreenState extends State<EditMemberScreen> {
   bool isRoot = false;
   bool hasChildren = false;
   String? status; // in FamilyMember model
-  String? isAlive; // default true for alive
+  bool? isAlive; // default true for alive
+  bool? isSpouseAlive;
+  String? spouseGender;
 
   final List<String> genderOptions = ['male', 'female'];
 
@@ -51,12 +54,62 @@ class _EditMemberScreenState extends State<EditMemberScreen> {
   void initState() {
     super.initState();
     fetchMemberData();
-    selectedParentId = widget.member.parentId.isNotEmpty
+    selectedParentId = widget.member.parentId!.isNotEmpty
         ? widget.member.parentId
         : null;
     loadParents();
   }
 
+  // Future<void> fetchMemberData() async {
+  //   final doc = await FirebaseFirestore.instance
+  //       .collection('family_members')
+  //       .doc(widget.member.id)
+  //       .get();
+
+  //   if (doc.exists) {
+  //     final member = FamilyMember.fromJson(doc.data()!);
+
+  //     // Now assign all values
+  //     setState(() {
+  //       nameController = TextEditingController(text: member.name);
+  //       phoneController = TextEditingController(text: member.phone);
+  //       emailController = TextEditingController(text: member.email);
+  //       // locationController = TextEditingController(text: member.location);
+  //       bloodGroupController = TextEditingController(text: member.bloodGroup);
+  //       dobController = TextEditingController(text: member.dob);
+
+  //       spouseNameController = TextEditingController(text: member.spouse?.name);
+  //       spouseEmailController = TextEditingController(
+  //         text: member.spouse?.email == 'null' ? '' : member.spouse?.email,
+  //       );
+  //       spouseLocationController = TextEditingController(
+  //         text: member.spouse?.location == 'null'
+  //             ? ''
+  //             : member.spouse?.location,
+  //       );
+  //       spouseWhatsappController = TextEditingController(
+  //         text: member.spouse?.whatsapp == 'null'
+  //             ? ''
+  //             : member.spouse?.whatsapp,
+  //       );
+  //       spouseBloodGroupController = TextEditingController(
+  //         text: member.spouse?.bloodGroup == 'null'
+  //             ? ''
+  //             : member.spouse?.bloodGroup,
+  //       );
+  //       spouseDobController = TextEditingController(
+  //         text: member.spouse?.dob ?? '',
+  //       );
+  //       isSpouseAlive = member.spouse?.isAlive ?? false;
+  //       selectedGender = member.gender;
+  //       selectedMainRoot = member.mainRoot;
+  //       isMarried = member.isMarried;
+  //       isRoot = member.isRoot;
+  //       hasChildren = member.hasChildren;
+  //       spouseGender = member.spouse?.gender ?? '';
+  //     });
+  //   }
+  // }
   Future<void> fetchMemberData() async {
     final doc = await FirebaseFirestore.instance
         .collection('family_members')
@@ -66,36 +119,66 @@ class _EditMemberScreenState extends State<EditMemberScreen> {
     if (doc.exists) {
       final member = FamilyMember.fromJson(doc.data()!);
 
-      // Now assign all values
+      // Create spouse variables
+      FamilyMember? spouseMember;
+      if (member.spouseId != null && member.spouseId!.isNotEmpty) {
+        final spouseDoc = await FirebaseFirestore.instance
+            .collection('family_members')
+            .doc(member.spouseId)
+            .get();
+
+        if (spouseDoc.exists) {
+          spouseMember = FamilyMember.fromJson(spouseDoc.data()!);
+        }
+      }
+
       setState(() {
+        // Member fields
         nameController = TextEditingController(text: member.name);
         phoneController = TextEditingController(text: member.phone);
         emailController = TextEditingController(text: member.email);
-        // locationController = TextEditingController(text: member.location);
         bloodGroupController = TextEditingController(text: member.bloodGroup);
         dobController = TextEditingController(text: member.dob);
 
-        spouseNameController = TextEditingController(text: member.spouseName);
-        spouseEmailController = TextEditingController(
-          text: member.spouseEmail == 'null' ? '' : member.spouseEmail,
-        );
-        spouseLocationController = TextEditingController(
-          text: member.spouseLocation == 'null' ? '' : member.spouseLocation,
-        );
-        spouseWhatsappController = TextEditingController(
-          text: member.spouseWhatsapp == 'null' ? '' : member.spouseWhatsapp,
-        );
-        spouseBloodGroupController = TextEditingController(
-          text: member.spouseBloodGroup == 'null'
-              ? ''
-              : member.spouseBloodGroup,
-        );
-
         selectedGender = member.gender;
         selectedMainRoot = member.mainRoot;
-        isMarried = member.isMarried == 'true';
-        isRoot = member.isRoot == 'true';
-        hasChildren = member.hasChildren == 'true';
+        isMarried = member.isMarried;
+        isRoot = member.isRoot;
+        hasChildren = member.hasChildren;
+        isAlive = member.isAlive;
+
+        // Spouse fields (if exists)
+        if (spouseMember != null) {
+          print("SPOUSE GENDER ${spouseMember.gender}");
+          spouseNameController = TextEditingController(text: spouseMember.name);
+          spouseEmailController = TextEditingController(
+            text: spouseMember.email ?? '',
+          );
+          spouseLocationController = TextEditingController(
+            text: spouseMember.location,
+          );
+          spouseWhatsappController = TextEditingController(
+            text: spouseMember.phone ?? '',
+          );
+          spouseBloodGroupController = TextEditingController(
+            text: spouseMember.bloodGroup ?? '',
+          );
+          spouseDobController = TextEditingController(
+            text: spouseMember.dob ?? '',
+          );
+          isSpouseAlive = spouseMember.isAlive ?? false;
+          spouseGender = spouseMember.gender ?? genderOptions[1].toString();
+        } else {
+          // No spouse, keep them empty
+          spouseNameController = TextEditingController();
+          spouseEmailController = TextEditingController();
+          spouseLocationController = TextEditingController();
+          spouseWhatsappController = TextEditingController();
+          spouseBloodGroupController = TextEditingController();
+          spouseDobController = TextEditingController();
+          isSpouseAlive = false;
+          spouseGender = '';
+        }
       });
     }
   }
@@ -153,10 +236,10 @@ class _EditMemberScreenState extends State<EditMemberScreen> {
     FamilyMember member = FamilyMember.fromJson(
       doc.data() as Map<String, dynamic>,
     );
-    if (member.isRoot == "true") {
+    if (member.isRoot) {
       return member;
     } else {
-      return await getFamilyRoot(member.parentId);
+      return await getFamilyRoot(member.parentId.toString());
     }
   }
 
@@ -205,38 +288,177 @@ class _EditMemberScreenState extends State<EditMemberScreen> {
         .toList();
   }
 
+  // void _updateMember() async {
+  //   if (_formKey.currentState!.validate()) {
+  //     final updatedData = {
+  //       'name': nameController.text,
+  //       'phone': phoneController.text,
+  //       'email': emailController.text,
+  //       'location': locationController.text,
+  //       'bloodGroup': bloodGroupController.text,
+  //       'dob': dobController.text,
+  //       'gender': selectedGender,
+  //       'mainRoot': selectedMainRoot,
+  //       'isMarried': isMarried,
+  //       'isRoot': isRoot,
+  //       'spouseName': isMarried ? spouseNameController.text : '',
+  //       'spousePhotoUrl': isMarried ? spousePhotoUrlController.text : '',
+  //       'spouseWhatsapp': isMarried ? spouseWhatsappController.text : '',
+  //       'spouseBloodGroup': isMarried ? spouseBloodGroupController.text : '',
+  //       'spouseEmail': isMarried ? spouseEmailController.text : '',
+  //       'spouseLocation': isMarried ? spouseLocationController.text : '',
+  //       'parentId': selectedParentId ?? widget.member.parentId,
+  //       'isAlive': isAlive,
+  //     };
+
+  //     await FirebaseFirestore.instance
+  //         .collection('family_members')
+  //         .doc(widget.member.id)
+  //         .update(updatedData);
+
+  //     showToast("Member Data Updated");
+
+  //     Navigator.pop(context);
+  //   }
+  // }
+  // void _updateMember() async {
+  //   // if (_formKey.currentState!.validate()) {
+
+  //   // }
+  //   final memberRef = FirebaseFirestore.instance
+  //       .collection('family_members')
+  //       .doc(widget.member.id);
+
+  //   // Step 1: Prepare member data (no spouse fields inline)
+  //   final updatedData = {
+  //     'name': nameController.text,
+  //     'phone': phoneController.text,
+  //     'email': emailController.text,
+  //     'location': locationController.text,
+  //     'bloodGroup': bloodGroupController.text,
+  //     'dob': dobController.text,
+  //     'gender': selectedGender,
+  //     'mainRoot': selectedMainRoot,
+  //     'isMarried': isMarried,
+  //     'isRoot': isRoot,
+  //     'parentId': selectedParentId ?? widget.member.parentId,
+  //     'isAlive': isAlive,
+  //   };
+
+  //   if (isMarried) {
+  //     // Step 2a: Update or create spouse document
+  //     final spouseRef = widget.member.spouseId != null
+  //         ? FirebaseFirestore.instance
+  //               .collection('family_members')
+  //               .doc(widget.member.spouseId)
+  //         : FirebaseFirestore.instance
+  //               .collection('family_members')
+  //               .doc(); // new spouse
+
+  //     final spouseData = {
+  //       'id': spouseRef.id,
+  //       'name': spouseNameController.text,
+  //       'photoUrl': spousePhotoUrlController.text,
+  //       'whatsapp': spouseWhatsappController.text,
+  //       'bloodGroup': spouseBloodGroupController.text,
+  //       'email': spouseEmailController.text,
+  //       'location': spouseLocationController.text,
+  //       'dob': spouseDobController.text,
+  //       'gender': spouseGender,
+  //       'isAlive': isSpouseAlive,
+  //       'createdBy': widget.member.createdBy,
+  //       'spouseId': widget.member.id, // link back to main member
+  //     };
+
+  //     await spouseRef.set(spouseData, SetOptions(merge: true));
+
+  //     // add spouseId to member data
+  //     updatedData['spouseId'] = spouseRef.id;
+  //   } else {
+  //     // Step 2b: If unmarried, remove spouse
+  //     if (widget.member.spouseId != null) {
+  //       final spouseRef = FirebaseFirestore.instance
+  //           .collection('family_members')
+  //           .doc(widget.member.spouseId);
+  //       await spouseRef.delete();
+  //     }
+  //     updatedData['spouseId'] = null;
+  //   }
+
+  //   // Step 3: Update member document
+  //   await memberRef.update(updatedData);
+
+  //   showToast("Member Data Updated");
+  //   Navigator.pop(context);
+  // }
+
   void _updateMember() async {
-    if (_formKey.currentState!.validate()) {
-      final updatedData = {
-        'name': nameController.text,
-        'phone': phoneController.text,
-        'email': emailController.text,
-        'location': locationController.text,
-        'bloodGroup': bloodGroupController.text,
-        'dob': dobController.text,
-        'gender': selectedGender,
-        'mainRoot': selectedMainRoot,
-        'isMarried': isMarried.toString(),
-        'isRoot': isRoot.toString(),
-        'spouseName': isMarried ? spouseNameController.text : '',
-        'spousePhotoUrl': isMarried ? spousePhotoUrlController.text : '',
-        'spouseWhatsapp': isMarried ? spouseWhatsappController.text : '',
-        'spouseBloodGroup': isMarried ? spouseBloodGroupController.text : '',
-        'spouseEmail': isMarried ? spouseEmailController.text : '',
-        'spouseLocation': isMarried ? spouseLocationController.text : '',
-        'parentId': selectedParentId ?? widget.member.parentId,
-        'isAlive': isAlive,
+    final memberRef = FirebaseFirestore.instance
+        .collection('family_members')
+        .doc(widget.member.id);
+
+    // Step 1: Prepare member data
+    final updatedData = {
+      'name': nameController.text,
+      'phone': phoneController.text,
+      'email': emailController.text,
+      'location': locationController.text,
+      'bloodGroup': bloodGroupController.text,
+      'dob': dobController.text,
+      'gender': selectedGender,
+      'mainRoot': selectedMainRoot,
+      'isMarried': isMarried,
+      'isRoot': isRoot,
+      'parentId': selectedParentId ?? widget.member.parentId,
+      'isAlive': isAlive,
+    };
+
+    if (isMarried) {
+      // Step 2a: Create or update spouse doc
+      final spouseId = widget.member.spouseId?.isNotEmpty == true
+          ? widget.member.spouseId!
+          : FirebaseFirestore.instance.collection('family_members').doc().id;
+
+      final spouseRef = FirebaseFirestore.instance
+          .collection('family_members')
+          .doc(spouseId);
+
+      final spouseData = {
+        'id': spouseId,
+        'name': spouseNameController.text,
+        'photoUrl': spousePhotoUrlController.text,
+        'whatsapp': spouseWhatsappController.text,
+        'bloodGroup': spouseBloodGroupController.text,
+        'email': spouseEmailController.text,
+        'location': spouseLocationController.text,
+        'dob': spouseDobController.text,
+        'gender': spouseGender,
+        'isAlive': isSpouseAlive,
+        'createdBy': widget.member.createdBy,
+        'spouseId': widget.member.id, // link back to member
       };
 
-      await FirebaseFirestore.instance
-          .collection('family_members')
-          .doc(widget.member.id)
-          .update(updatedData);
+      await spouseRef.set(spouseData, SetOptions(merge: true));
 
-      showToast("Member Data Updated");
-
-      Navigator.pop(context);
+      // link spouse to member
+      updatedData['spouseId'] = spouseId;
+    } else {
+      // Step 2b: If unmarried, delete spouse doc if exists
+      if (widget.member.spouseId != null &&
+          widget.member.spouseId!.isNotEmpty) {
+        final spouseRef = FirebaseFirestore.instance
+            .collection('family_members')
+            .doc(widget.member.spouseId);
+        await spouseRef.delete();
+      }
+      updatedData['spouseId'] = null;
     }
+
+    // Step 3: Update member doc
+    await memberRef.update(updatedData);
+
+    showToast("Member Data Updated");
+    Navigator.pop(context);
   }
 
   Widget _buildSpouseFields() {
@@ -280,6 +502,30 @@ class _EditMemberScreenState extends State<EditMemberScreen> {
           ),
         ),
         SizedBox(height: 20),
+        DropdownButtonFormField<String>(
+          value: spouseGender!.isEmpty ? genderOptions.first : spouseGender,
+          items: genderOptions.map((gender) {
+            return DropdownMenuItem(value: gender, child: Text(gender));
+          }).toList(),
+          decoration: InputDecoration(
+            labelText: AppLocalizations.of(context)!.spouseGender,
+          ),
+          onChanged: (val) => setState(() => spouseGender = val),
+        ),
+        SwitchListTile(
+          title: const Text('Spouse is Alive'),
+          value: isSpouseAlive ?? false,
+          onChanged: (value) {
+            setState(() {
+              isSpouseAlive = value;
+            });
+          },
+          secondary: Icon(
+            isSpouseAlive == true ? Icons.favorite : Icons.favorite_border,
+            color: isSpouseAlive == true ? Colors.green : Colors.red,
+          ),
+        ),
+        SizedBox(height: 20),
       ],
     );
   }
@@ -310,16 +556,7 @@ class _EditMemberScreenState extends State<EditMemberScreen> {
               onChanged: (val) => setState(() => selectedGender = val),
             ),
             SizedBox(height: 20),
-            // DropdownButtonFormField<String>(
-            //   value: selectedMainRoot,
-            //   items: mainRootOptions.map((root) {
-            //     return DropdownMenuItem(value: root, child: Text(root));
-            //   }).toList(),
-            //   decoration: InputDecoration(
-            //     labelText: AppLocalizations.of(context)!.mainRoot,
-            //   ),
-            //   onChanged: (val) => setState(() => selectedMainRoot = val),
-            // ),
+
             SizedBox(height: 20),
             TextFormField(
               controller: phoneController,
@@ -361,8 +598,8 @@ class _EditMemberScreenState extends State<EditMemberScreen> {
               onChanged: (val) => setState(() => isMarried = val),
               title: Text(AppLocalizations.of(context)!.isMarried),
             ),
+            if (isMarried == true) ...[_buildSpouseFields()],
 
-            _buildSpouseFields(),
             SizedBox(height: 20),
             SwitchListTile(
               value: isRoot,
@@ -371,31 +608,21 @@ class _EditMemberScreenState extends State<EditMemberScreen> {
             ),
             SizedBox(height: 20),
 
-            // SwitchListTile(
-            //   title: const Text('Alive'),
-            //   value: isAlive == 'true' ? true : false,
-            //   onChanged: (value) {
-            //     setState(() {
-            //       isAlive = value.toString();
-            //     });
-            //   },
-            //   secondary: Icon(
-            //     isAlive == true ? Icons.favorite : Icons.favorite_border,
-            //     color: isAlive == true ? Colors.green : Colors.red,
-            //   ),
-            // ),
+            SwitchListTile(
+              title: const Text('Alive'),
+              value: isAlive ?? false,
+              onChanged: (value) {
+                setState(() {
+                  isAlive = value;
+                });
+              },
+              secondary: Icon(
+                isAlive == true ? Icons.favorite : Icons.favorite_border,
+                color: isAlive == true ? Colors.green : Colors.red,
+              ),
+            ),
             SizedBox(height: 10),
 
-            // SwitchListTile(
-            //   title: Text(AppLocalizations.of(context)!.hasChildren),
-            //   value: hasChildren,
-            //   onChanged: (value) {
-            //     setState(() {
-            //       hasChildren = value;
-            //     });
-            //   },
-            // ),
-            // SizedBox(height: 10),
             ParentDropdown(
               currentMemberId: widget.member.id,
               selectedParentId: widget.member.parentId,

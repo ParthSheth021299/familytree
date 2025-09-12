@@ -85,28 +85,67 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
           //     .length;
           // final totalMemberCount = members.length;
 
+          // int maleCount = 0;
+          // int femaleCount = 0;
+          // int totalCount = 0;
+
+          // for (final member in members) {
+          //   final gender = member.gender.toLowerCase();
+
+          //   if (gender == 'male') {
+          //     maleCount++;
+          //   } else if (gender == 'female') {
+          //     femaleCount++;
+          //   }
+
+          //   totalCount++; // Count each member
+
+          //   // If spouse data exists, assume spouse is female and count her
+          //   final hasSpouse =
+          //       member.spouse != null && member.spouse!.name!.trim().isNotEmpty;
+          //   if (hasSpouse) {
+          //     femaleCount++; // Add spouse as female
+          //     totalCount++; // Count spouse as a separate individual
+          //   }
+          // }
+          // int maleCount = 0;
+          // int femaleCount = 0;
+          // int totalCount = 0;
+
+          // for (final member in members) {
+          //   final gender = member.gender.toLowerCase();
+
+          //   if (gender == 'male') {
+          //     maleCount++;
+          //   } else if (gender == 'female') {
+          //     femaleCount++;
+          //   }
+
+          //   totalCount++; // Every member is already a separate document (including spouse)
+          // }
           int maleCount = 0;
           int femaleCount = 0;
           int totalCount = 0;
 
           for (final member in members) {
+            // Count the member
             final gender = member.gender.toLowerCase();
-
             if (gender == 'male') {
               maleCount++;
             } else if (gender == 'female') {
               femaleCount++;
             }
+            totalCount++;
 
-            totalCount++; // Count each member
-
-            // If spouse data exists, assume spouse is female and count her
-            final hasSpouse =
-                member.spouseName != null &&
-                member.spouseName!.trim().isNotEmpty;
-            if (hasSpouse) {
-              femaleCount++; // Add spouse as female
-              totalCount++; // Count spouse as a separate individual
+            // Count the spouse if exists
+            if (member.spouse != null) {
+              final spouseGender = member.spouse!.gender.toLowerCase();
+              if (spouseGender == 'male') {
+                maleCount++;
+              } else if (spouseGender == 'female') {
+                femaleCount++;
+              }
+              totalCount++;
             }
           }
 

@@ -22,13 +22,60 @@ class MemberCubit extends Cubit<MemberState> {
   Stream<Map<String, List<FamilyMember>>> get groupMembersStream =>
       groupMemberController.stream;
 
+  // void subscribeToMembers() {
+  //   emit(MemberLoading());
+  //   _subscription = memberRepository.getMembersStream().listen(
+  //     (members) {
+  //       _allMembers = members;
+  //       _membersController.add(members);
+  //       emit(MemberLoaded(members: members));
+  //     },
+  //     onError: (e) {
+  //       emit(MemberError("Failed to load members: $e"));
+  //     },
+  //   );
+  // }
   void subscribeToMembers() {
     emit(MemberLoading());
+
     _subscription = memberRepository.getMembersStream().listen(
       (members) {
         _allMembers = members;
-        _membersController.add(members);
-        emit(MemberLoaded(members: members));
+
+        // Step 1: Build a map of memberId -> FamilyMember for easy lookup
+        final Map<String, FamilyMember> memberMap = {
+          for (var m in members) m.id: m,
+        };
+
+        // Step 2: Enrich each member with their spouse (if exists)
+        final enrichedMembers = members.map((m) {
+          if (m.spouseId != null && m.spouseId!.isNotEmpty) {
+            final spouseData = memberMap[m.spouseId!];
+            if (spouseData != null) {
+              return m.copyWith(
+                spouse: Spouse(
+                  id: spouseData.id,
+                  name: spouseData.name,
+                  gender: spouseData.gender,
+                  dob: spouseData.dob,
+                  bloodGroup: spouseData.bloodGroup,
+                  phone: spouseData.phone,
+                  email: spouseData.email,
+                  location: '',
+                  whatsapp: '',
+                  photoUrl: '',
+                  isAlive: spouseData.isAlive,
+                  createdBy: spouseData.createdBy,
+                ),
+              );
+            }
+          }
+          return m;
+        }).toList();
+
+        // Step 3: Push enriched members to stream
+        _membersController.add(enrichedMembers);
+        emit(MemberLoaded(members: enrichedMembers));
       },
       onError: (e) {
         emit(MemberError("Failed to load members: $e"));
@@ -100,38 +147,120 @@ class MemberCubit extends Cubit<MemberState> {
 
   //   return adjusted;
   // }
+  // Map<String, List<FamilyMember>> getGroupedMembers({String query = ''}) {
+  //   final Map<String, List<FamilyMember>> grouped = {};
+
+  //   // Step 1: filter members if search query is given
+  //   final filteredMembers = query.isEmpty
+  //       ? _allMembers
+  //       : _allMembers
+  //             .where(
+  //               (m) =>
+  //                   (m.name ?? '').toLowerCase().contains(query.toLowerCase()),
+  //             )
+  //             .toList();
+
+  //   // Step 2: roots -> each root or parentless member starts a group
+  //   for (var member in filteredMembers) {
+  //     if (member.isRoot.toString().isEmpty ||
+  //         member.parentId == null ||
+  //         member.parentId!.isEmpty) {
+  //       grouped[member.id] = [member];
+  //     }
+  //   }
+
+  //   // Step 3: children -> find their correct root and add them
+  //   for (var member in filteredMembers) {
+  //     if (!(member.isRoot.toString().isEmpty ||
+  //         member.parentId == null ||
+  //         member.parentId!.isEmpty)) {
+  //       final parentGroupKey = grouped.keys.firstWhere(
+  //         (key) => _belongsToRoot(member, key, filteredMembers),
+  //         orElse: () => member.createdBy ?? 'Unknown',
+  //       );
+  //       grouped.putIfAbsent(parentGroupKey, () => []).add(member);
+  //     }
+  //   }
+
+  //   return grouped;
+  // }
+  // Map<String, List<FamilyMember>> getGroupedMembers({String query = ''}) {
+  //   final Map<String, List<FamilyMember>> grouped = {};
+
+  //   // Step 1: filter members if search query is given
+  //   final filteredMembers = query.isEmpty
+  //       ? _allMembers
+  //       : _allMembers
+  //             .where(
+  //               (m) =>
+  //                   (m.name ?? '').toLowerCase().contains(query.toLowerCase()),
+  //             )
+  //             .toList();
+
+  //   // Step 2: roots -> each root or parentless member starts a group
+  //   for (var member in filteredMembers) {
+  //     // ✅ only treat as root if marked root or has no parent
+  //     if (member.isRoot ||
+  //         member.parentId == null ||
+  //         member.parentId!.isEmpty) {
+  //       grouped[member.id] = [member];
+  //     }
+  //   }
+
+  //   // Step 3: children -> find their correct root and add them
+  //   for (var member in filteredMembers) {
+  //     // ✅ skip spouse-only members (since you’ll show them separately)
+  //     if (member.spouseId != null && member.spouseId!.isNotEmpty) {
+  //       continue;
+  //     }
+
+  //     if (!(member.isRoot ||
+  //         member.parentId == null ||
+  //         member.parentId!.isEmpty)) {
+  //       final parentGroupKey = grouped.keys.firstWhere(
+  //         (key) => _belongsToRoot(member, key, filteredMembers),
+  //         orElse: () => member.createdBy ?? 'Unknown',
+  //       );
+  //       grouped.putIfAbsent(parentGroupKey, () => []).add(member);
+  //     }
+  //   }
+
+  //   return grouped;
+  // }
   Map<String, List<FamilyMember>> getGroupedMembers({String query = ''}) {
     final Map<String, List<FamilyMember>> grouped = {};
 
-    // Step 1: filter members if search query is given
-    final filteredMembers = query.isEmpty
-        ? _allMembers
-        : _allMembers
-              .where(
-                (m) =>
-                    (m.name ?? '').toLowerCase().contains(query.toLowerCase()),
-              )
-              .toList();
+    // Step 1: Filter members by search query
+    final filteredMembers = _allMembers.where((m) {
+      return query.isEmpty ||
+          (m.name ?? '').toLowerCase().contains(query.toLowerCase());
+    }).toList();
 
-    // Step 2: roots -> each root or parentless member starts a group
+    // Step 2: Group by createdBy
     for (var member in filteredMembers) {
-      if (member.isRoot.isEmpty ||
+      final groupKey = member.createdBy ?? 'Unknown';
+      grouped.putIfAbsent(groupKey, () => []);
+
+      // Only add root/parentless members first
+      if (member.isRoot ||
           member.parentId == null ||
           member.parentId!.isEmpty) {
-        grouped[member.id] = [member];
+        grouped[groupKey]!.add(member);
       }
     }
 
-    // Step 3: children -> find their correct root and add them
+    // Step 3: Add children to the correct root within the group
     for (var member in filteredMembers) {
-      if (!(member.isRoot.isEmpty ||
+      if (!(member.isRoot ||
           member.parentId == null ||
           member.parentId!.isEmpty)) {
-        final parentGroupKey = grouped.keys.firstWhere(
-          (key) => _belongsToRoot(member, key, filteredMembers),
-          orElse: () => member.createdBy ?? 'Unknown',
+        final groupKey = member.createdBy ?? 'Unknown';
+        final root = grouped[groupKey]!.firstWhere(
+          (m) => _belongsToRoot(member, m.id, filteredMembers),
+          orElse: () => grouped[groupKey]!.first,
         );
-        grouped.putIfAbsent(parentGroupKey, () => []).add(member);
+        final rootIndex = grouped[groupKey]!.indexOf(root);
+        grouped[groupKey]!.insert(rootIndex + 1, member);
       }
     }
 

@@ -1,73 +1,73 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import '../models/family_member.dart';
+// import 'dart:convert';
+// import 'package:http/http.dart' as http;
+// import '../models/family_member.dart';
 
-class GoogleSheetsService {
-  static const String sheetUrl =
-      'https://script.google.com/macros/s/AKfycbxd87pHTMcF48r--qmd8bj23Rj1bIEToF8c7MwtQA-eSTEnpTkUqqsnO5ExvtplbSyANQ/exec';
+// class GoogleSheetsService {
+//   static const String sheetUrl =
+//       'https://script.google.com/macros/s/AKfycbxd87pHTMcF48r--qmd8bj23Rj1bIEToF8c7MwtQA-eSTEnpTkUqqsnO5ExvtplbSyANQ/exec';
 
-  Future<List<FamilyMember>> fetchFamilyData() async {
-    try {
-      final response = await http.get(Uri.parse(sheetUrl));
-      if (response.statusCode == 200) {
-        final List<dynamic> jsonList = jsonDecode(response.body);
+//   Future<List<FamilyMember>> fetchFamilyData() async {
+//     try {
+//       final response = await http.get(Uri.parse(sheetUrl));
+//       if (response.statusCode == 200) {
+//         final List<dynamic> jsonList = jsonDecode(response.body);
 
-        return jsonList.map((json) => FamilyMember.fromJson(json)).toList();
-      } else {
-        throw Exception(
-          'Failed to fetch data: ${response.statusCode} ${response.body}',
-        );
-      }
-    } catch (e) {
-      print(
-        "Error fetching data: $e",
-      ); // <-- This should print the real error now
-      rethrow;
-    }
-  }
+//         return jsonList.map((json) => FamilyMember.fromJson(json)).toList();
+//       } else {
+//         throw Exception(
+//           'Failed to fetch data: ${response.statusCode} ${response.body}',
+//         );
+//       }
+//     } catch (e) {
+//       print(
+//         "Error fetching data: $e",
+//       ); // <-- This should print the real error now
+//       rethrow;
+//     }
+//   }
 
-  Future<void> addFamilyMember(Map<String, dynamic> data) async {
-    final response = await http.post(
-      Uri.parse(sheetUrl),
+//   Future<void> addFamilyMember(Map<String, dynamic> data) async {
+//     final response = await http.post(
+//       Uri.parse(sheetUrl),
 
-      headers: {"Content-Type": "application/x-www-form-urlencoded"},
-      body: jsonEncode(data),
-    );
+//       headers: {"Content-Type": "application/x-www-form-urlencoded"},
+//       body: jsonEncode(data),
+//     );
 
-    if (response.statusCode == 200 || response.statusCode == 302) {
-    } else if (response.statusCode != 200 || response.statusCode != 302) {}
-  }
+//     if (response.statusCode == 200 || response.statusCode == 302) {
+//     } else if (response.statusCode != 200 || response.statusCode != 302) {}
+//   }
 
-  Future<void> insertMember(FamilyMember member) async {
-    final Map<String, dynamic> data = {
-      'id': member.id,
-      'parentId': member.parentId,
-      'name': member.name,
-      'houseRoot': member.mainRoot,
-      'gender': member.gender,
-      'bloodGroup': member.bloodGroup,
-      'whatsapp': member.phone,
-      'maritalStatus': member.isMarried.toString(),
-      'spouseName': member.spouseName,
-      'hasChildren': member.hasChildren.toString(),
-      'email': member.email,
+//   Future<void> insertMember(FamilyMember member) async {
+//     final Map<String, dynamic> data = {
+//       'id': member.id,
+//       'parentId': member.parentId,
+//       'name': member.name,
+//       'houseRoot': member.mainRoot,
+//       'gender': member.gender,
+//       'bloodGroup': member.bloodGroup,
+//       'whatsapp': member.phone,
+//       'maritalStatus': member.isMarried.toString(),
+//       'spouseName': member.spouseName,
+//       'hasChildren': member.hasChildren.toString(),
+//       'email': member.email,
 
-      'isRoot': member.isRoot.toString(),
-      'dob': member.dob,
-      'spousePhotoUrl': member.spousePhotoUrl,
-      'spouseWhatsapp': member.spouseWhatsapp,
-      'spouseBloodGroup': member.spouseBloodGroup,
-      'spouseEmail': member.spouseEmail,
-      'spouseLocation': member.spouseLocation,
-    };
+//       'isRoot': member.isRoot.toString(),
+//       'dob': member.dob,
+//       'spousePhotoUrl': member.spousePhotoUrl,
+//       'spouseWhatsapp': member.spouseWhatsapp,
+//       'spouseBloodGroup': member.spouseBloodGroup,
+//       'spouseEmail': member.spouseEmail,
+//       'spouseLocation': member.spouseLocation,
+//     };
 
-    await addFamilyMember(data);
-  }
+//     await addFamilyMember(data);
+//   }
 
-  Future<void> insertMultipleMembers(List<FamilyMember> members) async {
-    for (var member in members) {
-      await insertMember(member);
-      await Future.delayed(const Duration(milliseconds: 200));
-    }
-  }
-}
+//   Future<void> insertMultipleMembers(List<FamilyMember> members) async {
+//     for (var member in members) {
+//       await insertMember(member);
+//       await Future.delayed(const Duration(milliseconds: 200));
+//     }
+//   }
+// }
