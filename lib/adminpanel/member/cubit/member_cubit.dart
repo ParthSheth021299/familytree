@@ -61,7 +61,7 @@ class MemberCubit extends Cubit<MemberState> {
                   bloodGroup: spouseData.bloodGroup,
                   phone: spouseData.phone,
                   email: spouseData.email,
-                  location: '',
+                  location: spouseData.location,
                   whatsapp: '',
                   photoUrl: '',
                   isAlive: spouseData.isAlive,

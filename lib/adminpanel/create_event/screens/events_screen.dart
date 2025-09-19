@@ -75,7 +75,9 @@ class _EventsScreenState extends State<EventsScreen> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
-          return Center(child: const Text('Error loading events'));
+          return Center(
+            child: Text(AppLocalizations.of(context)!.errorLoadingEvents),
+          );
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
           return _sectionCard(
             title: "📌 ${AppLocalizations.of(context)!.upcomingEvents}",
@@ -227,11 +229,17 @@ class _EventsScreenState extends State<EventsScreen> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         if (formattedDate.isNotEmpty)
-                                          Text("📅 Date: $formattedDate"),
+                                          Text(
+                                            "📅 ${AppLocalizations.of(context)!.date} $formattedDate",
+                                          ),
                                         if (event['time'] != null)
-                                          Text("🕒 Time: ${event['time']}"),
+                                          Text(
+                                            "🕒 ${AppLocalizations.of(context)!.time} ${event['time']}",
+                                          ),
                                         if (event['place'] != null)
-                                          Text("📍 Place: ${event['place']}"),
+                                          Text(
+                                            "📍 ${AppLocalizations.of(context)!.place} ${event['place']}",
+                                          ),
                                         const SizedBox(height: 12),
                                         Text(
                                           event['description'] ?? '',

@@ -51,6 +51,7 @@
 //   );
 // }
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 void showImageGalleryDialog(
@@ -66,39 +67,55 @@ void showImageGalleryDialog(
     builder: (context) {
       return Scaffold(
         backgroundColor: Colors.white,
-        body: Stack(
-          children: [
-            PageView.builder(
-              controller: pageController,
-              allowImplicitScrolling: true,
-
-              itemCount: images.length,
-              itemBuilder: (context, index) {
-                return CachedNetworkImage(
-                  imageUrl: images[index],
-                  fit: BoxFit.contain,
-                  errorWidget: (context, url, error) =>
-                      const Icon(Icons.broken_image, color: Colors.white),
-                  progressIndicatorBuilder: (context, url, progress) => Center(
-                    child: CircularProgressIndicator(
-                      value: progress.progress,
-                      color: Colors.white,
+        body: ScrollConfiguration(
+          behavior: _NoGlowScrollBehavior(),
+          child: Stack(
+            children: [
+              PageView.builder(
+                controller: pageController,
+                scrollDirection: Axis.horizontal,
+                physics: const PageScrollPhysics(),
+                dragStartBehavior: DragStartBehavior.start, // important for web
+                itemCount: images.length,
+                itemBuilder: (context, index) {
+                  return Center(
+                    child: CachedNetworkImage(
+                      imageUrl: images[index],
+                      fit: BoxFit.contain,
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.broken_image, color: Colors.white),
+                      progressIndicatorBuilder: (context, url, progress) =>
+                          Center(
+                            child: CircularProgressIndicator(
+                              value: progress.progress,
+                              color: Colors.white,
+                            ),
+                          ),
                     ),
-                  ),
-                );
-              },
-            ),
-            // Positioned(
-            //   top: MediaQuery.of(context).padding.top + 16,
-            //   right: 16,
-            //   child: IconButton(
-            //     icon: const Icon(Icons.close, color: Colors.white, size: 30),
-            //     onPressed: () => Navigator.pop(context),
-            //   ),
-            // ),
-          ],
+                  );
+                },
+              ),
+              Positioned(
+                top: MediaQuery.of(context).padding.top + 16,
+                right: 16,
+                child: IconButton(
+                  icon: const Icon(Icons.close, color: Colors.red, size: 30),
+                  onPressed: () => Navigator.pop(context),
+                ),
+              ),
+            ],
+          ),
         ),
       );
     },
   );
+}
+
+class _NoGlowScrollBehavior extends MaterialScrollBehavior {
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+    PointerDeviceKind.touch,
+    PointerDeviceKind.mouse,
+    PointerDeviceKind.trackpad,
+  };
 }

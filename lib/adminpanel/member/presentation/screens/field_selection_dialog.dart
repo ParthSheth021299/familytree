@@ -1,3 +1,4 @@
+import 'package:family_tree/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class FieldSelectionDialog extends StatefulWidget {
@@ -30,7 +31,7 @@ class _FieldSelectionDialogState extends State<FieldSelectionDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text("Select Fields"),
+      title: Text(AppLocalizations.of(context)!.selectFields),
       content: SingleChildScrollView(
         child: Column(
           children: _fields.keys.map((field) {
@@ -49,7 +50,7 @@ class _FieldSelectionDialogState extends State<FieldSelectionDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: const Text("Cancel"),
+          child: Text(AppLocalizations.of(context)!.cancel),
         ),
         ElevatedButton(
           onPressed: () {
@@ -60,7 +61,7 @@ class _FieldSelectionDialogState extends State<FieldSelectionDialog> {
             Navigator.pop(context);
             widget.onCreatePdf(selectedFields);
           },
-          child: const Text("Create PDF"),
+          child: Text(AppLocalizations.of(context)!.createPdf),
         ),
       ],
     );

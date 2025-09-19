@@ -274,7 +274,9 @@ class _EventCalendarScreenState extends State<EventCalendarScreen> {
               },
               markerBuilder: (context, date, events) {
                 if (events.isEmpty) return const SizedBox.shrink();
-                final String eventText = events.length > 1 ? "Events" : "Event";
+                final String eventText = events.length > 1
+                    ? AppLocalizations.of(context)!.events
+                    : AppLocalizations.of(context)!.event;
                 return Align(
                   alignment: Alignment.bottomCenter,
                   child: Container(
@@ -287,7 +289,7 @@ class _EventCalendarScreenState extends State<EventCalendarScreen> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text(
-                      "${events.length} ${events.length > 1 ? "Events" : "Event"}",
+                      "${events.length} ${eventText}",
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 10,
@@ -304,7 +306,7 @@ class _EventCalendarScreenState extends State<EventCalendarScreen> {
             child: _getEventsForDay(_selectedDay ?? _focusedDay).isEmpty
                 ? Center(
                     child: Text(
-                      "No events on this day",
+                      AppLocalizations.of(context)!.noEventsOnThisDay,
                       style: theme.textTheme.bodyLarge,
                     ),
                   )
@@ -393,11 +395,17 @@ class _EventCalendarScreenState extends State<EventCalendarScreen> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         if (formattedDate.isNotEmpty)
-                                          Text("📅 Date: $formattedDate"),
+                                          Text(
+                                            "📅 ${AppLocalizations.of(context)!.date} $formattedDate",
+                                          ),
                                         if (event['time'] != null)
-                                          Text("🕒 Time: ${event['time']}"),
+                                          Text(
+                                            "🕒 ${AppLocalizations.of(context)!.time} ${event['time']}",
+                                          ),
                                         if (event['place'] != null)
-                                          Text("📍 Place: ${event['place']}"),
+                                          Text(
+                                            "📍 ${AppLocalizations.of(context)!.place} ${event['place']}",
+                                          ),
                                         const SizedBox(height: 8),
                                         Text(
                                           event['description'] ?? '',
@@ -417,8 +425,8 @@ class _EventCalendarScreenState extends State<EventCalendarScreen> {
                                           ),
                                         ),
                                         onPressed: () => Navigator.pop(context),
-                                        child: const Text(
-                                          "Close",
+                                        child: Text(
+                                          AppLocalizations.of(context)!.close,
                                           style: TextStyle(
                                             color: AppColors.orangeDark,
                                           ),

@@ -54,139 +54,150 @@ class _MomentsListScreenState extends State<MomentsListScreen> {
                     physics: const ClampingScrollPhysics(),
                     itemBuilder: (context, index) {
                       final moment = moments[index];
-                      return Center(
-                        child: ConstrainedBox(
-                          constraints: const BoxConstraints(maxWidth: 900),
-                          child: Card(
-                            margin: const EdgeInsets.symmetric(vertical: 12),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            elevation: 6,
-                            child: Padding(
-                              padding: const EdgeInsets.all(20),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  // Row with Title + Admin Actions
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        moment.title,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headlineSmall
-                                            ?.copyWith(
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                      ),
-                                      if (widget.isAdmin)
-                                        Row(
-                                          children: [
-                                            IconButton(
-                                              icon: const Icon(
-                                                Icons.edit,
-                                                color: Colors.blue,
+                      return InkWell(
+                        onTap: () {
+                          showImageGalleryDialog(
+                            context,
+                            moment.imageUrl,
+                            index,
+                          );
+                        },
+                        child: Center(
+                          child: ConstrainedBox(
+                            constraints: const BoxConstraints(maxWidth: 900),
+                            child: Card(
+                              margin: const EdgeInsets.symmetric(vertical: 12),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              elevation: 6,
+                              child: Padding(
+                                padding: const EdgeInsets.all(20),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    // Row with Title + Admin Actions
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          moment.title,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headlineSmall
+                                              ?.copyWith(
+                                                fontWeight: FontWeight.bold,
                                               ),
-                                              onPressed: () async {
-                                                // ✅ call the dialog
-                                                await showEditMomentDialog(context, moment, (
-                                                  updatedMoment,
-                                                ) async {
-                                                  // await FirebaseFirestore.instance
-                                                  //     .collection('moments')
-                                                  //     .doc(updatedMoment.id)
-                                                  //     .update(
-                                                  //       updatedMoment.toJson(),
-                                                  //     );
-                                                  // await FirebaseFirestore.instance
-                                                  //     .collection('moments')
-                                                  //     .doc(
-                                                  //       moment.id,
-                                                  //     ) // now this is Firestore’s actual doc id
-                                                  //     .update(moment.toJson());
+                                        ),
+                                        if (widget.isAdmin)
+                                          Row(
+                                            children: [
+                                              IconButton(
+                                                icon: const Icon(
+                                                  Icons.edit,
+                                                  color: Colors.blue,
+                                                ),
+                                                onPressed: () async {
+                                                  // ✅ call the dialog
+                                                  await showEditMomentDialog(context, moment, (
+                                                    updatedMoment,
+                                                  ) async {
+                                                    // await FirebaseFirestore.instance
+                                                    //     .collection('moments')
+                                                    //     .doc(updatedMoment.id)
+                                                    //     .update(
+                                                    //       updatedMoment.toJson(),
+                                                    //     );
+                                                    // await FirebaseFirestore.instance
+                                                    //     .collection('moments')
+                                                    //     .doc(
+                                                    //       moment.id,
+                                                    //     ) // now this is Firestore’s actual doc id
+                                                    //     .update(moment.toJson());
 
-                                                  // refresh cubit after update
-                                                });
-                                              },
-                                            ),
-                                            IconButton(
-                                              icon: const Icon(
-                                                Icons.delete,
-                                                color: Colors.red,
+                                                    // refresh cubit after update
+                                                  });
+                                                },
                                               ),
-                                              onPressed: () {
-                                                _confirmDelete(
-                                                  context,
-                                                  moment.id,
-                                                );
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                    ],
-                                  ),
+                                              IconButton(
+                                                icon: const Icon(
+                                                  Icons.delete,
+                                                  color: Colors.red,
+                                                ),
+                                                onPressed: () {
+                                                  _confirmDelete(
+                                                    context,
+                                                    moment.id,
+                                                  );
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                      ],
+                                    ),
 
-                                  const SizedBox(height: 16),
+                                    const SizedBox(height: 16),
 
-                                  // Horizontal image scroll
-                                  // SizedBox(
-                                  //   height: 220,
-                                  //   child: ListView.builder(
-                                  //     scrollDirection: Axis.horizontal,
-                                  //     itemCount: moment.imageUrl.length,
-                                  //     // separatorBuilder: (_, __) =>
-                                  //     //     const SizedBox(width: 12),
-                                  //     itemBuilder: (context, imgIndex) {
-                                  //       final imageUrl =
-                                  //           moment.imageUrl[imgIndex];
-                                  //       return ClipRRect(
-                                  //         borderRadius: BorderRadius.circular(
-                                  //           12,
-                                  //         ),
-                                  //         child: Image.network(
-                                  //           imageUrl,
-                                  //           width: 200,
-                                  //           fit: BoxFit.cover,
-                                  //           errorBuilder:
-                                  //               (context, error, stackTrace) {
-                                  //                 return Container(
-                                  //                   color: Colors.grey.shade200,
-                                  //                   width: 200,
-                                  //                   child: const Icon(
-                                  //                     Icons.broken_image,
-                                  //                     size: 60,
-                                  //                   ),
-                                  //                 );
-                                  //               },
-                                  //         ),
-                                  //       );
-                                  //     },
-                                  //   ),
+                                    // Horizontal image scroll
+                                    // SizedBox(
+                                    //   height: 220,
+                                    //   child: ListView.builder(
+                                    //     scrollDirection: Axis.horizontal,
+                                    //     itemCount: moment.imageUrl.length,
+                                    //     // separatorBuilder: (_, __) =>
+                                    //     //     const SizedBox(width: 12),
+                                    //     itemBuilder: (context, imgIndex) {
+                                    //       final imageUrl =
+                                    //           moment.imageUrl[imgIndex];
+                                    //       return ClipRRect(
+                                    //         borderRadius: BorderRadius.circular(
+                                    //           12,
+                                    //         ),
+                                    //         child: Image.network(
+                                    //           imageUrl,
+                                    //           width: 200,
+                                    //           fit: BoxFit.cover,
+                                    //           errorBuilder:
+                                    //               (context, error, stackTrace) {
+                                    //                 return Container(
+                                    //                   color: Colors.grey.shade200,
+                                    //                   width: 200,
+                                    //                   child: const Icon(
+                                    //                     Icons.broken_image,
+                                    //                     size: 60,
+                                    //                   ),
+                                    //                 );
+                                    //               },
+                                    //         ),
+                                    //       );
+                                    //     },
+                                    //   ),
 
-                                  // ),
-                                  ImageCarousel(
-                                    images: moment.imageUrl,
-                                    height: 220,
-                                    autoScrollDuration: const Duration(
-                                      seconds: 4,
-                                    ), // change speed here
-                                  ),
+                                    // ),
+                                    ImageCarousel(
+                                      images: moment.imageUrl,
+                                      height: 220,
+                                      autoScrollDuration: const Duration(
+                                        seconds: 4,
+                                      ), // change speed here
+                                    ),
 
-                                  const SizedBox(height: 16),
+                                    const SizedBox(height: 16),
 
-                                  // Caption
-                                  Text(
-                                    moment.caption,
-                                    style: Theme.of(context).textTheme.bodyLarge
-                                        ?.copyWith(
-                                          fontSize: 16,
-                                          color: Colors.grey.shade800,
-                                        ),
-                                  ),
-                                ],
+                                    // Caption
+                                    Text(
+                                      moment.caption,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge
+                                          ?.copyWith(
+                                            fontSize: 16,
+                                            color: Colors.grey.shade800,
+                                          ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),

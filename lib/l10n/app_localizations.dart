@@ -894,6 +894,390 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Before adding any other family member, first add the root/main member and select it as the internal root member.'**
   String get noteMessage;
+
+  /// No description provided for @loadingDashboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading Dashboard...'**
+  String get loadingDashboard;
+
+  /// No description provided for @goodMorning.
+  ///
+  /// In en, this message translates to:
+  /// **'Good Morning'**
+  String get goodMorning;
+
+  /// No description provided for @goodAfternoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Good Afternoon'**
+  String get goodAfternoon;
+
+  /// No description provided for @goodEvening.
+  ///
+  /// In en, this message translates to:
+  /// **'Good Evening'**
+  String get goodEvening;
+
+  /// No description provided for @welcomeDashboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to your family dashboard'**
+  String get welcomeDashboard;
+
+  /// No description provided for @familyOverview.
+  ///
+  /// In en, this message translates to:
+  /// **'Family Overview'**
+  String get familyOverview;
+
+  /// No description provided for @demographics.
+  ///
+  /// In en, this message translates to:
+  /// **'Demographics'**
+  String get demographics;
+
+  /// No description provided for @genderDistribution.
+  ///
+  /// In en, this message translates to:
+  /// **'Gender Distribution'**
+  String get genderDistribution;
+
+  /// No description provided for @generatingPdf.
+  ///
+  /// In en, this message translates to:
+  /// **'Generating PDF...'**
+  String get generatingPdf;
+
+  /// No description provided for @errorCapturingTree.
+  ///
+  /// In en, this message translates to:
+  /// **'Error capturing tree:'**
+  String get errorCapturingTree;
+
+  /// No description provided for @downloadPdf.
+  ///
+  /// In en, this message translates to:
+  /// **'Download PDF'**
+  String get downloadPdf;
+
+  /// No description provided for @memberDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Member Details'**
+  String get memberDetails;
+
+  /// No description provided for @contactInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Information'**
+  String get contactInformation;
+
+  /// No description provided for @personalInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal Information'**
+  String get personalInformation;
+
+  /// No description provided for @medicalInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Medical Information'**
+  String get medicalInformation;
+
+  /// No description provided for @living.
+  ///
+  /// In en, this message translates to:
+  /// **'Living'**
+  String get living;
+
+  /// No description provided for @passedAway.
+  ///
+  /// In en, this message translates to:
+  /// **'Passed Away'**
+  String get passedAway;
+
+  /// No description provided for @phone.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone'**
+  String get phone;
+
+  /// No description provided for @age.
+  ///
+  /// In en, this message translates to:
+  /// **'Age'**
+  String get age;
+
+  /// No description provided for @years.
+  ///
+  /// In en, this message translates to:
+  /// **'years'**
+  String get years;
+
+  /// No description provided for @birthDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Birth Date'**
+  String get birthDate;
+
+  /// No description provided for @downloadCsv.
+  ///
+  /// In en, this message translates to:
+  /// **'Download CSV'**
+  String get downloadCsv;
+
+  /// No description provided for @deleteRootWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'You are about to delete the root member of your family. After deleting, it will affect your family organisation tree.'**
+  String get deleteRootWarning;
+
+  /// No description provided for @deleteConfirmMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this member?'**
+  String get deleteConfirmMessage;
+
+  /// No description provided for @confirmDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Delete'**
+  String get confirmDelete;
+
+  /// No description provided for @selectFields.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Fields'**
+  String get selectFields;
+
+  /// No description provided for @createPdf.
+  ///
+  /// In en, this message translates to:
+  /// **'Create PDF'**
+  String get createPdf;
+
+  /// No description provided for @spouseIsAlive.
+  ///
+  /// In en, this message translates to:
+  /// **'Spouse is Alive'**
+  String get spouseIsAlive;
+
+  /// No description provided for @alive.
+  ///
+  /// In en, this message translates to:
+  /// **'Alive'**
+  String get alive;
+
+  /// No description provided for @memberDataUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Member Data Updated'**
+  String get memberDataUpdated;
+
+  /// No description provided for @required.
+  ///
+  /// In en, this message translates to:
+  /// **'Required'**
+  String get required;
+
+  /// No description provided for @errorLoadingEvents.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading events'**
+  String get errorLoadingEvents;
+
+  /// No description provided for @date.
+  ///
+  /// In en, this message translates to:
+  /// **'Date:'**
+  String get date;
+
+  /// No description provided for @time.
+  ///
+  /// In en, this message translates to:
+  /// **'Time:'**
+  String get time;
+
+  /// No description provided for @place.
+  ///
+  /// In en, this message translates to:
+  /// **'Place:'**
+  String get place;
+
+  /// No description provided for @noEventsOnThisDay.
+  ///
+  /// In en, this message translates to:
+  /// **'No events on this day'**
+  String get noEventsOnThisDay;
+
+  /// No description provided for @close.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get close;
+
+  /// No description provided for @events.
+  ///
+  /// In en, this message translates to:
+  /// **'Events'**
+  String get events;
+
+  /// No description provided for @event.
+  ///
+  /// In en, this message translates to:
+  /// **'Event'**
+  String get event;
+
+  /// No description provided for @pleaseSelectDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select date'**
+  String get pleaseSelectDate;
+
+  /// No description provided for @eventCreatedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Event Created Successfully'**
+  String get eventCreatedSuccessfully;
+
+  /// No description provided for @viewEvents.
+  ///
+  /// In en, this message translates to:
+  /// **'View Events'**
+  String get viewEvents;
+
+  /// No description provided for @planNewEvent.
+  ///
+  /// In en, this message translates to:
+  /// **'Plan a New Event'**
+  String get planNewEvent;
+
+  /// No description provided for @markSpecialOccasions.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark special occasions and keep your family connected with upcoming events.'**
+  String get markSpecialOccasions;
+
+  /// No description provided for @enterDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter Description'**
+  String get enterDescription;
+
+  /// No description provided for @saveEvent.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Event'**
+  String get saveEvent;
+
+  /// No description provided for @controlPanel.
+  ///
+  /// In en, this message translates to:
+  /// **'Control Panel'**
+  String get controlPanel;
+
+  /// No description provided for @chooseVisibleData.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose data to be visible in tree view'**
+  String get chooseVisibleData;
+
+  /// No description provided for @treeVisibilitySettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Tree Visibility Settings'**
+  String get treeVisibilitySettings;
+
+  /// No description provided for @saveSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Settings'**
+  String get saveSettings;
+
+  /// No description provided for @controlVisibleInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Control which information is visible in the family tree.'**
+  String get controlVisibleInfo;
+
+  /// No description provided for @personalInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal Info'**
+  String get personalInfo;
+
+  /// No description provided for @showPhotos.
+  ///
+  /// In en, this message translates to:
+  /// **'Show Photos'**
+  String get showPhotos;
+
+  /// No description provided for @showDOB.
+  ///
+  /// In en, this message translates to:
+  /// **'Show Date of Birth'**
+  String get showDOB;
+
+  /// No description provided for @showBloodGroup.
+  ///
+  /// In en, this message translates to:
+  /// **'Show Blood Group'**
+  String get showBloodGroup;
+
+  /// No description provided for @showLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Show Location'**
+  String get showLocation;
+
+  /// No description provided for @relationships.
+  ///
+  /// In en, this message translates to:
+  /// **'Relationships'**
+  String get relationships;
+
+  /// No description provided for @contactInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Info'**
+  String get contactInfo;
+
+  /// No description provided for @showContactDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Show Contact Details'**
+  String get showContactDetails;
+
+  /// No description provided for @showEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Show Email'**
+  String get showEmail;
+
+  /// No description provided for @status.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get status;
+
+  /// No description provided for @showAliveDeadStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Show Alive/Dead Status'**
+  String get showAliveDeadStatus;
+
+  /// No description provided for @settingsSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings saved successfully!'**
+  String get settingsSaved;
+
+  /// No description provided for @download.
+  ///
+  /// In en, this message translates to:
+  /// **'Download App from Google Drive'**
+  String get download;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

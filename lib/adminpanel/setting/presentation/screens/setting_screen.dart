@@ -1,4 +1,6 @@
 import 'package:family_tree/adminpanel/auth/screens/login_screen.dart';
+import 'package:family_tree/adminpanel/setting/presentation/widgets/control_panel.dart';
+import 'package:family_tree/adminpanel/utils/colors.dart';
 import 'package:family_tree/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:family_tree/adminpanel/language/presentation/screens/language_screen.dart';
@@ -91,6 +93,29 @@ class _SettingScreenState extends State<SettingScreen> {
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) => LoginScreen()),
+                  );
+                },
+              ),
+            ),
+          ],
+          if (widget.isComingFromAdmin == true) ...[
+            Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              elevation: 2,
+              child: ListTile(
+                leading: Icon(
+                  Icons.control_point,
+                  color: AppColors.orangePrimary,
+                ),
+                title: Text(AppLocalizations.of(context)!.controlPanel),
+                subtitle: Text(AppLocalizations.of(context)!.chooseVisibleData),
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => TreeVisibilitySettingsScreen(),
+                    ),
                   );
                 },
               ),

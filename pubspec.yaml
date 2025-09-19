@@ -71,6 +71,7 @@ dependencies:
   intl_phone_number_input: ^0.7.4
   pdf: ^3.11.3
   printing: ^5.14.2
+  url_launcher: ^6.3.2
 
   
 

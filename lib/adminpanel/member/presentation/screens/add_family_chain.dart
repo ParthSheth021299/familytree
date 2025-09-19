@@ -415,8 +415,9 @@ class _AddFamilyChainScreenState extends State<AddFamilyChainScreen> {
                   decoration: InputDecoration(
                     labelText: AppLocalizations.of(context)!.name,
                   ),
-                  validator: (val) =>
-                      val == null || val.isEmpty ? 'Required' : null,
+                  validator: (val) => val == null || val.isEmpty
+                      ? AppLocalizations.of(context)!.required
+                      : null,
                 ),
                 SizedBox(height: 20),
 
@@ -532,6 +533,13 @@ class _AddFamilyChainScreenState extends State<AddFamilyChainScreen> {
                     controller: spouseNameController,
                     decoration: InputDecoration(
                       labelText: AppLocalizations.of(context)!.spouseName,
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  TextFormField(
+                    controller: spouseEmailController,
+                    decoration: InputDecoration(
+                      labelText: AppLocalizations.of(context)!.spouseEmail,
                     ),
                   ),
                   SizedBox(height: 20),

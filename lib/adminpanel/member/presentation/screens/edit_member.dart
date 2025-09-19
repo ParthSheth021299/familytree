@@ -149,7 +149,6 @@ class _EditMemberScreenState extends State<EditMemberScreen> {
 
         // Spouse fields (if exists)
         if (spouseMember != null) {
-          print("SPOUSE GENDER ${spouseMember.gender}");
           spouseNameController = TextEditingController(text: spouseMember.name);
           spouseEmailController = TextEditingController(
             text: spouseMember.email ?? '',
@@ -435,6 +434,7 @@ class _EditMemberScreenState extends State<EditMemberScreen> {
         'gender': spouseGender,
         'isAlive': isSpouseAlive,
         'createdBy': widget.member.createdBy,
+        'parentId': selectedParentId ?? widget.member.parentId,
         'spouseId': widget.member.id, // link back to member
       };
 
@@ -457,7 +457,7 @@ class _EditMemberScreenState extends State<EditMemberScreen> {
     // Step 3: Update member doc
     await memberRef.update(updatedData);
 
-    showToast("Member Data Updated");
+    showToast(AppLocalizations.of(context)!.memberDataUpdated);
     Navigator.pop(context);
   }
 
@@ -513,7 +513,7 @@ class _EditMemberScreenState extends State<EditMemberScreen> {
           onChanged: (val) => setState(() => spouseGender = val),
         ),
         SwitchListTile(
-          title: const Text('Spouse is Alive'),
+          title: Text(AppLocalizations.of(context)!.spouseIsAlive),
           value: isSpouseAlive ?? false,
           onChanged: (value) {
             setState(() {
@@ -609,7 +609,7 @@ class _EditMemberScreenState extends State<EditMemberScreen> {
             SizedBox(height: 20),
 
             SwitchListTile(
-              title: const Text('Alive'),
+              title: Text(AppLocalizations.of(context)!.alive),
               value: isAlive ?? false,
               onChanged: (value) {
                 setState(() {
@@ -769,8 +769,8 @@ class _ParentDropdownState extends State<ParentDropdown> {
         });
         widget.onChanged(value);
       },
-      decoration: const InputDecoration(
-        labelText: 'Select Parent',
+      decoration: InputDecoration(
+        labelText: AppLocalizations.of(context)!.selectParent,
         border: OutlineInputBorder(),
       ),
     );

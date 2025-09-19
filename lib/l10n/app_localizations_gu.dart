@@ -406,4 +406,196 @@ class AppLocalizationsGu extends AppLocalizations {
 
   @override
   String get noteMessage => 'બીજા કોઈપણ પરિવારના સભ્યને ઉમેરતા પહેલા, પ્રથમ મુખ્ય/મૂલ સભ્યને ઉમેરો અને તેને આંતરિક મૂળ સભ્ય તરીકે પસંદ કરો.';
+
+  @override
+  String get loadingDashboard => 'ડેશબોર્ડ લોડ થઈ રહ્યું છે...';
+
+  @override
+  String get goodMorning => 'સુપ્રભાત';
+
+  @override
+  String get goodAfternoon => 'શુભ બપોર';
+
+  @override
+  String get goodEvening => 'શુભ સાંજ';
+
+  @override
+  String get welcomeDashboard => 'તમારા પરિવારના ડેશબોર્ડમાં આપનું સ્વાગત છે';
+
+  @override
+  String get familyOverview => 'પરિવારની ઝાંખી';
+
+  @override
+  String get demographics => 'જનસાંખ્યાશાસ્ત્ર';
+
+  @override
+  String get genderDistribution => 'લિંગ વિતરણ';
+
+  @override
+  String get generatingPdf => 'પીડીએફ બનાવી રહ્યું છે...';
+
+  @override
+  String get errorCapturingTree => 'ટ્રી કૅપ્ચર કરતી વખતે ભૂલ:';
+
+  @override
+  String get downloadPdf => 'પીડીએફ ડાઉનલોડ કરો';
+
+  @override
+  String get memberDetails => 'સભ્યની વિગતો';
+
+  @override
+  String get contactInformation => 'સંપર્ક માહિતી';
+
+  @override
+  String get personalInformation => 'વ્યક્તિગત માહિતી';
+
+  @override
+  String get medicalInformation => 'વૈદ્યકીય માહિતી';
+
+  @override
+  String get living => 'જીવિત';
+
+  @override
+  String get passedAway => 'સ્વર્ગસ્થ';
+
+  @override
+  String get phone => 'ફોન';
+
+  @override
+  String get age => 'ઉંમર';
+
+  @override
+  String get years => 'વર્ષ';
+
+  @override
+  String get birthDate => 'જન્મ તારીખ';
+
+  @override
+  String get downloadCsv => 'CSV ડાઉનલોડ કરો';
+
+  @override
+  String get deleteRootWarning => 'તમે તમારા પરિવારના મૂળ સભ્યને કાઢવા જઈ રહ્યા છો. કાઢ્યા પછી તે તમારા પરિવારના સંગઠન વૃક્ષને અસર કરશે.';
+
+  @override
+  String get deleteConfirmMessage => 'શું તમે ખરેખર આ સભ્યને કાઢી નાખવા માંગો છો?';
+
+  @override
+  String get confirmDelete => 'કાઢી નાખવાની પુષ્ટિ કરો';
+
+  @override
+  String get selectFields => 'ફીલ્ડ પસંદ કરો';
+
+  @override
+  String get createPdf => 'PDF બનાવો';
+
+  @override
+  String get spouseIsAlive => 'જીવનસાથી જીવિત છે';
+
+  @override
+  String get alive => 'જીવિત';
+
+  @override
+  String get memberDataUpdated => 'સભ્યનો ડેટા અપડેટ થયો';
+
+  @override
+  String get required => 'જરૂરી';
+
+  @override
+  String get errorLoadingEvents => 'ઇવેન્ટ્સ લોડ કરતી વખતે ભૂલ';
+
+  @override
+  String get date => 'તારીખ:';
+
+  @override
+  String get time => 'સમય:';
+
+  @override
+  String get place => 'સ્થાન:';
+
+  @override
+  String get noEventsOnThisDay => 'આ દિવસે કોઈ ઇવેન્ટ્સ નથી';
+
+  @override
+  String get close => 'બંધ કરો';
+
+  @override
+  String get events => 'કાર્યક્રમો';
+
+  @override
+  String get event => 'કાર્યક્રમ';
+
+  @override
+  String get pleaseSelectDate => 'કૃપા કરીને તારીખ પસંદ કરો';
+
+  @override
+  String get eventCreatedSuccessfully => 'ઇવેન્ટ સફળતાપૂર્વક બનાવ્યું';
+
+  @override
+  String get viewEvents => 'ઇવેન્ટ જુઓ';
+
+  @override
+  String get planNewEvent => 'નવો ઇવેન્ટ યોજો';
+
+  @override
+  String get markSpecialOccasions => 'ખાસ અવસરો નિશ્ચિત કરો અને આવનારા ઇવેન્ટ્સ સાથે તમારા પરિવારને જોડો.';
+
+  @override
+  String get enterDescription => 'વર્ણન દાખલ કરો';
+
+  @override
+  String get saveEvent => 'ઇવેન્ટ સંગ્રહ કરો';
+
+  @override
+  String get controlPanel => 'કંટ્રોલ પેનલ';
+
+  @override
+  String get chooseVisibleData => 'ટ્રી વ્યૂમાં દેખાવા માટે ડેટા પસંદ કરો';
+
+  @override
+  String get treeVisibilitySettings => 'ટ્રી દૃશ્યતા સેટિંગ્સ';
+
+  @override
+  String get saveSettings => 'સેટિંગ્સ સાચવો';
+
+  @override
+  String get controlVisibleInfo => 'નિયંત્રિત કરો કે કુટુંબના વૃક્ષમાં કઈ માહિતી દેખાશે.';
+
+  @override
+  String get personalInfo => 'વ્યક્તિગત માહિતી';
+
+  @override
+  String get showPhotos => 'ફોટોઝ બતાવો';
+
+  @override
+  String get showDOB => 'જન્મ તારીખ બતાવો';
+
+  @override
+  String get showBloodGroup => 'રક્ત જૂથ બતાવો';
+
+  @override
+  String get showLocation => 'સ્થાન બતાવો';
+
+  @override
+  String get relationships => 'સંબંધો';
+
+  @override
+  String get contactInfo => 'સંપર્ક માહિતી';
+
+  @override
+  String get showContactDetails => 'સંપર્ક વિગતો બતાવો';
+
+  @override
+  String get showEmail => 'ઇમેલ બતાવો';
+
+  @override
+  String get status => 'સ્થિતિ';
+
+  @override
+  String get showAliveDeadStatus => 'જીવિત/મૃત સ્થિતિ બતાવો';
+
+  @override
+  String get settingsSaved => 'સેટિંગ્સ સફળતાપૂર્વક સાચવવામાં આવી!';
+
+  @override
+  String get download => 'ગૂગલ ડ્રાઈવમાંથી એપ્લિકેશન ડાઉનલોડ કરો';
 }

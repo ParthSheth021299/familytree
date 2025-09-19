@@ -61,7 +61,7 @@ class _EventCreateScreenState extends State<EventCreateScreen> {
       // ScaffoldMessenger.of(context).showSnackBar(
       //   const SnackBar(content: Text('Please complete all fields')),
       // );
-      showToast('Please select date', isError: true);
+      showToast(AppLocalizations.of(context)!.pleaseSelectDate, isError: true);
       return;
     }
 
@@ -74,7 +74,7 @@ class _EventCreateScreenState extends State<EventCreateScreen> {
 
     try {
       await FirebaseFirestore.instance.collection('events').add(newEvent);
-      showToast('✅ Event Created Successfully');
+      showToast('✅ ${AppLocalizations.of(context)!.eventCreatedSuccessfully}');
       await sendNotificationToAndroid(
         title: _titleController.text.trim(),
         description: _descriptionController.text.trim(),
@@ -108,7 +108,7 @@ class _EventCreateScreenState extends State<EventCreateScreen> {
               );
             },
             icon: Icon(Icons.calendar_today),
-            label: Text('View Events'),
+            label: Text(AppLocalizations.of(context)!.viewEvents),
           ),
         ],
       ),
@@ -124,13 +124,13 @@ class _EventCreateScreenState extends State<EventCreateScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    'Plan a New Event',
+                    AppLocalizations.of(context)!.planNewEvent,
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Mark special occasions and keep your family connected with upcoming events.',
+                    AppLocalizations.of(context)!.markSpecialOccasions,
                     style: TextStyle(color: Colors.grey, fontSize: 14),
                     textAlign: TextAlign.center,
                   ),
@@ -139,7 +139,7 @@ class _EventCreateScreenState extends State<EventCreateScreen> {
 
                   //Title
                   Text(
-                    'Enter Title',
+                    AppLocalizations.of(context)!.enterTitle,
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 6),
@@ -148,13 +148,14 @@ class _EventCreateScreenState extends State<EventCreateScreen> {
                     decoration: InputDecoration(
                       hintText: AppLocalizations.of(context)!.eventTitle,
                     ),
-                    validator: (value) =>
-                        value == null || value.isEmpty ? 'Required' : null,
+                    validator: (value) => value == null || value.isEmpty
+                        ? AppLocalizations.of(context)!.required
+                        : null,
                   ),
                   const SizedBox(height: 20),
                   //Description
                   Text(
-                    'Enter Description',
+                    AppLocalizations.of(context)!.enterDescription,
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 6),
@@ -164,8 +165,9 @@ class _EventCreateScreenState extends State<EventCreateScreen> {
                       hintText: AppLocalizations.of(context)!.eventDescription,
                     ),
                     maxLines: 3,
-                    validator: (value) =>
-                        value == null || value.isEmpty ? 'Required' : null,
+                    validator: (value) => value == null || value.isEmpty
+                        ? AppLocalizations.of(context)!.required
+                        : null,
                   ),
                   const SizedBox(height: 20),
                   Row(
@@ -190,7 +192,7 @@ class _EventCreateScreenState extends State<EventCreateScreen> {
                     child: ElevatedButton.icon(
                       onPressed: _submitEvent,
                       icon: const Icon(Icons.save),
-                      label: Text('Save Event'),
+                      label: Text(AppLocalizations.of(context)!.saveEvent),
                     ),
                   ),
                 ],

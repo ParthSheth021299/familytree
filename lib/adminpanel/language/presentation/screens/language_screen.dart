@@ -69,6 +69,7 @@ import 'package:family_tree/l10n/app_localizations.dart';
 import 'package:family_tree/providers/local_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 // update this path as needed
 
 class LanguageGridScreen extends StatelessWidget {
@@ -117,7 +118,9 @@ class LanguageGridScreen extends StatelessWidget {
                 locale.languageCode == currentLocale.languageCode;
 
             return GestureDetector(
-              onTap: () {
+              onTap: () async {
+                final prefs = await SharedPreferences.getInstance();
+                prefs.setString('lang', locale.languageCode);
                 localeProvider.setLocale(locale);
               },
               child: Stack(

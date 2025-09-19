@@ -406,4 +406,196 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noteMessage => 'Before adding any other family member, first add the root/main member and select it as the internal root member.';
+
+  @override
+  String get loadingDashboard => 'Loading Dashboard...';
+
+  @override
+  String get goodMorning => 'Good Morning';
+
+  @override
+  String get goodAfternoon => 'Good Afternoon';
+
+  @override
+  String get goodEvening => 'Good Evening';
+
+  @override
+  String get welcomeDashboard => 'Welcome to your family dashboard';
+
+  @override
+  String get familyOverview => 'Family Overview';
+
+  @override
+  String get demographics => 'Demographics';
+
+  @override
+  String get genderDistribution => 'Gender Distribution';
+
+  @override
+  String get generatingPdf => 'Generating PDF...';
+
+  @override
+  String get errorCapturingTree => 'Error capturing tree:';
+
+  @override
+  String get downloadPdf => 'Download PDF';
+
+  @override
+  String get memberDetails => 'Member Details';
+
+  @override
+  String get contactInformation => 'Contact Information';
+
+  @override
+  String get personalInformation => 'Personal Information';
+
+  @override
+  String get medicalInformation => 'Medical Information';
+
+  @override
+  String get living => 'Living';
+
+  @override
+  String get passedAway => 'Passed Away';
+
+  @override
+  String get phone => 'Phone';
+
+  @override
+  String get age => 'Age';
+
+  @override
+  String get years => 'years';
+
+  @override
+  String get birthDate => 'Birth Date';
+
+  @override
+  String get downloadCsv => 'Download CSV';
+
+  @override
+  String get deleteRootWarning => 'You are about to delete the root member of your family. After deleting, it will affect your family organisation tree.';
+
+  @override
+  String get deleteConfirmMessage => 'Are you sure you want to delete this member?';
+
+  @override
+  String get confirmDelete => 'Confirm Delete';
+
+  @override
+  String get selectFields => 'Select Fields';
+
+  @override
+  String get createPdf => 'Create PDF';
+
+  @override
+  String get spouseIsAlive => 'Spouse is Alive';
+
+  @override
+  String get alive => 'Alive';
+
+  @override
+  String get memberDataUpdated => 'Member Data Updated';
+
+  @override
+  String get required => 'Required';
+
+  @override
+  String get errorLoadingEvents => 'Error loading events';
+
+  @override
+  String get date => 'Date:';
+
+  @override
+  String get time => 'Time:';
+
+  @override
+  String get place => 'Place:';
+
+  @override
+  String get noEventsOnThisDay => 'No events on this day';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get events => 'Events';
+
+  @override
+  String get event => 'Event';
+
+  @override
+  String get pleaseSelectDate => 'Please select date';
+
+  @override
+  String get eventCreatedSuccessfully => 'Event Created Successfully';
+
+  @override
+  String get viewEvents => 'View Events';
+
+  @override
+  String get planNewEvent => 'Plan a New Event';
+
+  @override
+  String get markSpecialOccasions => 'Mark special occasions and keep your family connected with upcoming events.';
+
+  @override
+  String get enterDescription => 'Enter Description';
+
+  @override
+  String get saveEvent => 'Save Event';
+
+  @override
+  String get controlPanel => 'Control Panel';
+
+  @override
+  String get chooseVisibleData => 'Choose data to be visible in tree view';
+
+  @override
+  String get treeVisibilitySettings => 'Tree Visibility Settings';
+
+  @override
+  String get saveSettings => 'Save Settings';
+
+  @override
+  String get controlVisibleInfo => 'Control which information is visible in the family tree.';
+
+  @override
+  String get personalInfo => 'Personal Info';
+
+  @override
+  String get showPhotos => 'Show Photos';
+
+  @override
+  String get showDOB => 'Show Date of Birth';
+
+  @override
+  String get showBloodGroup => 'Show Blood Group';
+
+  @override
+  String get showLocation => 'Show Location';
+
+  @override
+  String get relationships => 'Relationships';
+
+  @override
+  String get contactInfo => 'Contact Info';
+
+  @override
+  String get showContactDetails => 'Show Contact Details';
+
+  @override
+  String get showEmail => 'Show Email';
+
+  @override
+  String get status => 'Status';
+
+  @override
+  String get showAliveDeadStatus => 'Show Alive/Dead Status';
+
+  @override
+  String get settingsSaved => 'Settings saved successfully!';
+
+  @override
+  String get download => 'Download App from Google Drive';
 }

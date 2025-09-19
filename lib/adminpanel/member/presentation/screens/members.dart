@@ -65,13 +65,13 @@ class _MembersState extends State<Members> {
                   }
                 },
                 itemBuilder: (context) => [
-                  const PopupMenuItem(
+                  PopupMenuItem(
                     value: 'csv',
-                    child: Text('Download CSV'),
+                    child: Text(AppLocalizations.of(context)!.downloadCsv),
                   ),
-                  const PopupMenuItem(
+                  PopupMenuItem(
                     value: 'pdf',
-                    child: Text('Download PDF'),
+                    child: Text(AppLocalizations.of(context)!.downloadPdf),
                   ),
                 ],
               ),
@@ -347,17 +347,23 @@ class _MembersState extends State<Members> {
                                                 bool isRoot =
                                                     memberData['isRoot'] ??
                                                     false;
-                                                print("IS INTERNAL ${isRoot}");
+
                                                 // Step 1: Show different dialog message
                                                 String message = isRoot
-                                                    ? "You are about to delete the root member of your family. After deleting, it will affect your family organisation tree."
-                                                    : "Are you sure you want to delete this member?";
+                                                    ? AppLocalizations.of(
+                                                        context,
+                                                      )!.deleteRootWarning
+                                                    : AppLocalizations.of(
+                                                        context,
+                                                      )!.deleteConfirmMessage;
 
                                                 final confirm = await showDialog<bool>(
                                                   context: context,
                                                   builder: (ctx) => AlertDialog(
                                                     title: Text(
-                                                      "Confirm Delete",
+                                                      AppLocalizations.of(
+                                                        context,
+                                                      )!.confirmDelete,
                                                     ),
                                                     content: Text(message),
                                                     actions: [
@@ -382,7 +388,9 @@ class _MembersState extends State<Members> {
                                                               ctx,
                                                             ).pop(false),
                                                         child: Text(
-                                                          "Cancel",
+                                                          AppLocalizations.of(
+                                                            context,
+                                                          )!.cancel,
                                                           style: TextStyle(
                                                             color: Colors.white,
                                                           ),
@@ -409,7 +417,9 @@ class _MembersState extends State<Members> {
                                                               ctx,
                                                             ).pop(true),
                                                         child: Text(
-                                                          "Delete",
+                                                          AppLocalizations.of(
+                                                            context,
+                                                          )!.delete,
                                                           style: TextStyle(
                                                             color: Colors.white,
                                                           ),
@@ -471,11 +481,37 @@ class _MembersState extends State<Members> {
                                                     });
                                                   }
                                                 }
+                                                if (memberData['spouseId'] !=
+                                                        null &&
+                                                    memberData['spouseId'] !=
+                                                        "") {
+                                                  final partnerId =
+                                                      memberData['spouseId'];
+
+                                                  final partnerRef =
+                                                      FirebaseFirestore.instance
+                                                          .collection(
+                                                            'family_members',
+                                                          )
+                                                          .doc(partnerId);
+
+                                                  final partnerSnapshot =
+                                                      await partnerRef.get();
+
+                                                  if (partnerSnapshot.exists) {
+                                                    await partnerRef.update({
+                                                      'isMarried': false,
+                                                      'spouseId': null,
+                                                      'spouse':
+                                                          null, // if you store spouse object inside
+                                                    });
+                                                  }
+                                                }
 
                                                 // Step 3: Delete the member
                                                 await memberRef.delete();
 
-                                                Navigator.of(context).pop();
+                                                // Navigator.of(context).pop();
                                                 showToast(
                                                   AppLocalizations.of(
                                                     context,
